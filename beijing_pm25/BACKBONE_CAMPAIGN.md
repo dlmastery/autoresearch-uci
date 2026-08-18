@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp67:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp68:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,13 +21,13 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–67 (41) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP | No |
+| lightgbm | 20, 25, 29–68 (42) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006 | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp67)
+## Recovery (from Exp32; after Exp68)
 
 Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
@@ -61,7 +61,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 25. ~~t+6 dewp_delta~~ Exp56 **side-KEEP** (val 57.66 / test 54.49)
 26. ~~t+6 haze_hours6~~ Exp57 DISCARD (redundant with six lags)
 27. ~~t+6 reg_lambda=1~~ Exp58 DISCARD (val 57.70)
-28. ~~t+6 cbwd_prev_NW~~ Exp59 **side-KEEP** (val 57.60 / test 54.42) ← **current t+6 recipe**; snapshotted `lightgbm_t6`
+28. ~~t+6 cbwd_prev_NW~~ Exp59 **side-KEEP** (val 57.60 / test 54.42)
 29. ~~t+6 rain_mass~~ Exp60 DISCARD (Ir×persist redundant)
 30. ~~t+6 bagging_freq=1~~ Exp61 DISCARD (val 57.74; late-dirty still +31)
 31. ~~t+6 drop lag13-24~~ Exp62 DISCARD (test 53.84, val 58.05)
@@ -70,6 +70,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 34. ~~t+6 heating_night~~ Exp65 DISCARD (val 57.65; night-onset still −7.1)
 35. ~~t+6 reg_alpha=1~~ Exp66 DISCARD (val 57.72; wrong-sign still −24)
 36. ~~t+6 num_leaves 15~~ Exp67 DISCARD (val 57.92; typical P>=150 still −20)
-37. **Stay on Exp59; do not retry leaves<31; fill remaining LGB 9** ← **next**
+37. ~~t+6 extra_trees~~ Exp68 **side-KEEP** (val 57.50 / test 54.48) ← **current t+6 recipe**
+38. **Stay on Exp68; do not retry extra_trees off; fill remaining LGB 8** ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

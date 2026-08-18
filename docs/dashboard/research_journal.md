@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-58 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp64 doy_sin missed. Exp65 heating_night missed. Exp66 reg_alpha missed. Exp67 leaves-15 missed.
+59 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, **Exp68** (extra_trees, val 57.50 / test 54.48). Exp67 leaves-15 missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,16 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp67)
+## This fire (2026-08-18, Exp68)
 
-New Exp59 slices: **typical |need|<=50 n=5941 RMSE 29.28 vs persist-6 23.36 (skill −25.3%).** Typical persist>=150 n=731 RMSE 54.25 vs persist-6 28.31, need −0.7, pred **−20.4**.
+New Exp59 slices: **SE collapse n=271 need −107.1 pred −21.2.** SE-night collapse n=162 RMSE 111.04 need **−106.4** pred **−12.9**.
 
-**Exp67 DISCARD** num_leaves 15. Val 57.916 lost to 57.601, test 54.424. Typical P>=150 increment still −20.4. Axis closed: t+6 leaves below 31.
+**Exp68** 1h DISCARD, **t+6 side-KEEP** extra_trees. Val 57.498 beat 57.601, test 54.482. SE-night increment still −13.0; January RMSE 83.79 → 82.95. New t+6 recipe.
 
-t+6 recipe remains Exp59. 1h champion unchanged: Exp30.
+1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp59. Do not retry num_leaves 21 / leaf L1-L2 / jan_evening / doy_cos
-2. Do not retry bagging / lags / rain products / persist×hour / prev-direction
+1. Stay on Exp68 extra_trees. Do not retry extra_trees off / leaves<31 / jan_evening / doy_cos
+2. Do not retry bagging / lags / rain products / persist×hour / prev-direction / leaf L1-L2
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`

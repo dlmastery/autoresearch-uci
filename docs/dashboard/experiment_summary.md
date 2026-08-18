@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 67 experiments · 9 KEEP · 58 DISCARD
-**Mandate gap:** LightGBM 41/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 68 experiments · 9 KEEP · 59 DISCARD
+**Mandate gap:** LightGBM 42/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -91,6 +91,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 65 | DISCARD | lightgbm | 54.322 | 57.649 | -57.749 | 35.151 | 0.6591 |
 | 66 | DISCARD | lightgbm | 54.454 | 57.719 | -57.819 | 35.215 | 0.6574 |
 | 67 | DISCARD | lightgbm | 54.424 | 57.916 | -58.016 | 35.466 | 0.6578 |
+| 68 | DISCARD | lightgbm | 54.482 | 57.498 | -57.598 | 35.309 | 0.6571 |
 
 ## Champion residual slices (2014 test)
 
@@ -105,7 +106,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Haze streaks ≥6h n=1069: model 29.31 vs persist-1 28.94 (loses inside episodes)
 - High-PRES tercile skill +3.7% vs low-PRES +7.8%
 - 2014 H1 skill +4.5% vs H2 +9.1%. Seed noise ≈ val ±0.08, test ±0.04 (Exp44)
-- t+6 side ladder: persist-6 **61.83**. **Exp59 (Exp56 + cbwd_prev_NW) 54.42/57.60** (side-KEEP). Prior Exp56 54.49/57.66. Snapshot `code_versions/lightgbm_t6/`.
+- t+6 side ladder: persist-6 **61.83**. **Exp68 (Exp59 + extra_trees) 54.48/57.50** (side-KEEP). Prior Exp59 54.42/57.60. Snapshot `code_versions/lightgbm_t6/`.
 - t+6 actual≥200 n=944: model 101.2 **loses to persist-6 97.1**. Low-actual bias +30.3 / high-actual −34.0
 - Exp47 need+100 n=286 predicted increment **+21 vs needed +146**. 76% of hours closer to mean 98 than persist.
 - Exp53 persist-6 residual: test 55.044 val 58.684 (redundant, corr 0.990). Exp53 R²/MAPE are residual-scale.
@@ -122,3 +123,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp65 heating_night side-MISS (val 57.649, test 54.322). January night 00-06 onset increment still −7.1 vs need +112.9. Evening onset +41.0 → +47.3.
 - Exp66 reg_alpha=1 side-MISS (val 57.719, test 54.454). Wrong-sign onset increment still −24.0 vs need +90.9.
 - Exp67 num_leaves 15 side-MISS (val 57.916, test 54.424). Typical persist>=150 increment still −20.4 vs need −0.7.
+- **Exp68 extra_trees t+6 side-KEEP** (1h DISCARD): val 57.498 beat 57.601, test 54.482. SE-night increment still −13.0. New t+6 recipe.
