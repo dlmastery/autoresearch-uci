@@ -4,7 +4,7 @@ Karpathy-style autonomous research loop on **UCI 381 Beijing PM2.5**.
 
 - **[Live dashboard](dashboard/)** — KEEP ladder, experiment log, reasoning blobs, frozen 2014 split
 - **[GitHub repo](https://github.com/dlmastery/autoresearch-uci)**
-- Champion: XGBoost Exp22 · **2014 test RMSE 21.122** · skill vs persistence **+5.4%** · 28 experiments / 7 KEEP
+- Champion: LightGBM Exp30 · **2014 test RMSE 20.945** · skill vs persistence **+6.1%** · 31 experiments / 9 KEEP
 
 ## The ladder
 
