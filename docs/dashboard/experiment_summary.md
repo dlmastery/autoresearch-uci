@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 68 experiments · 9 KEEP · 59 DISCARD
-**Mandate gap:** LightGBM 42/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 69 experiments · 9 KEEP · 60 DISCARD
+**Mandate gap:** LightGBM 43/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -92,6 +92,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 66 | DISCARD | lightgbm | 54.454 | 57.719 | -57.819 | 35.215 | 0.6574 |
 | 67 | DISCARD | lightgbm | 54.424 | 57.916 | -58.016 | 35.466 | 0.6578 |
 | 68 | DISCARD | lightgbm | 54.482 | 57.498 | -57.598 | 35.309 | 0.6571 |
+| 69 | DISCARD | lightgbm | 54.425 | 57.620 | -57.720 | 35.292 | 0.6578 |
 
 ## Champion residual slices (2014 test)
 
@@ -124,3 +125,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp66 reg_alpha=1 side-MISS (val 57.719, test 54.454). Wrong-sign onset increment still −24.0 vs need +90.9.
 - Exp67 num_leaves 15 side-MISS (val 57.916, test 54.424). Typical persist>=150 increment still −20.4 vs need −0.7.
 - **Exp68 extra_trees t+6 side-KEEP** (1h DISCARD): val 57.498 beat 57.601, test 54.482. SE-night increment still −13.0. New t+6 recipe.
+- Exp69 min_data=50 side-MISS (val 57.620, test 54.425). Feb typical P>=150 increment −41.5 vs need +4.4.
