@@ -56,6 +56,16 @@
 
 <div class="grid" id="summary-cards"></div>
 
+<div class="section-title">Karpathy ladder — KEEP lineage only</div>
+<p style="color:#8b949e;font-size:0.85em;margin-bottom:8px">One change per rung. Green = KEEP (new champion). Dim = DISCARD. Composite is min(−val, −test); higher is better.</p>
+<svg id="ladder-chart" viewBox="0 0 900 220" width="100%" height="220" style="background:#0d1117;border:1px solid #30363d;border-radius:6px;margin-bottom:12px"></svg>
+<table>
+  <thead>
+    <tr><th>Rung</th><th>Delta</th><th>Test RMSE</th><th>Val RMSE</th><th>Composite</th></tr>
+  </thead>
+  <tbody id="ladder-body"></tbody>
+</table>
+
 <div class="section-title">Champion</div>
 <div class="winner-box">
   <div class="label">Best composite (higher is better; internally −RMSE)</div>
@@ -136,6 +146,8 @@ async function boot() {
     `<div class="card"><div class="label">${l}</div><div class="value ${c}">${v}</div></div>`
   ).join('');
 
+  renderLadder();
+
   if (champ) {
     document.getElementById('winner-title').textContent =
       `Exp ${champ.experiment_num} · ${champ.backbone} · composite ${fmt(champ.composite, 4)}`;
@@ -167,6 +179,43 @@ async function boot() {
   }
 
   renderRows();
+}
+
+function renderLadder() {
+  const sorted = experiments.slice().sort((a,b) => a.experiment_num - b.experiment_num);
+  let bestC = -Infinity;
+  const keeps = [];
+  for (const e of sorted) {
+    if (e.composite > bestC && e.status === 'KEEP') {
+      bestC = e.composite;
+      keeps.push(e);
+    }
+  }
+  const tb = document.getElementById('ladder-body');
+  if (tb) {
+    tb.innerHTML = keeps.map(e => {
+      const desc = (e.description || '').replace(/^Exp\d+\s+from champion:\s*/i,'').replace(/^Exp1 baseline.*/,'C&G 2016 baseline');
+      return `<tr class="keep"><td>${e.experiment_num}</td><td>${desc}</td><td>${fmt(e.test_primary,3)}</td><td>${fmt(e.val_primary,3)}</td><td>${fmt(e.composite,3)}</td></tr>`;
+    }).join('');
+  }
+  const svg = document.getElementById('ladder-chart');
+  if (!svg || !sorted.length) return;
+  const W = 900, H = 220, pad = {l:48, r:16, t:16, b:28};
+  const xs = sorted.map(e => e.experiment_num);
+  const ys = sorted.map(e => e.composite);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs);
+  const ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const x = n => pad.l + (n - xmin) / Math.max(1, xmax - xmin) * (W - pad.l - pad.r);
+  const y = v => pad.t + (1 - (v - ymin) / Math.max(1e-6, ymax - ymin)) * (H - pad.t - pad.b);
+  let d = '';
+  sorted.forEach((e,i) => { d += (i? 'L':'M') + x(e.experiment_num).toFixed(1) + ',' + y(e.composite).toFixed(1); });
+  const dots = sorted.map(e => {
+    const keep = e.status === 'KEEP';
+    return `<circle cx="${x(e.experiment_num).toFixed(1)}" cy="${y(e.composite).toFixed(1)}" r="${keep?5:3}" fill="${keep?'#3fb950':'#484f58'}"><title>Exp ${e.experiment_num} ${e.status} ${e.composite.toFixed(3)}</title></circle>`;
+  }).join('');
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="#30363d" stroke-width="1.5"/>${dots}`
+    + `<text x="8" y="14" fill="#8b949e" font-size="11">composite ↑</text>`
+    + `<text x="${W/2}" y="${H-6}" fill="#8b949e" font-size="11" text-anchor="middle">experiment #</text>`;
 }
 
 function renderRows() {

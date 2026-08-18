@@ -27,7 +27,46 @@ This is **not** Kaggle Ames house prices and **not** kin8nm. Those are saturated
 
 Sister repos: [`autoresearch`](https://github.com/dlmastery/autoresearch) · [`autoresearchspy`](https://github.com/dlmastery/autoresearchspy) · [`autoresearchtabular`](https://github.com/dlmastery/autoresearchtabular) · [`environment_stats_talk`](https://github.com/dlmastery/environment_stats_talk)
 
-**Dashboard:** [dlmastery.github.io/autoresearch-uci/dashboard/](https://dlmastery.github.io/autoresearch-uci/dashboard/)
+**Dashboard (live):** [https://dlmastery.github.io/autoresearch-uci/dashboard/](https://dlmastery.github.io/autoresearch-uci/dashboard/)
+
+## The ladder (Karpathy keep/discard)
+
+One change per experiment. KEEP only if composite rose. DISCARDs stay in the log. This is the champion lineage — the only steps that moved the floor.
+
+```
+persistence 2014          test RMSE 22.316
+        |
+Exp1  C&G 2016 XGBoost    21.768   KEEP   skill +2.5%
+        |
+Exp2  max_depth 4         21.996   KEEP   val was the bottleneck (23.35→23.20)
+        |
+Exp4  learning_rate 0.01  22.008   KEEP   more shrinkage
+        |
+Exp8  subsample 0.6       22.034   KEEP   stochastic rows
+        |
+Exp14 inversion_spread    21.823   KEEP   TEMP−DEWP (Liang 2015)
+        |
+Exp15 pm25_delta1         21.290   KEEP   lag1−lag2 momentum
+        |
+Exp22 inversion + delta   21.122   KEEP   both features together  ← champion
+        |
+     21 discarded rungs     —     DISCARD  (depth 8/5/3, lr 0.05/0.005,
+                                           LightGBM test 20.90 but val lost, …)
+```
+
+| Rung | Delta | Test RMSE | Val RMSE | Composite | vs previous KEEP |
+|---:|---|---:|---:|---:|---|
+| 1 | Chen & Guestrin 2016 defaults | 21.768 | 23.354 | −23.354 | floor |
+| 2 | `max_depth` 6→4 | 21.996 | 23.205 | −23.205 | val improved; test briefly worse |
+| 4 | `learning_rate` 0.03→0.01 | 22.008 | 23.124 | −23.124 | shrinkage |
+| 8 | `subsample` 0.8→0.6 | 22.034 | 22.983 | −22.983 | row bagging |
+| 14 | + `inversion_spread` | 21.823 | 22.885 | −22.885 | first real test drop |
+| 15 | + `pm25_delta1` | 21.290 | 22.684 | −22.684 | onset momentum |
+| **22** | **stack inversion onto delta** | **21.122** | **22.470** | **−22.470** | **both features** |
+
+Composite is `min(−val, −test)`, so a KEEP can happen when **val** is the bottleneck even if test ticks up (rungs 2–8). That is the gate working, not a bug. The last three KEEPs improved **both** sides.
+
+21 other experiments were DISCARD. LightGBM Exp25 posted the best raw **test** (20.90) and still lost: val 22.71 < champion val 22.47.
 
 ## Champion
 
