@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp31:** this project did **not** follow the original skill.
+**Honest audit after Exp34:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,24 +21,24 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–31 (5) | Ke et al. 2017 defaults + num_leaves | No |
+| lightgbm | 20, 25, 29–34 (8) | Ke 2017; Rashmi 2015 DART; Huber | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32)
+## Recovery (from Exp32; after Exp34)
 
-Isolation: **stay on LightGBM** (current champion) until 50 LGB experiments.
+Isolation: **stay on LightGBM** (current champion Exp30) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
 
-1. Ke et al. 2017 §3.2 GOSS (`boosting_type=goss`)
-2. Rashmi & Gilad-Bachrach 2015 DART
-3. Ke et al. 2017 leaf-wise regularizer `min_data_in_leaf`
-4. Huber / MAE / Tweedie / quantile objectives
-5. Geurts extra-trees / LightGBM `extra_trees`
+1. ~~Ke et al. 2017 §3.2 GOSS (`boosting_type=goss`)~~ Exp32 DISCARD
+2. ~~Rashmi & Gilad-Bachrach 2015 DART~~ Exp33 DISCARD (no early stop; do not retune drop_rate)
+3. ~~Huber default alpha 0.9~~ Exp34 DISCARD (do not retry mae/tweedie/quantile without scale)
+4. Geurts extra-trees / LightGBM `extra_trees` ← **next**
+5. Ke et al. 2017 leaf-wise regularizer `min_data_in_leaf=100` (not 10/50)
 6. Shi et al. linear trees
 7. Domain papers (onset/collapse, t+6) only as LightGBM feature changes
 8. Multi-seed variance on the LGB champion
