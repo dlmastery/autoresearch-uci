@@ -325,12 +325,12 @@
     29,
     30
   ],
-  "n_experiments": 31,
+  "n_experiments": 32,
   "n_keep": 9,
-  "n_discard": 22,
+  "n_discard": 23,
   "backbone_counts": {
     "xgboost": 24,
-    "lightgbm": 5,
+    "lightgbm": 6,
     "catboost": 2
   },
   "test_hash": "efb0012c1873e5bf2fe56d0cbb3d429c1d879da92273a15cc7bb6532e0ba79fc",
