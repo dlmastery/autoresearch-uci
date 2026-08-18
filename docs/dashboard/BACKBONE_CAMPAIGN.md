@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp38:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp40:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,27 +21,29 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–38 (12) | Ke 2017; Rashmi 2015; Geurts 2006; Shi 2018 | No |
+| lightgbm | 20, 25, 29–40 (14) | Ke 2017; Rashmi 2015; Geurts 2006; Shi 2018; Zheng 2015 t+6 | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp38)
+## Recovery (from Exp32; after Exp40)
 
-Isolation: **stay on LightGBM** (current champion Exp30) until 50 LGB experiments.
+Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
 
 1. ~~Ke et al. 2017 §3.2 GOSS (`boosting_type=goss`)~~ Exp32 DISCARD
-2. ~~Rashmi & Gilad-Bachrach 2015 DART~~ Exp33 DISCARD (no early stop; do not retune drop_rate)
-3. ~~Huber default alpha 0.9~~ Exp34 DISCARD (do not retry mae/tweedie/quantile without scale)
+2. ~~Rashmi & Gilad-Bachrach 2015 DART~~ Exp33 DISCARD
+3. ~~Huber default alpha 0.9~~ Exp34 DISCARD
 4. ~~Geurts extra-trees~~ Exp35 DISCARD
-5. ~~Ke min_data_in_leaf=100~~ Exp36 DISCARD (do not retry 50/200)
+5. ~~Ke min_data_in_leaf=100~~ Exp36 DISCARD
 6. ~~Shi et al. linear trees~~ Exp37 DISCARD
-7. ~~pm25_accel second difference~~ Exp38 NEAR-MISS DISCARD (do not retry nearby diffs)
-8. **t+6** on the same frozen 2014 timestamps ← **next**
-9. Multi-seed variance on the LGB champion
+7. ~~pm25_accel second difference~~ Exp38 NEAR-MISS DISCARD
+8. ~~t+6 as-of-t-6 on same timestamps~~ Exp39 DISCARD on 1h gate, **skill +10.5% vs persist-6** (test 55.32 / 61.83)
+9. ~~vent_index = Iws×inversion~~ Exp40 DISCARD
+10. **t+6 hillclimb** from Exp39 vs persist-6 (separate composite; do not mix with 1h) ← **next**
+11. Multi-seed variance on the LGB 1h champion
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

@@ -35,6 +35,7 @@ def main() -> None:
     p.add_argument("--backbone", default=None)
     p.add_argument("--set", action="append", default=[], help="backbone_config key=value")
     p.add_argument("--add-feature", action="append", default=[], help="extra column from features_full")
+    p.add_argument("--data-path", default=None, help="override champion CSV (same columns/rows/split)")
     args = p.parse_args()
 
     champ = json.loads((RESULTS / "best_config.json").read_text(encoding="utf-8"))["config"]
@@ -54,6 +55,8 @@ def main() -> None:
             except ValueError:
                 bb[k] = v
     data = copy.deepcopy(champ["data"])
+    if args.data_path:
+        data["path"] = str(Path(args.data_path).resolve())
     if args.add_feature:
         data["path"] = str(HERE / "data" / "features_full.csv")
         cols = list(data.get("feature_columns") or [])

@@ -1,0 +1,41 @@
+"""Build as-of-t-6 features for the same rows/target timestamps.
+
+Target stays pm25[t]. Weather and PM lags are information available at t-6.
+Calendar encodings stay at valid time t (known when issuing a 6h forecast).
+Row count and order are frozen so the calendar split hash is unchanged.
+"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import pandas as pd
+
+HERE = Path(__file__).resolve().parent
+DATA = HERE / "data"
+
+
+def main() -> None:
+    src = pd.read_csv(DATA / "features_full.csv")
+    n0 = len(src)
+    out = src.copy()
+    weather = ["DEWP", "TEMP", "PRES", "Iws", "Is", "Ir", "cbwd_NE", "cbwd_NW", "cbwd_SE", "cbwd_cv"]
+    for c in weather:
+        out[c] = src[c].shift(6)
+    # Most recent PM at issue time t-6 is src.pm25 shifted 6, i.e. current lag6.
+    out["pm25_lag1"] = src["pm25"].shift(6)
+    for k in range(2, 25):
+        out[f"pm25_lag{k}"] = src["pm25"].shift(5 + k)
+    out["pm25_delta1"] = out["pm25_lag1"] - out["pm25_lag2"]
+    out["inversion_spread"] = out["TEMP"] - out["DEWP"]
+    # First ~29 train rows are NaN; bfill so n_rows stays frozen (all in 2010 train).
+    fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "inversion_spread"]
+    out[fill_cols] = out[fill_cols].bfill()
+    assert len(out) == n0
+    assert out[fill_cols].isna().sum().sum() == 0
+    dest = DATA / "features_horizon6.csv"
+    out.to_csv(dest, index=False)
+    print("wrote", dest, out.shape)
+
+
+if __name__ == "__main__":
+    main()
