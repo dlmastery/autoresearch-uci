@@ -16,6 +16,7 @@ def main() -> None:
     extra = base.copy()
     extra["inversion_spread"] = extra["TEMP"] - extra["DEWP"]
     extra["pm25_delta1"] = extra["pm25_lag1"] - extra["pm25_lag2"]
+    extra["pm25_accel"] = extra["pm25_lag1"] - 2.0 * extra["pm25_lag2"] + extra["pm25_lag3"]
     extra["Iws_lag1"] = extra["Iws"].shift(1)
     extra["TEMP_lag1"] = extra["TEMP"].shift(1)
     extra["DEWP_lag1"] = extra["DEWP"].shift(1)
