@@ -41,7 +41,8 @@ def main() -> None:
     # direction change, so Iws_delta is nearly collinear with Iws level.
     out["pres_delta"] = out["PRES"] - src["PRES"].shift(7)
     out["iws_delta"] = out["Iws"] - src["Iws"].shift(7)
-    fill_cols = fill_cols + ["pres_delta", "iws_delta"]
+    out["dewp_delta"] = out["DEWP"] - src["DEWP"].shift(7)
+    fill_cols = fill_cols + ["pres_delta", "iws_delta", "dewp_delta"]
     out[fill_cols] = out[fill_cols].bfill()
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0

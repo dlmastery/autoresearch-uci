@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-46 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), Exp47 (month_sin), **Exp55** (pres_delta, val 58.04 / test 54.75). Exp51–54 lr/ff/residual/Tweedie missed.
+47 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), Exp47 (month_sin), Exp55 (pres_delta), **Exp56** (dewp_delta, val 57.66 / test 54.49). Exp51–54 lr/ff/residual/Tweedie missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,16 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp55)
+## This fire (2026-08-18, Exp56)
 
-New Exp47 slices: Iws_delta collinear with Iws level (drop Iws 1.92 vs rise 43.9). **dPRES>=1 n=1655 actual increment −6.53, Exp47 predicted +3.05 (wrong sign).**
+New Exp55 slices: late 21–23 RMSE 64.25 vs 17–20 52.26. Weekend 57.85 vs weekday 53.45. **dewp_fall & not pres_rise n=1648 actual increment −4.14, Exp55 predicted +3.14** (corr with pres_delta 0.02).
 
-**Exp55 side-KEEP** (1h DISCARD). Val 58.038 beat 58.138, test 54.751 beat 55.059. dPRES>=1 increment flipped to **−1.90**. January 83.92. New t+6 recipe: 31 leaves + month_sin + pres_delta.
+**Exp56 side-KEEP** (1h DISCARD). Val 57.658 beat 58.038, test 54.487 beat 54.751. Dewpoint-fall increment flipped to **−0.22**. actual≥200 **99.57** vs persist 99.10. New t+6 recipe: 31 leaves + month_sin + pres_delta + dewp_delta.
 
-t+6 recipe is now Exp55. 1h champion unchanged: Exp30.
+t+6 recipe is now Exp56. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp55. Do not add Iws_delta (collinear). Snapshot `lightgbm_t6` or leave the feature set
+1. Stay on Exp56. Do not add temp_delta or Iws_delta. Snapshot `lightgbm_t6` or leave the feature set
 2. Do not retry residual / Tweedie / poisson / lr / ff nearby
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`
