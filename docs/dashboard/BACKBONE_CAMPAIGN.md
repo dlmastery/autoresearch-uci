@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp60:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp61:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,13 +21,13 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–60 (34) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Liang 2015 t+6 | No |
+| lightgbm | 20, 25, 29–61 (35) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016 bagging t+6 | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp60)
+## Recovery (from Exp32; after Exp61)
 
 Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
@@ -63,6 +63,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 27. ~~t+6 reg_lambda=1~~ Exp58 DISCARD (val 57.70)
 28. ~~t+6 cbwd_prev_NW~~ Exp59 **side-KEEP** (val 57.60 / test 54.42) ← **current t+6 recipe**; snapshotted `lightgbm_t6`
 29. ~~t+6 rain_mass~~ Exp60 DISCARD (Ir×persist redundant)
-30. **Stay on Exp59; do not add rain products; fill remaining LGB 16** ← **next**
+30. ~~t+6 bagging_freq=1~~ Exp61 DISCARD (val 57.74; late-dirty still +31)
+31. **Stay on Exp59; late-dirty hole open; fill remaining LGB 15** ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

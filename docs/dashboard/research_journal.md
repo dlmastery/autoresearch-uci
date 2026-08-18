@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-51 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp60 rain_mass missed.
+52 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp60–61 rain_mass and bagging_freq missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,16 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp60)
+## This fire (2026-08-18, Exp61)
 
-New Exp59 slices: **Ir>1 n=175 actual increment −11.31, Exp59 predicted +0.66** despite Ir already in the model. rain+persist≥75 under-cleans (−15 vs −30). Sunday persist≥100 under-cleans by 19.
+New Exp59 slices: **hours 21–23 × persist≥150 n=167 actual increment +0.92, pred +30.81**. Late-clean air is calibrated. Wednesday RMSE 61.22 vs Monday 47.13. bagging_fraction 0.6 was inert (freq 0).
 
-**Exp60 DISCARD** rain_mass. Val 57.849 lost to 57.601, test 54.324 flat. Ir>1 increment stayed +0.74. Axis closed: Ir×PM is redundant.
+**Exp61 DISCARD** bagging_freq=1. Val 57.736 lost to 57.601, test 54.430 flat. Late-dirty increment stayed +30.63. Axis closed: t+6 bagging.
 
 t+6 recipe remains Exp59. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp59. Do not add rain products or prev-direction dummies. Fill remaining LGB 16
-2. Do not retry residual / Tweedie / haze-count / L2 / Iws_delta / min_gain (regularizer family already missed 3 times)
+1. Stay on Exp59. Late-dirty +31 overforecast is open; do not add persist×hour products
+2. Do not retry bagging / L2 / ff / path_smooth / rain products / prev-direction
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`

@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp60 (1h still Exp30; t+6 recipe Exp59)
+# Autoresearch checkpoint — after Exp61 (1h still Exp30; t+6 recipe Exp59)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -15,18 +15,18 @@
 
 ## Residual (this fire)
 - **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05
-- **Exp59 new slices:** Ir>1 n=175 actual increment **−11.31**, pred **+0.66** (wrong sign). rain+persist≥75 n=123 need −29.5 pred −15.1. Sunday persist≥100 under-cleans by 19. Late 21–23 RMSE 64.46 vs 17–20 51.95. Val gap 3.18.
-- **Exp60:** Ir>1 increment still **+0.74**. Redundant with Ir × persist already in the tree.
+- **Exp59 new slices:** hours 21–23 × persist≥150 n=167 actual increment **+0.92**, pred **+30.81**. Late-clean persist<50 is calibrated (+30.3 vs +29.2). Wednesday RMSE 61.22 vs Monday 47.13. Val gap 3.18.
+- **Exp61:** late-dirty increment still **+30.63**. Bagging did not help.
 
 ## This fire
-- **Exp60 DISCARD** rain_mass. Val 57.849 test 54.324. Axis closed: Ir-times-PM products.
+- **Exp61 DISCARD** bagging_freq=1. Val 57.736 test 54.430. Axis closed: t+6 bagging.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass (no Is*persist)
+- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass, bagging_freq=1
 
 ## Process
-LightGBM **34/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp59.
+LightGBM **35/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp59.
 
 ## Next pasteable
-Stay on **Exp59**. Do not add rain products or prev-direction dummies. Fill remaining LGB 16 without nearby regularizers (path_smooth / ff / L2 already missed). Do not shave 1h HPs. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
+Stay on **Exp59**. Late-dirty +31 overforecast is the open hole; do not add persist×hour products (rain_mass lesson) or more regularizers. Fill remaining LGB 15. Do not shave 1h HPs. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
