@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-53 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp62 drop-lags test 53.84 but val 58.05 missed.
+54 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp63 MAE typical-hour win, val miss.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,16 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp62)
+## This fire (2026-08-18, Exp63)
 
-New Exp59 slices: late-dirty model 106.97 ≈ persist 108.73. **NW-on-haze n=15 actual −144.6, pred −0.66.** SE-on-haze n=104 only +37 vs +23.
+New Exp59 slices: **typical |Δ|≤80 n=6918 model 34.30 LOSES to persist 32.35.** Extremes n=1032 model 122 vs persist 154. Wednesday onset 116.9 vs other 86.3.
 
-**Exp62 DISCARD** drop lag13–24. Val 58.051 lost to 57.601, test **53.835** (best t+6 test). NW-on-haze pred only −7.06. Axis closed: lag truncation.
+**Exp63 DISCARD** MAE. Val 58.798 lost to 57.601, test 54.350. Typical RMSE **32.50** (ties persist). RMSE val gate punishes 2013 tail. Axis closed: L1/quantile.
 
 t+6 recipe remains Exp59. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp59. NW-on-haze −145 is 6h-hard. Do not drop more lags
-2. Do not retry bagging / L2 / rain products / persist×hour / prev-direction
+1. Stay on Exp59 L2. Do not retry quantile
+2. Do not retry bagging / lags / rain products / persist×hour / prev-direction
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`

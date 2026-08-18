@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp62:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp63:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,13 +21,13 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–62 (36) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016 t+6 | No |
+| lightgbm | 20, 25, 29–63 (37) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016 t+6 | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp62)
+## Recovery (from Exp32; after Exp63)
 
 Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
@@ -65,6 +65,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 29. ~~t+6 rain_mass~~ Exp60 DISCARD (Ir×persist redundant)
 30. ~~t+6 bagging_freq=1~~ Exp61 DISCARD (val 57.74; late-dirty still +31)
 31. ~~t+6 drop lag13-24~~ Exp62 DISCARD (test 53.84, val 58.05)
-32. **Stay on Exp59; NW-on-haze 6h-hard; fill remaining LGB 14** ← **next**
+32. ~~t+6 regression_l1 MAE~~ Exp63 DISCARD (val 58.80; typical RMSE 32.50)
+33. **Stay on Exp59 L2; do not retry quantile; fill remaining LGB 13** ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.
