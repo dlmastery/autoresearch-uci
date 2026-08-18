@@ -18,6 +18,7 @@ def main() -> None:
     extra["pm25_delta1"] = extra["pm25_lag1"] - extra["pm25_lag2"]
     extra["pm25_accel"] = extra["pm25_lag1"] - 2.0 * extra["pm25_lag2"] + extra["pm25_lag3"]
     extra["vent_index"] = extra["Iws"] * extra["inversion_spread"]
+    extra["pm25_roll6max"] = extra[[f"pm25_lag{k}" for k in range(1, 7)]].max(axis=1)
     extra["Iws_lag1"] = extra["Iws"].shift(1)
     extra["TEMP_lag1"] = extra["TEMP"].shift(1)
     extra["DEWP_lag1"] = extra["DEWP"].shift(1)

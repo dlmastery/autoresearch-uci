@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 40 experiments · 9 KEEP · 31 DISCARD
-**Mandate gap:** LightGBM 14/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 42 experiments · 9 KEEP · 33 DISCARD
+**Mandate gap:** LightGBM 16/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -64,6 +64,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 38 | DISCARD | lightgbm | 20.987 | 22.426 | -22.426 | 11.535 | 0.9491 |
 | 39 | DISCARD | lightgbm | 55.320 | 58.724 | -58.824 | 35.844 | 0.6465 |
 | 40 | DISCARD | lightgbm | 20.939 | 22.439 | -22.439 | 11.580 | 0.9494 |
+| 41 | DISCARD | lightgbm | 21.368 | 22.738 | -22.738 | 11.742 | 0.9473 |
+| 42 | DISCARD | lightgbm | 20.956 | 22.515 | -22.515 | 11.582 | 0.9493 |
 
 ## Champion residual slices (2014 test)
 
@@ -75,3 +77,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - p99 |error|=79.5 · max |error|=497.1
 - Haze ≥150 n=1638: model 35.50 vs persist-1 35.31 (zero 1h skill)
 - Persist-6 on same 7950 rows: **61.83**. Exp39 t+6 test **55.32** (skill +10.5%, 1h-gate DISCARD)
+- Haze streaks ≥6h n=1069: model 29.31 vs persist-1 28.94 (loses inside episodes)
+- High-PRES tercile skill +3.7% vs low-PRES +7.8%
