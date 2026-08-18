@@ -36,8 +36,10 @@ def main() -> None:
     # First ~29 train rows are NaN; bfill so n_rows stays frozen (all in 2010 train).
     fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "pm25_delta6", "inversion_spread"]
     out[fill_cols] = out[fill_cols].bfill()
+    out["stagn_index"] = out["inversion_spread"] / (out["Iws"] + 1.0)
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0
+    assert out["stagn_index"].isna().sum() == 0
     dest = DATA / "features_horizon6.csv"
     out.to_csv(dest, index=False)
     print("wrote", dest, out.shape)

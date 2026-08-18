@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 48 experiments · 9 KEEP · 39 DISCARD
-**Mandate gap:** LightGBM 22/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 50 experiments · 9 KEEP · 41 DISCARD
+**Mandate gap:** LightGBM 24/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -72,6 +72,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 46 | DISCARD | lightgbm | 55.337 | 58.365 | -58.465 | 35.942 | 0.6462 |
 | 47 | DISCARD | lightgbm | 55.059 | 58.138 | -58.238 | 35.737 | 0.6498 |
 | 48 | DISCARD | lightgbm | 54.648 | 58.359 | -58.459 | 35.338 | 0.6550 |
+| 49 | DISCARD | lightgbm | 55.065 | 58.626 | -58.726 | 35.771 | 0.6497 |
+| 50 | DISCARD | lightgbm | 55.090 | 58.259 | -58.359 | 35.744 | 0.6494 |
 
 ## Champion residual slices (2014 test)
 
@@ -87,4 +89,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - High-PRES tercile skill +3.7% vs low-PRES +7.8%
 - 2014 H1 skill +4.5% vs H2 +9.1%. Seed noise ≈ val ±0.08, test ±0.04 (Exp44)
 - t+6 side ladder: persist-6 **61.83**. **Exp47 (31 leaves + month_sin) 55.06/58.14** (side-KEEP). Exp48 month_cos test 54.65 val 58.36 (side-MISS)
-- t+6 Jan eve 18–21 n=116 RMSE ~101. Calm 6h-onsets n=408 bias −76
+- t+6 Jan eve 18–21 n=116 RMSE ~101. cv+onset6 n=286 RMSE 102.4. High-stagn skill +7.7% vs vent +16.1%
