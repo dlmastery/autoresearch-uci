@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp64:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp65:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,13 +21,13 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–64 (38) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016 t+6 | No |
+| lightgbm | 20, 25, 29–65 (39) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp64)
+## Recovery (from Exp32; after Exp65)
 
 Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
@@ -67,6 +67,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 31. ~~t+6 drop lag13-24~~ Exp62 DISCARD (test 53.84, val 58.05)
 32. ~~t+6 regression_l1 MAE~~ Exp63 DISCARD (val 58.80; typical RMSE 32.50)
 33. ~~t+6 doy_sin~~ Exp64 DISCARD (val 58.05; Jan onset still +21)
-34. **Stay on Exp59; do not retry doy_cos; fill remaining LGB 12** ← **next**
+34. ~~t+6 heating_night~~ Exp65 DISCARD (val 57.65; night-onset still −7.1)
+35. **Stay on Exp59; do not retry clock×heating dummies; fill remaining LGB 11** ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-55 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp64 doy_sin missed.
+56 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, **Exp59** (cbwd_prev_NW, val 57.60 / test 54.42). Exp64 doy_sin missed. Exp65 heating_night missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,16 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp64)
+## This fire (2026-08-18, Exp65)
 
-New Exp59 slices: **January onset n=134 RMSE 144.19, need +124.6, pred +19.8.** NDJF onset 110.5 vs non-heat 74.6. month_sin aliases January with May.
+New Exp59 slices: **January evening 18-23 ALL n=174 RMSE 110.12 vs day 10-16 50.03.** January night 00-06 onsets n=41 need **+112.9**, pred **−7.3**. January onsets are dry (inv mean 17). Heating-night onsets 18.7% of SSE.
 
-**Exp64 DISCARD** doy_sin. Val 58.053 lost to 57.601, test 54.135. January onset increment still +20.9. Axis closed: doy harmonics.
+**Exp65 DISCARD** heating_night. Val 57.649 lost to 57.601, test 54.322. Night-onset increment still −7.1. Axis closed: clock×heating dummies.
 
 t+6 recipe remains Exp59. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp59. Do not retry doy_cos / is_heating / quantile
+1. Stay on Exp59. Do not retry jan_evening / is_heating / hour-bin / doy_cos
 2. Do not retry bagging / lags / rain products / persist×hour / prev-direction
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`

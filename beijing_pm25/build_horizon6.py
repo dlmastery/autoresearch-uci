@@ -52,6 +52,10 @@ def main() -> None:
     out[fill_cols] = out[fill_cols].bfill()
     # Wet scavenging: issue-time rain times last PM (Ir is already as-of t-6).
     out["rain_mass"] = out["Ir"] * out["pm25_lag1"]
+    # Nocturnal mixing-layer collapse during heating (valid-time clock).
+    hr = out["hour"] if "hour" in out.columns else pd.to_datetime(times["time"]).dt.hour.astype(float)
+    heat = out["is_heating"] if "is_heating" in out.columns else pd.to_datetime(times["time"]).dt.month.isin([11, 12, 1, 2]).astype(float)
+    out["heating_night"] = (heat.astype(float) * ((hr >= 18.0) | (hr <= 6.0)).astype(float))
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0
     assert out["stagn_index"].isna().sum() == 0

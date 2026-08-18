@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 64 experiments · 9 KEEP · 55 DISCARD
-**Mandate gap:** LightGBM 38/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 65 experiments · 9 KEEP · 56 DISCARD
+**Mandate gap:** LightGBM 39/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -88,6 +88,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 62 | DISCARD | lightgbm | 53.835 | 58.051 | -58.151 | 34.978 | 0.6652 |
 | 63 | DISCARD | lightgbm | 54.350 | 58.798 | -58.898 | 34.068 | 0.6588 |
 | 64 | DISCARD | lightgbm | 54.135 | 58.053 | -58.153 | 35.149 | 0.6614 |
+| 65 | DISCARD | lightgbm | 54.322 | 57.649 | -57.749 | 35.151 | 0.6591 |
 
 ## Champion residual slices (2014 test)
 
@@ -116,3 +117,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp62 drop lag13–24 side-MISS (val 58.051, **test 53.835** best t+6 test). NW-on-haze pred −7 vs need −145.
 - Exp63 MAE side-MISS (val 58.798). Typical-hour RMSE 32.50 vs Exp59 34.30 vs persist 32.35. RMSE val gate failed.
 - Exp64 doy_sin side-MISS (val 58.053, test 54.135). January onset increment still +20.9 vs need +124.6.
+- Exp65 heating_night side-MISS (val 57.649, test 54.322). January night 00-06 onset increment still −7.1 vs need +112.9. Evening onset +41.0 → +47.3.
