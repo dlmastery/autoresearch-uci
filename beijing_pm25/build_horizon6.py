@@ -26,9 +26,10 @@ def main() -> None:
     for k in range(2, 25):
         out[f"pm25_lag{k}"] = src["pm25"].shift(5 + k)
     out["pm25_delta1"] = out["pm25_lag1"] - out["pm25_lag2"]
+    out["pm25_delta6"] = out["pm25_lag1"] - out["pm25_lag7"]
     out["inversion_spread"] = out["TEMP"] - out["DEWP"]
     # First ~29 train rows are NaN; bfill so n_rows stays frozen (all in 2010 train).
-    fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "inversion_spread"]
+    fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "pm25_delta6", "inversion_spread"]
     out[fill_cols] = out[fill_cols].bfill()
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0

@@ -58,7 +58,8 @@ def main() -> None:
     if args.data_path:
         data["path"] = str(Path(args.data_path).resolve())
     if args.add_feature:
-        data["path"] = str(HERE / "data" / "features_full.csv")
+        if not args.data_path:
+            data["path"] = str(HERE / "data" / "features_full.csv")
         cols = list(data.get("feature_columns") or [])
         for f in args.add_feature:
             if f not in cols:

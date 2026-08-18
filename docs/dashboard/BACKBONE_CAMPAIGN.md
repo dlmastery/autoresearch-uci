@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp44:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp46:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,13 +21,13 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–44 (18) | Ke 2017; Rashmi 2015; Geurts 2006; Shi 2018; Zheng 2015; Probst 2019 | No |
+| lightgbm | 20, 25, 29–46 (20) | Ke 2017; Rashmi 2015; Geurts 2006; Shi 2018; Zheng 2015; Lai 2018 | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp44)
+## Recovery (from Exp32; after Exp46)
 
 Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
@@ -47,6 +47,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 11. ~~pm25_roll6max~~ Exp42 DISCARD
 12. ~~bagging_freq=1~~ Exp43 DISCARD (test 20.807, val 22.498)
 13. ~~seed=1 noise floor~~ Exp44 DISCARD (val ±0.08)
-14. **t+6 hillclimb** from Exp39 vs persist-6 (separate composite; do not mix with 1h) ← **next**
+14. ~~t+6 pm25_delta6~~ Exp45 DISCARD (redundant)
+15. ~~t+6 num_leaves 31~~ Exp46 **side-KEEP** (val 58.37; 1h DISCARD) ← current t+6 recipe
+16. **t+6 hillclimb from Exp46** vs persist-6 (separate composite) ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.
