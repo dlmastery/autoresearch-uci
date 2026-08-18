@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 72 experiments · 9 KEEP · 63 DISCARD
-**Mandate gap:** LightGBM 46/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 73 experiments · 9 KEEP · 64 DISCARD
+**Mandate gap:** LightGBM 47/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -96,6 +96,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 70 | DISCARD | lightgbm | 54.620 | 57.441 | -57.541 | 35.319 | 0.6554 |
 | 71 | DISCARD | lightgbm | 54.320 | 57.518 | -57.618 | 35.170 | 0.6591 |
 | 72 | DISCARD | lightgbm | 54.330 | 57.429 | -57.529 | 35.007 | 0.6590 |
+| 73 | DISCARD | lightgbm | 54.320 | 57.437 | -57.537 | 34.985 | 0.6591 |
 
 ## Champion residual slices (2014 test)
 
@@ -132,3 +133,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - **Exp70 feature_fraction 1.0 t+6 side-KEEP** (1h DISCARD): val 57.441 beat 57.498, test 54.620. Saturday skill still +1.5. New t+6 recipe.
 - Exp71 anticyclone side-MISS (val 57.518, test 54.320). High-PRES P>=150 increment −54.1 vs need −30.1.
 - **Exp72 linear_tree t+6 side-KEEP** (1h DISCARD): val 57.429 beat 57.441, test 54.330. Typical P>=150 increment still −24.5. New t+6 recipe.
+- Exp73 max_bin=127 side-MISS (val 57.437, test 54.320). Feb typical P>=150 increment −42.4 vs need +4.4.
