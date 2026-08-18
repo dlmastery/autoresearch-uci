@@ -45,7 +45,9 @@ def main() -> None:
     out["haze_hours6"] = (
         out[[f"pm25_lag{k}" for k in range(1, 7)]] >= 150.0
     ).sum(axis=1).astype(float)
-    fill_cols = fill_cols + ["pres_delta", "iws_delta", "dewp_delta"]
+    # Previous-hour NW at issue time (t-7). Current cbwd_NW is t-6 only.
+    out["cbwd_prev_NW"] = src["cbwd_NW"].shift(7)
+    fill_cols = fill_cols + ["pres_delta", "iws_delta", "dewp_delta", "cbwd_prev_NW"]
     out[fill_cols] = out[fill_cols].bfill()
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0

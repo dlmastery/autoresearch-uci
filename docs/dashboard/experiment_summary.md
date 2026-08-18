@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 58 experiments · 9 KEEP · 49 DISCARD
-**Mandate gap:** LightGBM 32/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 59 experiments · 9 KEEP · 50 DISCARD
+**Mandate gap:** LightGBM 33/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -82,6 +82,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 56 | DISCARD | lightgbm | 54.487 | 57.658 | -57.758 | 35.279 | 0.6570 |
 | 57 | DISCARD | lightgbm | 54.385 | 57.864 | -57.964 | 35.278 | 0.6583 |
 | 58 | DISCARD | lightgbm | 54.540 | 57.704 | -57.804 | 35.299 | 0.6564 |
+| 59 | DISCARD | lightgbm | 54.419 | 57.601 | -57.701 | 35.245 | 0.6579 |
 
 ## Champion residual slices (2014 test)
 
@@ -96,11 +97,12 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Haze streaks ≥6h n=1069: model 29.31 vs persist-1 28.94 (loses inside episodes)
 - High-PRES tercile skill +3.7% vs low-PRES +7.8%
 - 2014 H1 skill +4.5% vs H2 +9.1%. Seed noise ≈ val ±0.08, test ±0.04 (Exp44)
-- t+6 side ladder: persist-6 **61.83**. **Exp56 (31 leaves + month_sin + pres_delta + dewp_delta) 54.49/57.66** (side-KEEP). Prior Exp55 54.75/58.04. Exp47 55.06/58.14.
+- t+6 side ladder: persist-6 **61.83**. **Exp59 (Exp56 + cbwd_prev_NW) 54.42/57.60** (side-KEEP). Prior Exp56 54.49/57.66. Snapshot `code_versions/lightgbm_t6/`.
 - t+6 actual≥200 n=944: model 101.2 **loses to persist-6 97.1**. Low-actual bias +30.3 / high-actual −34.0
 - Exp47 need+100 n=286 predicted increment **+21 vs needed +146**. 76% of hours closer to mean 98 than persist.
 - Exp53 persist-6 residual: test 55.044 val 58.684 (redundant, corr 0.990). Exp53 R²/MAPE are residual-scale.
 - Exp54 Tweedie: test 54.790 val 58.672 side-MISS. Tail worse (actual≥200 105.4, need+100 increment +16.5).
 - **Exp55 t+6 side-KEEP** (1h DISCARD): val 58.038 / test 54.751. dPRES>=1 increment flipped +3.05 → −1.90.
 - **Exp56 t+6 side-KEEP** (1h DISCARD): val 57.658 / test 54.487. dewp_fall & not pres_rise increment flipped +3.14 → −0.22. actual≥200 99.57 vs persist 99.10. New t+6 recipe.
-- Exp57 haze_hours6 side-MISS (val 57.864). dur3-5 increment unchanged. Exp58 reg_lambda=1 side-MISS (val 57.704).
+- Exp57 haze_hours6 side-MISS (val 57.864). Exp58 reg_lambda=1 side-MISS (val 57.704).
+- **Exp59 t+6 side-KEEP** (1h DISCARD): val 57.601 / test 54.419. left-NW increment +9.11 → +5.69. New t+6 recipe.
