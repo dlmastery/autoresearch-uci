@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 59 experiments · 9 KEEP · 50 DISCARD
-**Mandate gap:** LightGBM 33/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 60 experiments · 9 KEEP · 51 DISCARD
+**Mandate gap:** LightGBM 34/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -83,6 +83,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 57 | DISCARD | lightgbm | 54.385 | 57.864 | -57.964 | 35.278 | 0.6583 |
 | 58 | DISCARD | lightgbm | 54.540 | 57.704 | -57.804 | 35.299 | 0.6564 |
 | 59 | DISCARD | lightgbm | 54.419 | 57.601 | -57.701 | 35.245 | 0.6579 |
+| 60 | DISCARD | lightgbm | 54.324 | 57.849 | -57.949 | 35.143 | 0.6591 |
 
 ## Champion residual slices (2014 test)
 
@@ -106,3 +107,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - **Exp56 t+6 side-KEEP** (1h DISCARD): val 57.658 / test 54.487. dewp_fall & not pres_rise increment flipped +3.14 → −0.22. actual≥200 99.57 vs persist 99.10. New t+6 recipe.
 - Exp57 haze_hours6 side-MISS (val 57.864). Exp58 reg_lambda=1 side-MISS (val 57.704).
 - **Exp59 t+6 side-KEEP** (1h DISCARD): val 57.601 / test 54.419. left-NW increment +9.11 → +5.69. New t+6 recipe.
+- Exp60 rain_mass side-MISS (val 57.849). Ir>1 increment unchanged (+0.74).

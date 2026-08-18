@@ -49,6 +49,8 @@ def main() -> None:
     out["cbwd_prev_NW"] = src["cbwd_NW"].shift(7)
     fill_cols = fill_cols + ["pres_delta", "iws_delta", "dewp_delta", "cbwd_prev_NW"]
     out[fill_cols] = out[fill_cols].bfill()
+    # Wet scavenging: issue-time rain times last PM (Ir is already as-of t-6).
+    out["rain_mass"] = out["Ir"] * out["pm25_lag1"]
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0
     assert out["stagn_index"].isna().sum() == 0
