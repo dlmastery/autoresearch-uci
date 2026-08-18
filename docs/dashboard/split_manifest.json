@@ -1,0 +1,28 @@
+{
+  "protocol_id": "uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h",
+  "dataset": "UCI 381 Beijing PM2.5",
+  "rationale": "Operational air-quality practice: train on past calendar years, validate on the next full year, test on the following full year. 24 h embargo at each boundary equals max lag and t+24 horizon.",
+  "purge_hours": 24,
+  "n_rows": 37596,
+  "n_train": 21725,
+  "n_val": 7884,
+  "n_test": 7950,
+  "n_unused_embargo": 37,
+  "train_time_range": [
+    "2010-01-03 00:00:00",
+    "2012-12-30 23:00:00"
+  ],
+  "val_time_range": [
+    "2013-01-01 00:00:00",
+    "2013-12-28 19:00:00"
+  ],
+  "test_time_range": [
+    "2014-01-01 00:00:00",
+    "2014-12-31 23:00:00"
+  ],
+  "train_hash": "a3cb4146ec49d9172c08d3e4074a94b774828dc0462e42292e44bd99a920cc8f",
+  "val_hash": "0f1e8f4e0f4e7c945593f04c8559704472b1c6b407f735c7459b5e7ab4872a76",
+  "test_hash": "efb0012c1873e5bf2fe56d0cbb3d429c1d879da92273a15cc7bb6532e0ba79fc",
+  "frozen": true,
+  "written_at": "2026-08-18T01:03:02"
+}

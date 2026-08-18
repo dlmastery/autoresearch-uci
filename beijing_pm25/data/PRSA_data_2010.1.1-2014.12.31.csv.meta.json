@@ -1,0 +1,29 @@
+{
+  "source": "UCI ML Repository 381 \u2014 Beijing PM2.5 Data",
+  "url": "https://archive.ics.uci.edu/ml/machine-learning-databases/00381/PRSA_data_2010.1.1-2014.12.31.csv",
+  "query": {
+    "dataset": "beijing-pm25",
+    "uci_id": 381
+  },
+  "variables": [
+    "pm2.5",
+    "DEWP",
+    "TEMP",
+    "PRES",
+    "cbwd",
+    "Iws",
+    "Is",
+    "Ir"
+  ],
+  "spatial_extent": [
+    "Beijing US Embassy"
+  ],
+  "time_range": [
+    "2010-01-01",
+    "2014-12-31"
+  ],
+  "fetched_at": "2026-08-18T07:51:27.503654+00:00",
+  "tool_version": "prepare_data.py",
+  "license": "UCI \u2014 cite Liang et al. 2015",
+  "checksum": "4127f868775e31b3956522adc0ec75af8937dde6a3896e8beed3a376c6d27f1c"
+}

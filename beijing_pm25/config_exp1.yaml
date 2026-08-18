@@ -1,0 +1,42 @@
+paths:
+  results_dir: "beijing_pm25/autoresearch_results"
+  seed_reasoning: "beijing_pm25/seed_reasoning_exp1.json"
+
+task_type: regression
+primary_metric: rmse
+
+backbone: xgboost
+backbone_config:
+  n_estimators: 1500
+  max_depth: 6
+  learning_rate: 0.03
+  subsample: 0.8
+  colsample_bytree: 0.8
+  reg_lambda: 1.0
+  early_stopping_rounds: 50
+  seed: 0
+  n_jobs: 4
+  tree_method: hist
+  uncertainty_samples: 1
+
+data:
+  format: csv
+  path: "beijing_pm25/data/features.csv"
+  target_columns: [pm25]
+  feature_columns: null
+
+split:
+  name: calendar_year
+  manifest_dir: "beijing_pm25/data"
+
+composite:
+  higher_is_better: false
+  penalty_weight: 0.1
+  below_threshold: -40.0
+
+hardware:
+  n_threads: 4
+  cpu_affinity: [0, 2, 4, 6]
+
+description: "Exp1 baseline XGBoost nowcast, Chen-Guestrin 2016 defaults, frozen calendar split train2010-12/val2013/test2014"
+seed: 0

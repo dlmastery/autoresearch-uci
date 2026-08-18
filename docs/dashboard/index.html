@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AutoResearch-UCI Dashboard — Beijing PM2.5</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d1117; color: #c9d1d9; padding: 20px; }
+  h1 { color: #58a6ff; margin-bottom: 4px; font-size: 1.6em; }
+  .subtitle { color: #8b949e; margin-bottom: 20px; font-size: 0.9em; }
+  .subtitle a { color: #58a6ff; text-decoration: none; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; }
+  .card .label { color: #8b949e; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card .value { font-size: 1.6em; font-weight: 700; margin-top: 4px; }
+  .positive { color: #3fb950; }
+  .negative { color: #f85149; }
+  .neutral { color: #58a6ff; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.85em; }
+  th { background: #161b22; color: #8b949e; text-align: left; padding: 8px 10px; border-bottom: 2px solid #30363d; font-weight: 600; text-transform: uppercase; font-size: 0.75em; letter-spacing: 0.5px; }
+  #exp-table thead th { position: sticky; top: 0; z-index: 10; background: #161b22; }
+  td { padding: 7px 10px; border-bottom: 1px solid #21262d; }
+  tr:hover { background: #1c2128; }
+  tr.keep { border-left: 3px solid #3fb950; }
+  tr.discard { border-left: 3px solid #f85149; }
+  tr.clickable { cursor: pointer; }
+  tr.selected { background: #1a2332 !important; border-left: 3px solid #58a6ff !important; }
+  tr.best-row { background: #0d2818 !important; border-left: 4px solid #00d26a !important; }
+  .winner-box { background: #0d2818; border: 2px solid #3fb950; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .winner-box .label { color: #3fb950; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .winner-box .main { font-size: 1.1em; color: #c9d1d9; margin-bottom: 8px; }
+  .winner-box .metrics { font-family: ui-monospace, Consolas, monospace; font-size: 0.85em; color: #8b949e; white-space: pre-wrap; }
+  .section-title { color: #58a6ff; font-size: 1.1em; margin: 20px 0 10px 0; font-weight: 600; }
+  .config-box { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 12px; font-family: ui-monospace, Consolas, monospace; font-size: 0.82em; white-space: pre-wrap; margin-bottom: 16px; }
+  .detail-panel { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 20px; display: none; }
+  .detail-panel.visible { display: block; }
+  .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .detail-header h3 { color: #58a6ff; font-size: 1em; }
+  .close-btn { background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
+  .close-btn:hover { background: #30363d; color: #c9d1d9; }
+  .field-label { color: #58a6ff; font-weight: 600; font-size: 0.75em; letter-spacing: 0.4px; margin-top: 10px; }
+  .field-body { white-space: pre-wrap; font-size: 0.85em; line-height: 1.45; margin-top: 4px; }
+  .keep { color: #3fb950; }
+  .discard { color: #f85149; }
+</style>
+</head>
+<body>
+<h1>AutoResearch-UCI — Beijing PM2.5 nowcast</h1>
+<div class="subtitle">
+  Karpathy-style loop · UCI 381 · frozen calendar split (train 2010–2012 / val 2013 / test <strong>2014</strong>)
+  &nbsp;|&nbsp; <a href="experiment_summary.md">Summary</a>
+  &nbsp;|&nbsp; <a href="research_journal.md">Journal</a>
+  &nbsp;|&nbsp; <a href="../SOTA.md">SOTA</a>
+  &nbsp;|&nbsp; <span id="last-update">loading…</span>
+</div>
+
+<div class="grid" id="summary-cards"></div>
+
+<div class="section-title">Champion</div>
+<div class="winner-box">
+  <div class="label">Best composite (higher is better; internally −RMSE)</div>
+  <div class="main" id="winner-title">Loading…</div>
+  <div class="metrics" id="winner-metrics"></div>
+</div>
+
+<div class="section-title">Persistence on the frozen 2014 test year</div>
+<div class="config-box" id="persistence-box">Loading persistence_baseline.json…</div>
+
+<div class="section-title">Frozen split (industry calendar-year + 24 h embargo)</div>
+<table>
+  <thead>
+    <tr><th>Role</th><th>Years</th><th>n</th><th>Time range</th><th>Hash</th></tr>
+  </thead>
+  <tbody id="split-body">
+    <tr><td colspan="5" style="color:#8b949e">Loading split_manifest.json…</td></tr>
+  </tbody>
+</table>
+<p style="color:#3fb950;font-size:0.85em;margin-bottom:20px">Test timestamps are frozen. Changing them is reward hacking. Unused embargo rows sit in the 24 h gaps at year boundaries.</p>
+
+<div class="section-title">Experiment log <span style="color:#484f58;font-size:0.7em;font-weight:400">(click a row for the reasoning blob)</span></div>
+<div id="exp-table-scroll" style="max-height:60vh;overflow-y:auto;border:1px solid #30363d;border-radius:6px">
+<table id="exp-table" style="margin-bottom:0">
+  <thead>
+    <tr>
+      <th>#</th><th>Status</th><th>Backbone</th><th>Description</th>
+      <th>Composite</th><th>Test RMSE</th><th>Val RMSE</th><th>MAE</th><th>R²</th><th>n</th><th>When</th>
+    </tr>
+  </thead>
+  <tbody id="exp-body"></tbody>
+</table>
+</div>
+
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-header">
+    <h3 id="detail-title">Experiment</h3>
+    <button class="close-btn" onclick="closeDetail()">Close</button>
+  </div>
+  <div id="detail-reasoning"></div>
+</div>
+
+<script>
+function fmt(v, d=3) { return v == null || Number.isNaN(Number(v)) ? '—' : Number(v).toFixed(d); }
+function loadJSON(url) { return fetch(url).then(r => r.ok ? r.json() : null).catch(() => null); }
+function loadText(url) { return fetch(url).then(r => r.ok ? r.text() : '').catch(() => ''); }
+
+let experiments = [];
+let annotations = {};
+let best = null;
+
+async function boot() {
+  const logText = await loadText('experiment_log.jsonl');
+  experiments = logText.split('\n').filter(s => s.trim()).map(s => {
+    try { return JSON.parse(s); } catch { return null; }
+  }).filter(Boolean);
+  annotations = (await loadJSON('reasoning_annotations.json')) || {};
+  best = await loadJSON('best_config.json');
+  const pers = await loadJSON('persistence_baseline.json');
+  const split = await loadJSON('../data/split_manifest.json') || await loadJSON('split_manifest.json');
+
+  document.getElementById('last-update').textContent =
+    experiments.length + ' experiment' + (experiments.length === 1 ? '' : 's')
+    + ' · ' + Object.keys(annotations).length + ' reasoning entries';
+
+  const champ = best || experiments.filter(e => e.status === 'KEEP').sort((a,b) => b.composite - a.composite)[0];
+  const cards = document.getElementById('summary-cards');
+  const skill = pers && champ ? (1 - champ.test_primary / pers.test.rmse) : null;
+  const items = [
+    ['Experiments', experiments.length, 'neutral'],
+    ['Champion test RMSE', champ ? fmt(champ.test_primary, 3) + ' µg/m³' : '—', 'neutral'],
+    ['Champion val RMSE', champ ? fmt(champ.val_primary, 3) : '—', 'neutral'],
+    ['2014 persistence RMSE', pers ? fmt(pers.test.rmse, 3) : '—', 'neutral'],
+    ['Skill vs persistence', skill != null ? ((skill>=0?'+':'') + (skill*100).toFixed(1) + '%') : '—', skill > 0 ? 'positive' : 'negative'],
+    ['Frozen test year', '2014', 'neutral'],
+  ];
+  cards.innerHTML = items.map(([l,v,c]) =>
+    `<div class="card"><div class="label">${l}</div><div class="value ${c}">${v}</div></div>`
+  ).join('');
+
+  if (champ) {
+    document.getElementById('winner-title').textContent =
+      `Exp ${champ.experiment_num} · ${champ.backbone} · composite ${fmt(champ.composite, 4)}`;
+    document.getElementById('winner-metrics').textContent =
+      `test RMSE ${fmt(champ.test_primary, 4)}   val RMSE ${fmt(champ.val_primary, 4)}\n`
+      + `MAE ${fmt(champ.secondary_metrics && champ.secondary_metrics.mae, 3)}   `
+      + `R² ${fmt(champ.secondary_metrics && champ.secondary_metrics.r2, 4)}\n`
+      + `${champ.description || ''}`;
+  } else {
+    document.getElementById('winner-title').textContent = 'No champion yet';
+  }
+
+  if (pers) {
+    document.getElementById('persistence-box').textContent =
+      `2014 test   n=${pers.test.n}   RMSE=${fmt(pers.test.rmse,4)}   MAE=${fmt(pers.test.mae,3)}   p99|err|=${fmt(pers.test.p99_abs,1)}   max=${fmt(pers.test.max_abs,0)}\n`
+      + `2013 val    n=${pers.val.n}   RMSE=${fmt(pers.val.rmse,4)}   MAE=${fmt(pers.val.mae,3)}\n`
+      + `Exp1 skill vs 2014 persistence: ${((pers.skill_vs_persistence||0)*100).toFixed(2)}%`;
+  }
+
+  if (split) {
+    document.getElementById('split-body').innerHTML = [
+      ['train', split.n_train, split.train_time_range, split.train_hash],
+      ['val', split.n_val, split.val_time_range, split.val_hash],
+      ['test (FROZEN)', split.n_test, split.test_time_range, split.test_hash],
+    ].map(([role,n,rng,h]) =>
+      `<tr><td>${role}</td><td>${role.startsWith('test')?'2014':role==='val'?'2013':'2010–2012'}</td>`
+      + `<td>${n}</td><td>${(rng||[]).join(' → ')}</td><td style="font-size:0.75em">${(h||'').slice(0,16)}…</td></tr>`
+    ).join('') + `<tr style="background:#161b22"><td colspan="5">protocol ${split.protocol_id} · unused embargo rows ${split.n_unused_embargo}</td></tr>`;
+  }
+
+  renderRows();
+}
+
+function renderRows() {
+  const tbody = document.getElementById('exp-body');
+  const champN = best && best.experiment_num;
+  tbody.innerHTML = experiments.slice().sort((a,b) => b.experiment_num - a.experiment_num).map(e => {
+    const n = e.per_fold_test_reports && e.per_fold_test_reports[0] && e.per_fold_test_reports[0].n;
+    const mae = e.secondary_metrics && e.secondary_metrics.mae;
+    const r2 = e.secondary_metrics && e.secondary_metrics.r2;
+    const st = (e.status || '').toLowerCase();
+    const cls = (st === 'keep' ? 'keep' : 'discard') + (e.experiment_num === champN ? ' best-row' : '');
+    return `<tr class="clickable ${cls}" onclick="showDetail(${e.experiment_num})">
+      <td>${e.experiment_num}</td>
+      <td class="${st}">${e.status}</td>
+      <td>${e.backbone}</td>
+      <td>${e.description || ''}</td>
+      <td>${fmt(e.composite,4)}</td>
+      <td>${fmt(e.test_primary,3)}</td>
+      <td>${fmt(e.val_primary,3)}</td>
+      <td>${fmt(mae,3)}</td>
+      <td>${fmt(r2,4)}</td>
+      <td>${n != null ? n : '—'}</td>
+      <td>${e.timestamp || ''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function showDetail(n) {
+  const e = experiments.find(x => x.experiment_num === n);
+  const a = annotations[String(n)] || {};
+  document.getElementById('detail-title').textContent = `Exp ${n} · ${e ? e.backbone : ''}`;
+  const fields = ['diagnosis','citations','hypothesis','prediction','verdict','learning'];
+  document.getElementById('detail-reasoning').innerHTML = fields.map(f =>
+    `<div class="field-label">${f.toUpperCase()}</div><div class="field-body">${a[f] || '<span style="color:#484f58">missing</span>'}</div>`
+  ).join('');
+  document.getElementById('detail-panel').classList.add('visible');
+  document.getElementById('detail-panel').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function closeDetail() { document.getElementById('detail-panel').classList.remove('visible'); }
+
+boot();
+</script>
+</body>
+</html>

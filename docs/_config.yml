@@ -1,0 +1,19 @@
+title: AutoResearch-UCI
+description: Karpathy-style autonomous PM2.5 nowcast on UCI 381 — frozen 2014 test year, Grok as the outer-loop researcher
+theme: jekyll-theme-cayman
+url: https://dlmastery.github.io
+baseurl: /autoresearch-uci
+
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  hard_wrap: false
+
+show_downloads: true
+github:
+  repository_url: https://github.com/dlmastery/autoresearch-uci
+  repository_nwo: dlmastery/autoresearch-uci
+  owner_name: dlmastery
+  owner_url: https://github.com/dlmastery
