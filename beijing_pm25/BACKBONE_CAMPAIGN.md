@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp73:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp74:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
 
 ## Mandate vs what happened
 
@@ -21,13 +21,13 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–73 (47) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018 | No |
+| lightgbm | 20, 25, 29–74 (48) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018 | No |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp73)
+## Recovery (from Exp32; after Exp74)
 
 Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
 Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
@@ -76,6 +76,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 40. ~~t+6 anticyclone PRES>=1020~~ Exp71 DISCARD (val 57.52; high-PRES increment still −54)
 41. ~~t+6 extra_trees linear_tree~~ Exp72 **side-KEEP** (val 57.43 / test 54.33) ← **current t+6 recipe**
 42. ~~t+6 max_bin=127~~ Exp73 DISCARD (val 57.44; Feb typical still −42)
-43. **Stay on Exp72; do not retry max_bin 63; fill remaining LGB 3** ← **next**
+43. ~~t+6 bagging_freq=1 on extra_trees+linear~~ Exp74 DISCARD (val 57.50; moist onset still −9)
+44. **Stay on Exp72; do not retry bagging freq; fill remaining LGB 2** ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

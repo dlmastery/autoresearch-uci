@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp73 (1h still Exp30; t+6 recipe Exp72)
+# Autoresearch checkpoint — after Exp74 (1h still Exp30; t+6 recipe Exp72)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -15,18 +15,18 @@
 
 ## Residual (this fire)
 - **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05
-- **Exp72 new slices:** February skill **−2.9%** (78.42 vs persist-6 76.21), pred **−16.4** vs need 0. February typical persist>=150 n=144 RMSE **81.89** vs persist-6 28.24, need **+4.4**, pred **−41.1**. Worse than Exp68 February.
-- **Exp73:** Feb typical increment **−42.4**.
+- **Exp72 new slices:** inv<=6 persist>=150 onsets n=129 RMSE **110.39** vs persist-6 **98.51** (skill **−12.1%**), need **+91.0**, pred **−7.4**. Same-cell collapses skill +28.7%.
+- **Exp74:** moist-onset increment **−9.3**.
 
 ## This fire
-- **Exp73 DISCARD** max_bin=127. Val 57.437 test 54.320. Axis closed: extra_trees+linear histogram.
+- **Exp74 DISCARD** bagging_freq=1. Val 57.502 test 54.581. Axis closed: extra_trees+linear bagging.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass, bagging_freq=1, drop lag13-24, MAE/quantile, doy_sin/doy_cos, heating_night / clock×heating, reg_alpha/L1, num_leaves<31, extra_trees min_data=50, anticyclone / PRES dummy, max_bin 127
+- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass, bagging_freq=1, drop lag13-24, MAE/quantile, doy_sin/doy_cos, heating_night / clock×heating, reg_alpha/L1, num_leaves<31, extra_trees min_data=50, anticyclone / PRES dummy, max_bin 127, extra_trees+linear bagging_freq=1
 
 ## Process
-LightGBM **47/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp72 extra_trees + linear_tree + ff=1.0.
+LightGBM **48/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp72 extra_trees + linear_tree + ff=1.0.
 
 ## Next pasteable
-Stay on **Exp72**. February typical dirty still predicts −42 vs need +4 after max_bin 127. Do not retry max_bin 63 / linear_tree off / PRES dummies / extra_trees off. Fill remaining LGB 3. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
+Stay on **Exp72**. Moist dirty onsets still predict −9 vs +91 after bagging. Do not retry bagging freq=5 / max_bin 63 / linear_tree off / extra_trees off. Fill remaining LGB 2. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
