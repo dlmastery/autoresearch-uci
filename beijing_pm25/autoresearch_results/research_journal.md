@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-43 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), **Exp47** (month_sin, val 58.14 / test 55.06). Exp51–52 lr 0.02 and ff 0.6 missed. t+6 local HPs stalling.
+45 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), **Exp47** (month_sin, val 58.14 / test 55.06). Exp51–54 lr/ff/residual/Tweedie missed. t+6 local HPs and target/loss rethinks stalling.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,18 +38,18 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp51–52)
+## This fire (2026-08-18, Exp53–54)
 
-New Exp47 slices: low-actual bias **+30.3**, high-actual **−34.0**. **actual≥200 n=944 model 101.2 loses to persist-6 97.1**.
+New Exp47 slices: **76.3% of hours closer to mean 98 than persist**. need+100 n=286 increment **+21 vs +146**. cbwd_NE skill +5.9%.
 
-**Exp51 DISCARD** t+6 lr 0.02. Val 58.30 test 55.15. Tail still 101.35. Axis closed for faster eta.
+**Exp53 DISCARD** persist-6 residual target. Val 58.684 test 55.044. Reconstructed corr 0.990 with Exp47. Axis closed: persist-as-feature already does residual boosting.
 
-**Exp52 DISCARD** t+6 feature_fraction 0.6. Val 58.32 test 55.05. Axis closed for ff 0.6.
+**Exp54 DISCARD** Tweedie. Val 58.672 test 54.790 (test better, val miss). Tail worse: actual≥200 **105.44**, need+100 increment **+16.5**. Axis closed; do not retry poisson/gamma.
 
 t+6 recipe remains Exp47. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Rethink t+6: persist-6 residual target, or snapshot `lightgbm_t6` and keep filling 50
-2. Do not retry lr/ff/path_smooth/stagn nearby
+1. Snapshot `lightgbm_t6` at Exp47, or add causal issue-time Iws_delta
+2. Do not retry residual / Tweedie / poisson / lr / ff nearby
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`

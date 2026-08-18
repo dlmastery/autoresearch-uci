@@ -43,6 +43,12 @@ def main() -> None:
     dest = DATA / "features_horizon6.csv"
     out.to_csv(dest, index=False)
     print("wrote", dest, out.shape)
+    # Persist-6 residual target: same rows/features, y := pm25[t] - last PM at t-6.
+    resid = out.copy()
+    resid["pm25"] = out["pm25"] - out["pm25_lag1"]
+    rdest = DATA / "features_horizon6_resid.csv"
+    resid.to_csv(rdest, index=False)
+    print("wrote", rdest, resid.shape)
 
 
 if __name__ == "__main__":

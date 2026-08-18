@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp52 (1h still Exp30; t+6 recipe Exp47)
+# Autoresearch checkpoint — after Exp54 (1h still Exp30; t+6 recipe Exp47)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -10,26 +10,25 @@
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 47** LightGBM num_leaves **31** + **month_sin** · test **55.059** · val **58.138**
-- vs persist-6 **61.83** skill **+10.9%**
+- vs persist-6 **61.83** skill **+10.9%** (1h-file lag6). Causal horizon6 `pm25_lag1` persist RMSE **63.16**.
 - data: `features_horizon6.csv`
 
-## Residual (this fire, Exp47)
-- **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05
-- **t+6 mean-reversion:** low-actual bias **+30.3** (pred 51 vs act 21); high-actual bias **−34.0**
-- **actual≥200 n=944:** model RMSE **101.22 LOSES to persist-6 97.12** (bias −66.6)
-- lag6≥150 n=1627 skill **+15%**, bias ≈ 0 (OK once episode is on)
-- Night 00–05 55.81 vs day 10–16 52.52 · H20 64.46 · Jan 85.53 vs JJA 36.70
+## Residual (this fire)
+- **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05 (loses to persist-1 107.80)
+- **Exp47 new slices:** 76.3% of hours closer to climatological mean 98 than persist is. need+100 n=286 predicted increment **+21 vs needed +146**. cbwd_NE skill only +5.9%.
+- **Exp53 residual recon:** corr 0.990 with Exp47, need+100 still +21.9, tail 102.20 vs persist 99.10
+- **Exp54 Tweedie:** test 54.79 (better) val 58.67 (miss). Tail **worse**: actual≥200 **105.44**, need+100 increment **+16.5**
 
 ## This fire
-- **Exp51 DISCARD** t+6 lr 0.02. Val 58.302 test 55.154. Tail RMSE still 101.35. Axis closed for faster eta.
-- **Exp52 DISCARD** t+6 feature_fraction 0.6. Val 58.323 test 55.053. Axis closed for ff 0.6.
+- **Exp53 DISCARD** persist-6 residual target. Val 58.684 test 55.044. Axis closed: redundant with persist as a feature.
+- **Exp54 DISCARD** Tweedie objective. Val 58.672 test 54.790. Axis closed: helped clean hours, hurt haze tail.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6
+- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual target, Tweedie (no poisson/gamma nearby)
 
 ## Process
-LightGBM **26/50**. Isolation holds. 1h champion unchanged. t+6 local HPs are stalling.
+LightGBM **28/50**. Isolation holds. 1h champion unchanged. t+6 target/loss rethinks stalled.
 
 ## Next pasteable
-Stay on **Exp47**. Rethink: persist-6 residual target, or snapshot `lightgbm_t6` and keep filling the 50. Do not retry lr/ff nearby. Do not shave 1h HPs. Do not start CatBoost/MLP until LGB 50 or snapshot.
+Stay on **Exp47**. Snapshot `lightgbm_t6` or add causal issue-time **Iws_delta** (Iws[t-6]−Iws[t-7]). Do not retry residual/Tweedie/poisson/lr/ff. Do not shave 1h HPs. Do not start CatBoost/MLP until LGB 50 or snapshot.

@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 52 experiments · 9 KEEP · 43 DISCARD
-**Mandate gap:** LightGBM 26/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 54 experiments · 9 KEEP · 45 DISCARD
+**Mandate gap:** LightGBM 28/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -76,6 +76,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 50 | DISCARD | lightgbm | 55.090 | 58.259 | -58.359 | 35.744 | 0.6494 |
 | 51 | DISCARD | lightgbm | 55.154 | 58.302 | -58.402 | 35.777 | 0.6486 |
 | 52 | DISCARD | lightgbm | 55.053 | 58.323 | -58.423 | 35.867 | 0.6499 |
+| 53 | DISCARD | lightgbm | 55.044 | 58.684 | -58.784 | 35.497 | 0.2404 |
+| 54 | DISCARD | lightgbm | 54.790 | 58.672 | -58.772 | 35.318 | 0.6532 |
 
 ## Champion residual slices (2014 test)
 
@@ -92,3 +94,6 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - 2014 H1 skill +4.5% vs H2 +9.1%. Seed noise ≈ val ±0.08, test ±0.04 (Exp44)
 - t+6 side ladder: persist-6 **61.83**. **Exp47 (31 leaves + month_sin) 55.06/58.14** (side-KEEP). Exp48 month_cos test 54.65 val 58.36 (side-MISS)
 - t+6 actual≥200 n=944: model 101.2 **loses to persist-6 97.1**. Low-actual bias +30.3 / high-actual −34.0
+- Exp47 need+100 n=286 predicted increment **+21 vs needed +146**. 76% of hours closer to mean 98 than persist.
+- Exp53 persist-6 residual: test 55.044 val 58.684 (redundant, corr 0.990). Exp53 R²/MAPE are residual-scale.
+- Exp54 Tweedie: test 54.790 val 58.672 side-MISS. Tail worse (actual≥200 105.4, need+100 increment +16.5).
