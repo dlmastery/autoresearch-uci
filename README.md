@@ -10,10 +10,10 @@
   <p align="center">
     <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
     <a href="#license"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a>
-    <a href="https://github.com/dlmastery/autoresearch-uci"><img src="https://img.shields.io/badge/experiments-1-orange.svg" alt="1 experiment"></a>
+    <a href="https://github.com/dlmastery/autoresearch-uci"><img src="https://img.shields.io/badge/experiments-28-orange.svg" alt="28 experiments"></a>
     <a href="https://dlmastery.github.io/autoresearch-uci/dashboard/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="GitHub Pages"></a>
-    <a href="#champion"><img src="https://img.shields.io/badge/2014%20test%20RMSE-21.77-blue.svg" alt="2014 test RMSE 21.77"></a>
-    <a href="#champion"><img src="https://img.shields.io/badge/skill%20vs%20persistence-+2.5%25-yellow.svg" alt="Skill +2.5%"></a>
+    <a href="#champion"><img src="https://img.shields.io/badge/2014%20test%20RMSE-21.12-blue.svg" alt="2014 test RMSE 21.12"></a>
+    <a href="#champion"><img src="https://img.shields.io/badge/skill%20vs%20persistence-+5.4%25-yellow.svg" alt="Skill +5.4%"></a>
   </p>
 </p>
 
@@ -33,14 +33,14 @@ Sister repos: [`autoresearch`](https://github.com/dlmastery/autoresearch) · [`a
 
 | | Value |
 |---|---|
-| Model | XGBoost, Chen & Guestrin 2016 defaults |
+| Model | XGBoost depth 4, lr 0.01, subsample 0.6 + `pm25_delta1` + `inversion_spread` |
 | Protocol | calendar years, 24 h embargo, test = **2014** |
-| 2014 test RMSE | **21.768 µg/m³** |
-| 2013 val RMSE | 23.354 µg/m³ |
+| 2014 test RMSE | **21.122 µg/m³** (Exp1 floor was 21.768) |
+| 2013 val RMSE | **22.470** (Exp1 was 23.354) |
 | 2014 persistence RMSE | 22.316 µg/m³ |
-| Skill vs persistence | **+2.5%** |
+| Skill vs persistence | **+5.4%** (was +2.5%) |
 | n_test | 7950 hours |
-| Decision | KEEP (first floor on the frozen protocol) |
+| Campaign | 28 experiments, 7 KEEP / 21 DISCARD |
 
 Published 1-step numbers on *other* splits of this file sit around **24.7–26.5 RMSE** (Guo & Lin 2018 MV-LSTM; Brownlee 2017 LSTM). They are not directly comparable. See [`SOTA.md`](SOTA.md).
 

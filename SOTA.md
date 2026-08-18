@@ -19,7 +19,8 @@ This is the operational / industry cut (future calendar year), not Brownlee's fi
 | Guo & Lin 2018 arXiv:1806.06384 | 1-step ARX | 70/10/20 | MV-LSTM | 24.79 ± 0.09 | 15.24 |
 | same | same | same | XGBoost | 25.00 | 15.72 |
 | Brownlee 2017 | t+1 | first 365×24 train, rest test | untuned LSTM | 26.50 | — |
-| **This repo Exp1** | nowcast t | **frozen 2014** | XGBoost C&G 2016 | **21.768** | — |
+| **This repo Exp22 (champion)** | nowcast t | **frozen 2014** | XGBoost d=4, lr=0.01, sub=0.6 + delta + inversion | **21.122** | — |
+| **This repo Exp1 floor** | nowcast t | **frozen 2014** | XGBoost C&G 2016 | 21.768 | — |
 | **This repo** | ŷ(t)=y(t−1) | **frozen 2014** | persistence | **22.316** | 12.035 |
 
-Exp1 skill vs 2014 persistence is **+2.5%**. 1-hour nowcast is nearly a last-value problem. The unsaturated work is t+6 / t+12 / episode onsets (2014 persistence p99 |err| = 80.5 µg/m³, max 500).
+Exp22 skill vs 2014 persistence is **+5.4%** (28 experiments, 7 KEEP). 1-hour nowcast is still persistence-heavy. Next unsaturated axis is t+6 / t+12 / episode onsets (2014 persistence p99 |err| = 80.5 µg/m³, max 500).

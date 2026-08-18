@@ -1,0 +1,40 @@
+paths:
+  results_dir: C:\Users\abhir\autoresearch-uci\beijing_pm25\autoresearch_results
+task_type: regression
+primary_metric: rmse
+backbone: xgboost
+backbone_config:
+  n_estimators: 1500
+  max_depth: 4
+  learning_rate: 0.01
+  subsample: 0.8
+  colsample_bytree: 0.8
+  reg_lambda: 1.0
+  early_stopping_rounds: 50
+  seed: 0
+  n_jobs: 4
+  tree_method: hist
+  uncertainty_samples: 1
+  gamma: 1.0
+data:
+  format: csv
+  path: C:\Users\abhir\grok-autoresearch\benchmarks\beijing_pm25\data\features.csv
+  target_columns:
+  - pm25
+  feature_columns: null
+split:
+  name: calendar_year
+  manifest_dir: C:\Users\abhir\autoresearch-uci\beijing_pm25\data
+composite:
+  higher_is_better: false
+  penalty_weight: 0.1
+  below_threshold: -40.0
+hardware:
+  n_threads: 4
+  cpu_affinity:
+  - 0
+  - 2
+  - 4
+  - 6
+description: 'Exp7 from champion: gamma 1.0'
+seed: 0

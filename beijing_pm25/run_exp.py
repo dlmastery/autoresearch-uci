@@ -56,9 +56,13 @@ def main() -> None:
     results_dir.mkdir(parents=True, exist_ok=True)
     (results_dir / "trade_logs").mkdir(exist_ok=True)
 
-    dash_src = FRAMEWORK / "generalized_ml_autoresearch" / "dashboard" / "dashboard.html"
-    if dash_src.exists():
-        shutil.copy2(dash_src, results_dir / "dashboard.html")
+    local_dash = HERE / "dashboard.html"
+    if local_dash.exists():
+        shutil.copy2(local_dash, results_dir / "dashboard.html")
+    else:
+        dash_src = FRAMEWORK / "generalized_ml_autoresearch" / "dashboard" / "dashboard.html"
+        if dash_src.exists():
+            shutil.copy2(dash_src, results_dir / "dashboard.html")
 
     # Seed / merge pre-run reasoning if a sibling seed file is named in config
     seed_path = cfg.get("paths", {}).get("seed_reasoning")
