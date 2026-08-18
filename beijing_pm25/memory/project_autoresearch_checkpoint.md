@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp65 (1h still Exp30; t+6 recipe Exp59)
+# Autoresearch checkpoint — after Exp66 (1h still Exp30; t+6 recipe Exp59)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -15,18 +15,18 @@
 
 ## Residual (this fire)
 - **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05
-- **Exp59 new slices:** January evening 18-23 ALL n=174 RMSE **110.12** vs day 10-16 **50.03**. January night 00-06 onsets n=41 need **+112.9**, pred **−7.3** (wrong sign). January evening onsets n=62 need **+153.0**, pred **+41.0**. January onsets are dry (inv mean 17, DEWP −18). Heating-night onsets 18.7% of SSE.
-- **Exp65:** night-onset increment still **−7.1**. Evening onset +41.0 → **+47.3**.
+- **Exp59 new slices:** wrong-sign onsets n=180 RMSE **126.85**, persist **210.8**, need **+90.9**, pred **−24.4** (12.3% SSE). Day P>=150 onsets n=79 need +88.5 pred **−22.7**. Dirty-calm P>=100 Iws<5 n=1842 is **48% SSE** but mean-calibrated (−21.6 vs −18.9).
+- **Exp66:** wrong-sign increment still **−24.0**.
 
 ## This fire
-- **Exp65 DISCARD** heating_night. Val 57.649 test 54.322. Axis closed: clock×heating dummies.
+- **Exp66 DISCARD** reg_alpha=1. Val 57.719 test 54.454. Axis closed: leaf L1/L2.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass, bagging_freq=1, drop lag13-24, MAE/quantile, doy_sin/doy_cos, heating_night / clock×heating
+- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass, bagging_freq=1, drop lag13-24, MAE/quantile, doy_sin/doy_cos, heating_night / clock×heating, reg_alpha/L1
 
 ## Process
-LightGBM **39/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp59.
+LightGBM **40/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp59.
 
 ## Next pasteable
-Stay on **Exp59**. January night onsets still predict −7 vs need +113 after an explicit heating_night split. Do not retry jan_evening / is_heating / hour-bin / doy_cos. Fill remaining LGB 11. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
+Stay on **Exp59**. Wrong-sign high-persist onsets (−24 vs +91) are not a leaf-penalty hole. Do not retry reg_alpha / jan_evening / is_heating / doy_cos. Fill remaining LGB 10. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
