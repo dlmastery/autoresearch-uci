@@ -35,6 +35,7 @@ def main() -> None:
     p.add_argument("--backbone", default=None)
     p.add_argument("--set", action="append", default=[], help="backbone_config key=value")
     p.add_argument("--add-feature", action="append", default=[], help="extra column from features_full")
+    p.add_argument("--drop-feature", action="append", default=[], help="remove column (comma-separated ok)")
     p.add_argument("--data-path", default=None, help="override champion CSV (same columns/rows/split)")
     args = p.parse_args()
 
@@ -57,13 +58,19 @@ def main() -> None:
     data = copy.deepcopy(champ["data"])
     if args.data_path:
         data["path"] = str(Path(args.data_path).resolve())
+    cols = list(data.get("feature_columns") or [])
     if args.add_feature:
         if not args.data_path:
             data["path"] = str(HERE / "data" / "features_full.csv")
-        cols = list(data.get("feature_columns") or [])
         for f in args.add_feature:
             if f not in cols:
                 cols.append(f)
+    if args.drop_feature:
+        drop = []
+        for item in args.drop_feature:
+            drop.extend(x.strip() for x in item.split(",") if x.strip())
+        cols = [c for c in cols if c not in set(drop)]
+    if args.add_feature or args.drop_feature:
         data["feature_columns"] = cols
 
     cfg = {
