@@ -10,10 +10,10 @@
   <p align="center">
     <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
     <a href="#license"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a>
-    <a href="https://github.com/dlmastery/autoresearch-uci"><img src="https://img.shields.io/badge/experiments-28-orange.svg" alt="28 experiments"></a>
+    <a href="https://github.com/dlmastery/autoresearch-uci"><img src="https://img.shields.io/badge/experiments-31-orange.svg" alt="31 experiments"></a>
     <a href="https://dlmastery.github.io/autoresearch-uci/dashboard/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="GitHub Pages"></a>
-    <a href="#champion"><img src="https://img.shields.io/badge/2014%20test%20RMSE-21.12-blue.svg" alt="2014 test RMSE 21.12"></a>
-    <a href="#champion"><img src="https://img.shields.io/badge/skill%20vs%20persistence-+5.4%25-yellow.svg" alt="Skill +5.4%"></a>
+    <a href="#champion"><img src="https://img.shields.io/badge/2014%20test%20RMSE-20.94-blue.svg" alt="2014 test RMSE 20.94"></a>
+    <a href="#champion"><img src="https://img.shields.io/badge/skill%20vs%20persistence-+6.1%25-yellow.svg" alt="Skill +6.1%"></a>
   </p>
 </p>
 
@@ -48,7 +48,11 @@ Exp14 inversion_spread    21.823   KEEP   TEMP−DEWP (Liang 2015)
         |
 Exp15 pm25_delta1         21.290   KEEP   lag1−lag2 momentum
         |
-Exp22 inversion + delta   21.122   KEEP   both features together  ← champion
+Exp22 inversion + delta   21.122   KEEP   both features together
+        |
+Exp29 LightGBM same feats 20.784   KEEP   leaf-wise on winning features
+        |
+Exp30 num_leaves 63       20.945   KEEP   val improved  ← champion
         |
      21 discarded rungs     —     DISCARD  (depth 8/5/3, lr 0.05/0.005,
                                            LightGBM test 20.90 but val lost, …)
@@ -62,7 +66,9 @@ Exp22 inversion + delta   21.122   KEEP   both features together  ← champion
 | 8 | `subsample` 0.8→0.6 | 22.034 | 22.983 | −22.983 | row bagging |
 | 14 | + `inversion_spread` | 21.823 | 22.885 | −22.885 | first real test drop |
 | 15 | + `pm25_delta1` | 21.290 | 22.684 | −22.684 | onset momentum |
-| **22** | **stack inversion onto delta** | **21.122** | **22.470** | **−22.470** | **both features** |
+| 22 | stack inversion onto delta | 21.122 | 22.470 | −22.470 | both features |
+| 29 | LightGBM on those features | 20.784 | 22.428 | −22.428 | leaf-wise (diagnosed) |
+| **30** | **num_leaves 31→63** | **20.945** | **22.397** | **−22.397** | **local tweak after KEEP** |
 
 Composite is `min(−val, −test)`, so a KEEP can happen when **val** is the bottleneck even if test ticks up (rungs 2–8). That is the gate working, not a bug. The last three KEEPs improved **both** sides.
 
@@ -72,14 +78,14 @@ Composite is `min(−val, −test)`, so a KEEP can happen when **val** is the bo
 
 | | Value |
 |---|---|
-| Model | XGBoost depth 4, lr 0.01, subsample 0.6 + `pm25_delta1` + `inversion_spread` |
+| Model | LightGBM num_leaves 63, lr 0.01, bagging 0.6 + `pm25_delta1` + `inversion_spread` |
 | Protocol | calendar years, 24 h embargo, test = **2014** |
-| 2014 test RMSE | **21.122 µg/m³** (Exp1 floor was 21.768) |
-| 2013 val RMSE | **22.470** (Exp1 was 23.354) |
+| 2014 test RMSE | **20.945 µg/m³** (Exp1 floor 21.768) |
+| 2013 val RMSE | **22.397** (Exp1 23.354) |
 | 2014 persistence RMSE | 22.316 µg/m³ |
-| Skill vs persistence | **+5.4%** (was +2.5%) |
+| Skill vs persistence | **+6.1%** |
 | n_test | 7950 hours |
-| Campaign | 28 experiments, 7 KEEP / 21 DISCARD |
+| Campaign | 31 experiments, 9 KEEP / 22 DISCARD |
 
 Published 1-step numbers on *other* splits of this file sit around **24.7–26.5 RMSE** (Guo & Lin 2018 MV-LSTM; Brownlee 2017 LSTM). They are not directly comparable. See [`SOTA.md`](SOTA.md).
 

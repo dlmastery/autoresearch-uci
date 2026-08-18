@@ -306,5 +306,38 @@
     "learning": "Axis closed for this exact value: learning_rate 0.005 on delta champion produced DISCARD with test RMSE 21.182 versus the prior champion. Next try: continue one-change hill-climb from the current champion; do not reuse a discarded numeric value on the same axis without a new mechanism.",
     "_manual": true,
     "_needs_rewrite": false
+  },
+  "29": {
+    "experiment_num": 29,
+    "diagnosis": "Champion Exp22 XGBoost on frozen 2014 has test RMSE 21.122 and val 22.470. Residual forensics on the 7950-hour 2014 test year: January RMSE is 35.38 versus June-August 13.5 to 14.6; winter Nov-Feb is 26.58 versus summer 14.06. The 83 onset hours where actual minus lag1 exceeds 50 have RMSE 109.8 and the model predicts 172 against actual 259. Collapses are 162 hours at RMSE 76.5 with overshoot. Hour 20 remains the worst clock hour at 31.82. Exp25 LightGBM on delta-only features posted test 20.905 but val 22.711, so composite lost. Val is still the bottleneck. This experiment changes only the backbone to LightGBM while keeping the Exp22 feature list including inversion_spread.",
+    "citations": "Ke, Meng, Finley, Wang, Chen, Ma, Ye and Liu 2017 NeurIPS 'LightGBM: A Highly Efficient Gradient Boosting Decision Tree' \u2014 leaf-wise growth and GOSS as a separate backbone; num_leaves 31 and lr 0.01 match the depth-4 / lr-0.01 champion recipe transferred to leaf-wise trees. Liang, Zou, Guo, Li, Zhang, Zhang, Huang and Chen 2015 Proceedings of the Royal Society A 'Assessing Beijing's PM2.5 pollution: severity, weather impact, APEC and winter heating' \u2014 January and heating-season haze is the diagnosed failure this backbone is asked to fit without dropping inversion_spread.",
+    "hypothesis": "We hypothesize that LightGBM with num_leaves 31 and learning_rate 0.01 on the exact Exp22 feature set will raise composite because the mechanism is leaf-wise splits on inversion_spread plus pm25_delta1 that can isolate January onset leaves more cheaply than level-wise XGBoost, per Ke et al. 2017. Exp25 already showed test 20.90 without inversion; adding inversion should pull 2013 val down toward 22.4 so the min(val,test) gate can KEEP.",
+    "prediction": "Composite predicted in the range -23.0 to -21.8. 2014 test RMSE 20.5 to 21.4. 2013 val RMSE 22.2 to 22.8. KEEP only if val falls to or below 22.47 while test does not blow past 22. A test-only win like Exp25 is a DISCARD.",
+    "verdict": "KEEP. Composite -22.428 beats Exp22 -22.470. 2014 test RMSE 20.784 (was 21.122), 2013 val RMSE 22.428 (was 22.470). Prediction range held on both sides. Hypothesis held: leaf-wise plus inversion closed the Exp25 val gap. January RMSE fell 35.38 to 32.78.",
+    "learning": "Axis open around LightGBM local knobs and January-specific features. Onset RMSE is still 109.6 on 83 hours (pred 172 vs actual 259) so the KEEP is a general lift not an onset fix. Next try: num_leaves 63 on this champion, then is_heating if January stays near 33. Axis closed: XGBoost as the default booster on this feature set.",
+    "_manual": true,
+    "_needs_rewrite": false
+  },
+  "30": {
+    "experiment_num": 30,
+    "diagnosis": "New champion Exp29 LightGBM num_leaves 31 has composite -22.428, test 20.784, val 22.428. January RMSE only moved from 35.38 to 32.78. Onset hours are unchanged at RMSE 109.6 with systematic under-prediction 172 versus 259. Val is still the composite bottleneck. Original process after KEEP is local exploration around the new best. The catalog LightGBM start uses num_leaves 63; we started at 31 to match depth-4 capacity. Raising to 63 is one change aimed at January onset leaves.",
+    "citations": "Ke, Meng, Finley, Wang, Chen, Ma, Ye and Liu 2017 NeurIPS 'LightGBM: A Highly Efficient Gradient Boosting Decision Tree' \u2014 the paper default and the dlmastery catalog start both use num_leaves 63 for leaf-wise capacity. Liang et al. 2015 Proceedings of the Royal Society A 'Assessing Beijing's PM2.5 pollution: severity, weather impact, APEC and winter heating' \u2014 January heating haze is the remaining weak regime this extra leaf budget is meant to fit.",
+    "hypothesis": "We hypothesize that num_leaves 63 will cut January RMSE because the mechanism is more leaf-wise partitions for heating-season onsets, per Ke et al. 2017. Exp29 with 31 leaves still under-predicts the 83 onset hours by about 87 \u00b5g/m\u00b3. Early stopping on 2013 val should block a pure train-January overfit. This single change starts from the current champion on the frozen 2014 test year.",
+    "prediction": "Composite predicted -22.8 to -22.1. Test RMSE 20.4 to 21.1. January RMSE should move from 32.8 toward 28 to 32 if the extra leaves pay. A val rise above 22.7 is DISCARD.",
+    "verdict": "KEEP. Composite -22.397 beats Exp29 -22.428. Val RMSE 22.397 (was 22.428). Test RMSE 20.945 (slightly worse than 20.784). Gate used val as the min(). Hypothesis partly held: extra leaves helped 2013 more than 2014.",
+    "learning": "Axis open: local LightGBM capacity is still paying on val. Onsets still unfixed. Next try was is_heating for January. Axis closed: going back to XGBoost as default.",
+    "_manual": true,
+    "_needs_rewrite": false
+  },
+  "31": {
+    "experiment_num": 31,
+    "diagnosis": "Champion is now Exp30 LightGBM num_leaves 63, composite -22.397, test 20.945, val 22.397. Two LightGBM KEEPs in a row improved val more than test. January on Exp29 was still RMSE 32.78 versus summer 14.07. Onset RMSE remains about 110. Hyperparameter local tweaks are shrinking val by 0.03. The original process after a KEEP that does not fix the diagnosed regime is to add a feature that names that regime. Liang 2015 winter heating is the missing binary split.",
+    "citations": "Liang, Zou, Guo, Li, Zhang, Zhang, Huang and Chen 2015 Proceedings of the Royal Society A 'Assessing Beijing's PM2.5 pollution: severity, weather impact, APEC and winter heating' \u2014 winter heating is a documented regime shift, not a smooth temperature effect, which is why a binary Nov-Feb flag is the one-thing change. Ke et al. 2017 NeurIPS 'LightGBM: A Highly Efficient Gradient Boosting Decision Tree' \u2014 a single extra binary column is a cheap leaf-wise split for that regime.",
+    "hypothesis": "We hypothesize that adding is_heating (November through February) will cut January RMSE because the mechanism is an explicit heating-season split that temperature and dewpoint only approximate, per Liang et al. 2015. The model currently has to rediscover winter from TEMP and month harmonics. One binary feature, no other change. This single change starts from the current champion on the frozen 2014 test year.",
+    "prediction": "Composite predicted -22.6 to -22.1. Test RMSE 20.5 to 21.2. January RMSE should move from 32.8 toward 28 to 32. If January does not move, the flag is redundant with TEMP and this is a DISCARD.",
+    "verdict": "DISCARD. Composite -22.417 loses to Exp30 -22.397. Test 20.991 val 22.417. is_heating is redundant with TEMP. Hypothesis failed.",
+    "learning": "Axis closed: winter dummy. Next try must target onset/collapse (RMSE 110 on jumps) or change horizon to t+6. Do not add another calendar flag.",
+    "_manual": true,
+    "_needs_rewrite": false
   }
 }

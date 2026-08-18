@@ -20,6 +20,8 @@ def main() -> None:
     extra["TEMP_lag1"] = extra["TEMP"].shift(1)
     extra["DEWP_lag1"] = extra["DEWP"].shift(1)
     extra["hour"] = pd.to_datetime(times["time"]).dt.hour.astype(float)
+    mo = pd.to_datetime(times["time"]).dt.month
+    extra["is_heating"] = mo.isin([11, 12, 1, 2]).astype(float)
     # First row of weather lags is NaN; fill from contemporaneous so n_rows stays frozen.
     extra["Iws_lag1"] = extra["Iws_lag1"].fillna(extra["Iws"])
     extra["TEMP_lag1"] = extra["TEMP_lag1"].fillna(extra["TEMP"])
