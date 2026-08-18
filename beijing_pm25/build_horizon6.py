@@ -56,6 +56,8 @@ def main() -> None:
     hr = out["hour"] if "hour" in out.columns else pd.to_datetime(times["time"]).dt.hour.astype(float)
     heat = out["is_heating"] if "is_heating" in out.columns else pd.to_datetime(times["time"]).dt.month.isin([11, 12, 1, 2]).astype(float)
     out["heating_night"] = (heat.astype(float) * ((hr >= 18.0) | (hr <= 6.0)).astype(float))
+    # Issue-time anticyclone (PRES already as-of t-6). 1020 hPa is a round high.
+    out["anticyclone"] = (out["PRES"] >= 1020.0).astype(float)
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0
     assert out["stagn_index"].isna().sum() == 0
