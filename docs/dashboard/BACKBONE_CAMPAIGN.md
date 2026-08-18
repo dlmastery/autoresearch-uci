@@ -1,0 +1,46 @@
+# Per-backbone campaign tracker (original Autoresearch mandate)
+
+Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
+and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
+
+**Honest audit after Exp31:** this project did **not** follow the original skill.
+
+## Mandate vs what happened
+
+| Rule | Required | What Exp1–31 actually did |
+|---|---|---|
+| Many backbones | Tier 1 + Tier 2 + GBM trio, isolated | Almost only XGBoost, then jumped |
+| Isolation | Finish 50 on one backbone, snapshot, then next | Interleaved XGB/LGB/CatBoost |
+| N per backbone | 50, no early stop | XGB 24, LGB 5, CatBoost 2, others 0 |
+| Many papers per backbone | Latest SOTA + variants, each cited | Mostly Chen & Guestrin 2016 HP knobs |
+| Snapshot | `code_versions/<backbone>_start/` before each | Only `v1_original/` existed |
+| Never copy configs | Each backbone has its own recipe | LGB/Cat copied XGB-ish knobs |
+
+## Experiment counts by backbone (Exp1–31)
+
+| Backbone | Exps | Distinct publications used | Cycle complete? |
+|---|---:|---|---|
+| xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
+| lightgbm | 20, 25, 29–31 (5) | Ke et al. 2017 defaults + num_leaves | No |
+| catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
+| mlp / linear / ridge | 0 | — | No |
+| ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
+| lstm | 0 | — | No |
+
+## Recovery (from Exp32)
+
+Isolation: **stay on LightGBM** (current champion) until 50 LGB experiments.
+Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
+
+Within LightGBM, paper queue (one publication / one change per experiment):
+
+1. Ke et al. 2017 §3.2 GOSS (`boosting_type=goss`)
+2. Rashmi & Gilad-Bachrach 2015 DART
+3. Ke et al. 2017 leaf-wise regularizer `min_data_in_leaf`
+4. Huber / MAE / Tweedie / quantile objectives
+5. Geurts extra-trees / LightGBM `extra_trees`
+6. Shi et al. linear trees
+7. Domain papers (onset/collapse, t+6) only as LightGBM feature changes
+8. Multi-seed variance on the LGB champion
+
+Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

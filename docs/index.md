@@ -1,22 +1,47 @@
-# AutoResearch-UCI
+---
+layout: default
+title: AutoResearch-UCI
+---
 
-Karpathy-style autonomous research loop on **UCI 381 Beijing PM2.5**.
+# AutoResearch-UCI — Beijing PM2.5
 
-- **[Live dashboard](dashboard/)** — KEEP ladder, experiment log, reasoning blobs, frozen 2014 split
-- **[GitHub repo](https://github.com/dlmastery/autoresearch-uci)**
-- Champion: LightGBM Exp30 · **2014 test RMSE 20.945** · skill vs persistence **+6.1%** · 31 experiments / 9 KEEP
+> **Champion:** Exp 30 LightGBM — 2014 test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.15%**
+> **Protocol:** train 2010–2012 / val 2013 / test **2014** / 24 h embargo · `test_hash` frozen
+> **Campaign:** 31 experiments · 9 KEEP · 22 DISCARD · original 50-exp × many-backbone mandate **not yet complete**
 
-## The ladder
+## Quick links
 
-```
-persistence 22.316
-  → Exp1  21.768  KEEP  C&G 2016 XGBoost
-  → Exp2  21.996  KEEP  max_depth 4          (val improved)
-  → Exp4  22.008  KEEP  lr 0.01
-  → Exp8  22.034  KEEP  subsample 0.6
-  → Exp14 21.823  KEEP  inversion_spread
-  → Exp15 21.290  KEEP  pm25_delta1
-  → Exp22 21.122  KEEP  inversion + delta     ← champion
-```
+- 🎯 [Live dashboard](dashboard/) — KEEP ladder, residual forensics, filters, 7-field reasoning
+- 📋 [AutoResearch report](dashboard/autoresearch_report.md)
+- 🔍 [Forensic report](dashboard/forensic_report.md)
+- 🧪 [14-section audit](dashboard/audit_report.md)
+- 📓 [Experiment summary](dashboard/experiment_summary.md)
+- 📔 [Research journal](dashboard/research_journal.md)
+- 📚 [SOTA / published numbers](SOTA.md)
+- 🧬 [Features and data](FEATURES_AND_DATA.md)
+- 🏗 [Backbone campaign tracker](dashboard/BACKBONE_CAMPAIGN.md)
+- 🏆 [Champion config](dashboard/best_config.json)
+- 📉 [Champion residual JSON](dashboard/champion_diagnostics.json)
+- 🧠 [Reasoning annotations](dashboard/reasoning_annotations.json)
+- 📄 [Paper note](https://github.com/dlmastery/autoresearch-uci/blob/main/paper.md)
+- 💻 [GitHub](https://github.com/dlmastery/autoresearch-uci)
 
-Protocol is verbatim from [dlmastery/autoresearch](https://github.com/dlmastery/autoresearch). Grok Build is the outer-loop researcher.
+## Three research findings
+
+1. **1-hour nowcast is persistence-saturated.** Persistence RMSE = 22.316 on the frozen 2014 year. Exp30 skill is +6.15%. R² 0.95 is mostly lag-1.
+2. **The remaining error is onset, not calm hours.** 95 hours with Δ ≥ 50 µg/m³ have RMSE 103.4 (pred 169 vs actual 248). January 33.07; hour 20 31.93.
+3. **The composite gate works.** Exp25 LightGBM had the best raw test (20.90) and still DISCARD because 2013 val lost. Val is the bottleneck.
+
+## Mandate status (original skill)
+
+| Backbone | Done / 50 |
+|---|---:|
+| linear / ridge | 0 |
+| mlp (Gu, Kelly & Xiu 2020) | 0 |
+| ft_transformer (Gorishniy 2021) | 0 |
+| tabnet / tabtransformer / saint | 0 |
+| xgboost | 24 |
+| lightgbm (champion — isolate here) | 5 |
+| catboost | 2 |
+
+Sister protocol: [dlmastery/autoresearch](https://github.com/dlmastery/autoresearch).

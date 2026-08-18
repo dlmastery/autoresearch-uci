@@ -1,21 +1,66 @@
-## Experiment Log — XGBoost hill-climb on frozen 2014
+# Experiment summary — UCI 381 Beijing PM2.5 nowcast
 
-Composite = min(−val, −test). KEEP iff composite rises. Test year is frozen.
+Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
-### KEEP lineage
-| Exp | Delta | Test RMSE | Val RMSE | Composite |
-|---:|---|---:|---:|---:|
-| 1 | C&G 2016 baseline | 21.768 | 23.354 | −23.354 |
-| 2 | max_depth 4 | 21.996 | 23.205 | −23.205 |
-| 4 | learning_rate 0.01 | 22.008 | 23.124 | −23.124 |
-| 8 | subsample 0.6 | 22.034 | 22.983 | −22.983 |
-| 14 | inversion_spread | 21.823 | 22.885 | −22.885 |
-| 15 | pm25_delta1 | 21.290 | 22.684 | −22.684 |
-| **22** | **stack inversion onto delta** | **21.122** | **22.470** | **−22.470** |
+**Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
+**Campaign:** 31 experiments · 9 KEEP · 22 DISCARD
+**Mandate gap:** LightGBM 5/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
-### Champion
-XGBoost depth 4, lr 0.01, subsample 0.6, features = original + `pm25_delta1` + `inversion_spread`.
-2014 persistence RMSE 22.316. Skill **+5.4%** (was +2.5% at Exp1).
+## KEEP lineage
 
-### Closed axes (DISCARD)
-depth 8/5/3, lr 0.05/0.005, min_child 10/50, gamma 1, colsample 0.5, L1/L2 bumps, more trees, weather lags, raw hour, subsample 1.0/0.5, vanilla LightGBM/CatBoost and the same on delta features (LGB test 20.90 looked good but val 22.71 lost the composite).
+| Exp | Backbone | Delta | Test RMSE | Val RMSE | Composite |
+|---:|---|---|---:|---:|---:|
+| 1 | xgboost | baseline XGBoost nowcast, Chen-Guestrin 2016 defaults, frozen calendar split train2010-12/val2013/test2014 | 21.768 | 23.354 | -23.354 |
+| 2 | xgboost | from champion: max_depth 4 | 21.996 | 23.205 | -23.205 |
+| 4 | xgboost | from champion: learning_rate 0.01 | 22.008 | 23.124 | -23.124 |
+| 8 | xgboost | from champion: subsample 0.6 | 22.034 | 22.983 | -22.983 |
+| 14 | xgboost | from champion: add inversion_spread TEMP-DEWP | 21.823 | 22.885 | -22.885 |
+| 15 | xgboost | from champion: add pm25_delta1 momentum | 21.290 | 22.684 | -22.684 |
+| 22 | xgboost | from champion: stack inversion_spread onto delta champion | 21.122 | 22.470 | -22.470 |
+| 29 | lightgbm | LightGBM on Exp22 inversion+delta features | 20.784 | 22.428 | -22.428 |
+| 30 | lightgbm | LightGBM num_leaves 31 to 63 on Exp29 champion | 20.945 | 22.397 | -22.397 |
+
+## All experiments
+
+| Exp | Status | Backbone | Test RMSE | Val RMSE | Composite | MAE | R² |
+|---:|---|---|---:|---:|---:|---:|---:|
+| 1 | KEEP | xgboost | 21.768 | 23.354 | -23.354 | 11.722 | 0.9453 |
+| 2 | KEEP | xgboost | 21.996 | 23.205 | -23.205 | 11.901 | 0.9441 |
+| 3 | DISCARD | xgboost | 21.757 | 23.364 | -23.364 | 11.795 | 0.9453 |
+| 4 | KEEP | xgboost | 22.008 | 23.124 | -23.124 | 11.903 | 0.9440 |
+| 5 | DISCARD | xgboost | 22.012 | 23.208 | -23.208 | 11.892 | 0.9440 |
+| 6 | DISCARD | xgboost | 21.697 | 23.142 | -23.142 | 11.904 | 0.9456 |
+| 7 | DISCARD | xgboost | 22.008 | 23.124 | -23.124 | 11.903 | 0.9440 |
+| 8 | KEEP | xgboost | 22.034 | 22.983 | -22.983 | 11.918 | 0.9439 |
+| 9 | DISCARD | xgboost | 22.019 | 23.282 | -23.282 | 12.221 | 0.9440 |
+| 10 | DISCARD | xgboost | 21.612 | 23.060 | -23.060 | 11.875 | 0.9460 |
+| 11 | DISCARD | xgboost | 22.046 | 23.017 | -23.017 | 11.964 | 0.9439 |
+| 12 | DISCARD | xgboost | 21.835 | 23.032 | -23.032 | 11.791 | 0.9449 |
+| 13 | DISCARD | xgboost | 22.034 | 22.983 | -22.983 | 11.918 | 0.9439 |
+| 14 | KEEP | xgboost | 21.823 | 22.885 | -22.885 | 11.933 | 0.9450 |
+| 15 | KEEP | xgboost | 21.290 | 22.684 | -22.684 | 11.609 | 0.9476 |
+| 16 | DISCARD | xgboost | 21.868 | 23.137 | -23.137 | 11.940 | 0.9448 |
+| 17 | DISCARD | xgboost | 21.367 | 22.815 | -22.815 | 11.678 | 0.9473 |
+| 18 | DISCARD | xgboost | 21.397 | 22.790 | -22.790 | 11.588 | 0.9471 |
+| 19 | DISCARD | xgboost | 21.153 | 22.900 | -22.900 | 11.611 | 0.9483 |
+| 20 | DISCARD | lightgbm | 21.050 | 22.810 | -22.810 | 11.560 | 0.9488 |
+| 21 | DISCARD | catboost | 21.211 | 22.794 | -22.794 | 11.574 | 0.9480 |
+| 22 | KEEP | xgboost | 21.122 | 22.470 | -22.470 | 11.545 | 0.9485 |
+| 23 | DISCARD | xgboost | 21.252 | 22.727 | -22.727 | 11.633 | 0.9478 |
+| 24 | DISCARD | xgboost | 21.348 | 22.651 | -22.651 | 11.591 | 0.9474 |
+| 25 | DISCARD | lightgbm | 20.905 | 22.711 | -22.711 | 11.510 | 0.9495 |
+| 26 | DISCARD | catboost | 21.248 | 22.969 | -22.969 | 11.589 | 0.9478 |
+| 27 | DISCARD | xgboost | 21.081 | 22.488 | -22.488 | 11.556 | 0.9487 |
+| 28 | DISCARD | xgboost | 21.182 | 22.563 | -22.563 | 11.590 | 0.9482 |
+| 29 | KEEP | lightgbm | 20.784 | 22.428 | -22.428 | 11.478 | 0.9501 |
+| 30 | KEEP | lightgbm | 20.945 | 22.397 | -22.397 | 11.550 | 0.9493 |
+| 31 | DISCARD | lightgbm | 20.991 | 22.417 | -22.417 | 11.591 | 0.9491 |
+
+## Champion residual slices (2014 test)
+
+- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.4 (pred 169 vs actual 248)
+- Worst month: 01 RMSE=33.07
+- Best month: 07 RMSE=13.60
+- Worst hour: 20:00 RMSE=31.93
+- Spike F1@75: 0.941 (P=0.933 R=0.949)
+- p99 |error|=79.5 · max |error|=497.1

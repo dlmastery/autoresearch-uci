@@ -102,9 +102,15 @@ Runner **refuses to launch** without a pre-run entry in `reasoning_annotations.j
 
 After the run, write verdict (KEEP / DISCARD / NEAR-MISS, ≥ 30 words) and learning (axis open/closed/next try, ≥ 40 words). Rewrite any `TODO-REWRITE` runner fallback before the next experiment.
 
-## Winner archive
+## Winner archive + github.io pack (MANDATORY — match original repos)
 
-Global champion only. On KEEP, the runner writes `best_config.json`. Grok writes `experiment_summary.md`, `research_journal.md`, and (on a new global best) a 14-section audit if time allows.
+Global champion only. On KEEP, the runner writes `best_config.json`. Every session that touches results must leave the Pages pack at Olivetti/FX depth, not a thin table:
+
+- `dashboard.html` with links bar, literature ceiling, KEEP ladder, backbone 50-exp bars, residual month/hour charts, sortable/filterable log, 7-field reasoning + metrics + config + CSV tabs
+- `forensic_report.md`, `audit_report.md` (14 sections), `autoresearch_report.md`, `FEATURES_AND_DATA.md`, `experiment_summary.md`, `research_journal.md`, `BACKBONE_CAMPAIGN.md`, `champion_diagnostics.json`
+- `python beijing_pm25/build_public_artifacts.py` then `python beijing_pm25/sync_dashboard.py` before claiming the dashboard is updated
+
+A dashboard that only shows an experiment table is a regression against `dlmastery.github.io/autoresearch`.
 
 ## Common mistakes
 
@@ -114,6 +120,25 @@ Global champion only. On KEEP, the runner writes `best_config.json`. Grok writes
 - Bundling xgboost+lightgbm+catboost as one backbone.
 - Rewriting composite after seeing results.
 - Launching without a reasoning blob.
+- Stopping a backbone after 2–5 experiments or one paper's HP knobs.
+
+## Per-Backbone N-Experiment Mandate (MANDATORY)
+
+Every backbone gets a full **50-experiment** cycle. Isolation: finish one backbone, snapshot `code_versions/<backbone>_final/`, then start the next. Never interleave. Never copy another backbone's config.
+
+| Tier | Backbone | Paper (start recipe) | Status after Exp31 |
+|---|---|---|---|
+| 1 | linear / ridge | Hoerl & Kennard 1970 | **0 / 50 — not started** |
+| 1 | mlp | Gu, Kelly & Xiu 2020 RFS arXiv:1802.09003 | **0 / 50 — not started** |
+| 2 | ft_transformer | Gorishniy et al. 2021 NeurIPS arXiv:2106.11189 | **0 / 50 — not started** |
+| 2 | tabtransformer | Huang et al. 2020 arXiv:2012.06678 | **0 / 50 — not started** |
+| 2 | tabnet | Arik & Pfister 2021 AAAI arXiv:1908.07442 | **0 / 50 — not started** |
+| 2 | saint | Somepalli et al. 2021 arXiv:2106.01342 | **0 / 50 — not started** |
+| 3 | xgboost | Chen & Guestrin 2016 KDD arXiv:1603.02754 | 24 / 50, mostly one paper's knobs |
+| 3 | lightgbm | Ke et al. 2017 NeurIPS | 5 / 50 — **current champion, isolate here** |
+| 3 | catboost | Prokhorenkova et al. 2018 NeurIPS arXiv:1706.09516 | 2 / 50 drive-bys, not a campaign |
+
+Within each backbone, try **many research publications**, not only HP of the originating paper (GOSS, DART, Huber/Tweedie/quantile objectives, extra-trees, linear trees, domain papers). A backbone is done only after 50 experiments.
 
 ## Key constants
 

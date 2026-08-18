@@ -29,6 +29,16 @@ Sister repos: [`autoresearch`](https://github.com/dlmastery/autoresearch) · [`a
 
 **Dashboard (live):** [https://dlmastery.github.io/autoresearch-uci/dashboard/](https://dlmastery.github.io/autoresearch-uci/dashboard/)
 
+Original-class Pages pack (same shape as [dlmastery/autoresearch](https://github.com/dlmastery/autoresearch) github.io):
+
+- [Forensic report](https://dlmastery.github.io/autoresearch-uci/dashboard/forensic_report.md)
+- [14-section audit](https://dlmastery.github.io/autoresearch-uci/dashboard/audit_report.md)
+- [AutoResearch report](https://dlmastery.github.io/autoresearch-uci/dashboard/autoresearch_report.md)
+- [Features and data](https://dlmastery.github.io/autoresearch-uci/FEATURES_AND_DATA.md)
+- [Experiment summary](https://dlmastery.github.io/autoresearch-uci/dashboard/experiment_summary.md)
+- [Research journal](https://dlmastery.github.io/autoresearch-uci/dashboard/research_journal.md)
+- [Backbone campaign](https://dlmastery.github.io/autoresearch-uci/dashboard/BACKBONE_CAMPAIGN.md)
+
 ## The ladder (Karpathy keep/discard)
 
 One change per experiment. KEEP only if composite rose. DISCARDs stay in the log. This is the champion lineage — the only steps that moved the floor.
@@ -164,9 +174,10 @@ autoresearch-uci/
 
 ## What is not done yet
 
-- GitHub Pages must be switched on (Settings → Pages → `/docs`). The files are already under `docs/dashboard/`.
-- Exp2+ (t+6 on the same `test_hash`) is the next KEEP-worthy axis.
-- 14-section winner audit is produced by the upstream `winner_archive` when we wire it; Exp1 is the floor, not a deployable champion.
+- Original hillclimb mandate: 50 isolated experiments **per backbone** with many papers inside each. Exp1–31 were mostly XGBoost knobs (see `BACKBONE_CAMPAIGN.md`).
+- Permutation importance + onset SHAP on Exp30.
+- 3-seed median before calling LightGBM done.
+- t+6 / t+12 on the same frozen 2014 timestamps (the unsaturated operational task).
 
 ## License
 
