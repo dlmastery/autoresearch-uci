@@ -691,5 +691,16 @@
     "learning": "Axis closed: t+6 regression_l1 / MAE. Do not retry quantile. Typical hours can beat persist under L1 but the RMSE val gate punishes the 2013 tail. Next try: leave Exp59 L2. LightGBM cycle is 37/50. Stay isolated.",
     "_manual": true,
     "_needs_rewrite": false
+  },
+  "64": {
+    "experiment_num": 64,
+    "diagnosis": "1h champion remains Exp30: test 20.945, val 22.397 so val is the 1h bottleneck, January 33.07 versus JJA 14.03, hour 20 31.93, onset n=83 RMSE 110.05 losing to persist-1 107.80. This fire recomputes Exp59 residuals on heating-season onsets, not last fire's typical-hour L2 blob. Exp59 test 54.419 val 57.601, gap 3.18. January 83.79 versus JJA 36.27. Hour 20 63.42. Onset n=991 RMSE 92.17. New: January onsets n=134 have RMSE 144.19 and need +124.6 while Exp59 predicts only +19.8. NDJF onsets n=437 RMSE 110.49 versus non-heating onsets 74.61. month_sin aliases January with May so the heating ramp is invisible. month_cos and is_heating already failed. MAE just missed the RMSE val gate. The unused calendar channel is doy_sin, which does not alias 15 January with 15 May.",
+    "citations": "Ke, Meng, Finley, Wang, Chen, Ma, Ye and Liu 2017 NeurIPS 'LightGBM: A Highly Efficient Gradient Boosting Decision Tree' (arXiv:1706.08359) — one extra known-at-issue-time column is a cheap leaf-wise split. Relevance: Liang, Zou, Guo, Li, Zhang, Zhang, Huang and Chen 2015 showed Beijing heating-season haze is a calendar ramp, not a binary month, and Exp59 January onsets still have RMSE 144 with predicted increment +19.8 versus needed +124.6 because month_sin(January)=month_sin(May). doy_sin unaliases those days on the frozen 2014 t+6 timestamps and is not the discarded month_cos pair.",
+    "hypothesis": "We hypothesize that adding doy_sin equals sin of two-pi times day-of-year over 365.25 to the Exp59 t+6 LightGBM (num_leaves 31 plus month_sin plus pres_delta plus dewp_delta plus cbwd_prev_NW), leaving every booster knob unchanged, will cut 2013 t+6 val RMSE because the mechanism is a continuous winter coordinate that month_sin cannot form. Per Ke et al. 2017 that split is cheap. Because month_cos and is_heating already failed, this is day-of-year Fourier not another month dummy. The 1h composite will DISCARD; the side-ladder KEEP is t+6 val below 57.601. This single change starts from the current t+6 recipe on the frozen 2014 test year.",
+    "prediction": "I predict t+6 test RMSE 53.6 to 55.6 versus Exp59 54.42, val 56.6 to 58.6, and 1h-gate composite -61 to -53 (DISCARD). January onset RMSE may move from 144.2 toward 120 to 148. A val RMSE above 58.0 is a side-ladder miss. Ranges are ug/m3 on the frozen 2014 timestamps.",
+    "verdict": "DISCARD on the 1h gate (composite -58.153 vs Exp30 -22.397) as predicted. Side-ladder MISS versus Exp59: t+6 val 58.053 lost to 57.601 even though test 54.135 beat 54.419. Hypothesis failed: January onset increment stayed +20.89 versus Exp59 +19.78 (need +124.6). doy_sin did not unalias winter onsets. Revert to Exp59. Do not promote.",
+    "learning": "Axis closed: t+6 doy_sin. Do not retry doy_cos. January onset +125 is not a missing day-of-year harmonic. Next try: leave Exp59. LightGBM cycle is 38/50. Stay isolated.",
+    "_manual": true,
+    "_needs_rewrite": false
   }
 }

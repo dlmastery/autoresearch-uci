@@ -33,6 +33,7 @@ def main() -> None:
     assert len(times) == n0
     out["month_sin"] = np.sin(2.0 * np.pi * times["time"].dt.month / 12.0)
     out["month_cos"] = np.cos(2.0 * np.pi * times["time"].dt.month / 12.0)
+    out["doy_sin"] = np.sin(2.0 * np.pi * times["time"].dt.dayofyear / 365.25)
     # First ~29 train rows are NaN; bfill so n_rows stays frozen (all in 2010 train).
     fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "pm25_delta6", "inversion_spread"]
     out[fill_cols] = out[fill_cols].bfill()
