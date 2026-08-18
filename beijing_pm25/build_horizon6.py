@@ -37,6 +37,12 @@ def main() -> None:
     fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "pm25_delta6", "inversion_spread"]
     out[fill_cols] = out[fill_cols].bfill()
     out["stagn_index"] = out["inversion_spread"] / (out["Iws"] + 1.0)
+    # Issue-time 1h tendencies (t-6 minus t-7). Iws is cumulative and resets on
+    # direction change, so Iws_delta is nearly collinear with Iws level.
+    out["pres_delta"] = out["PRES"] - src["PRES"].shift(7)
+    out["iws_delta"] = out["Iws"] - src["Iws"].shift(7)
+    fill_cols = fill_cols + ["pres_delta", "iws_delta"]
+    out[fill_cols] = out[fill_cols].bfill()
     assert len(out) == n0
     assert out[fill_cols].isna().sum().sum() == 0
     assert out["stagn_index"].isna().sum() == 0
