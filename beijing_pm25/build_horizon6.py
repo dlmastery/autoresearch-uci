@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).resolve().parent
@@ -28,6 +29,10 @@ def main() -> None:
     out["pm25_delta1"] = out["pm25_lag1"] - out["pm25_lag2"]
     out["pm25_delta6"] = out["pm25_lag1"] - out["pm25_lag7"]
     out["inversion_spread"] = out["TEMP"] - out["DEWP"]
+    times = pd.read_csv(DATA / "times.csv", parse_dates=["time"])
+    assert len(times) == n0
+    out["month_sin"] = np.sin(2.0 * np.pi * times["time"].dt.month / 12.0)
+    out["month_cos"] = np.cos(2.0 * np.pi * times["time"].dt.month / 12.0)
     # First ~29 train rows are NaN; bfill so n_rows stays frozen (all in 2010 train).
     fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "pm25_delta6", "inversion_spread"]
     out[fill_cols] = out[fill_cols].bfill()

@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-37 DISCARDs on the 1h gate. Notable: Exp43 test **20.807** (val lost). t+6 **Exp46** is a side-ladder KEEP (val 58.37 vs Exp39 58.72) but 1h-DISCARD.
+39 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), **Exp47** (month_sin, val 58.14 / test 55.06). Exp48 month_cos best t+6 test 54.65 but val lost.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,18 +38,18 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp45–46)
+## This fire (2026-08-18, Exp47–48)
 
-New t+6 slices: 6h onsets n=978 RMSE 92.99 **bias −72.8**. Calm Iws@t-6 skill **+7.1%** vs windy **+14.6%**. t+6 val gap 3.40.
+New Exp46 slices: January evening 18–21 n=116 RMSE **100.90**. Calm+onset6 n=408 bias −76.4.
 
-**Exp45 DISCARD** t+6 + pm25_delta6. Test 55.49 vs Exp39 55.32. Redundant. Axis closed for 6h diffs.
+**Exp47 1h-DISCARD / t+6 side-KEEP** month_sin. Val **58.138** test **55.059**. Jan eve did not improve (101.69) — sine aliases Jan/May.
 
-**Exp46 1h-DISCARD / t+6 side-KEEP** num_leaves 31. Val **58.365** (was 58.724) test 55.34. New t+6 recipe. Do not promote to 1h champion.
+**Exp48 1h-DISCARD / t+6 side-MISS** month_cos. Test **54.648** (best t+6) val 58.359. Axis closed for month_cos.
 
-1h champion unchanged: Exp30.
+t+6 recipe is Exp47. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Hillclimb t+6 from **Exp46** (31 leaves) vs persist-6
+1. Hillclimb t+6 from **Exp47** (31 leaves + month_sin). Attack calm 6h-onsets, not more calendar columns
 2. Do not shave 1h HPs inside val ±0.08
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`
