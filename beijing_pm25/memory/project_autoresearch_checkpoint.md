@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp56 (1h still Exp30; t+6 recipe Exp56)
+# Autoresearch checkpoint — after Exp58 (1h still Exp30; t+6 recipe Exp56)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -10,24 +10,25 @@
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 56** LightGBM num_leaves **31** + **month_sin** + **pres_delta** + **dewp_delta** · test **54.487** · val **57.658**
-- vs persist-6 **61.83** skill **+11.9%** (1h-file lag6). Causal horizon6 `pm25_lag1` persist RMSE **63.16**.
-- data: `features_horizon6.csv` (includes `pres_delta`, `dewp_delta`)
-- prior side-KEEP Exp55: 54.751 / 58.038 · Exp47: 55.059 / 58.138
+- vs persist-6 **61.83** skill **+11.9%**
+- data: `features_horizon6.csv`
 
 ## Residual (this fire)
 - **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05 (loses to persist-1 107.80)
-- **Exp55 diagnosis:** late 21–23 RMSE 64.25 vs 17–20 52.26. Weekend 57.85 vs weekday 53.45. dewp_fall & not pres_rise n=1648 actual increment **−4.14**, Exp55 predicted **+3.14** (corr with pres_delta only 0.02).
-- **Exp56:** that slice flipped to **−0.22**. Jan 83.81 · H20 63.49 · onset 92.34 · actual≥200 **99.57** vs persist 99.10
+- **Exp56 new slices:** dur6 increment already calibrated (−42.20 vs −41.94). dur3-5 under-cleans (−10.77 vs −23.53). Late 21–23 RMSE 64.57. Sunday need −9.01 pred +2.43. cv-onset n=290 RMSE 100.25. Val gap 3.17.
+- **Exp57:** dur3-5 increment unchanged (−10.75). Redundant with six lags.
+- **Exp58:** val 57.704 test 54.540, gap not shrunk.
 
 ## This fire
-- **Exp56 DISCARD on 1h gate / side-KEEP vs Exp55.** Val 57.658 test 54.487. dewp_delta is the new t+6 recipe.
+- **Exp57 DISCARD** haze_hours6. Val 57.864 test 54.385. Axis closed: episode-count.
+- **Exp58 DISCARD** reg_lambda=1. Val 57.704 test 54.540. Axis closed: L2=1.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual target, Tweedie, Iws_delta, temp_delta (do not pile another weather derivative)
+- t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1
 
 ## Process
-LightGBM **30/50**. Isolation holds. 1h champion unchanged. t+6 recipe moved Exp55 → Exp56.
+LightGBM **32/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp56.
 
 ## Next pasteable
-Stay on **Exp56**. Do not add temp_delta or Iws_delta. Snapshot `lightgbm_t6` or leave this feature set. Do not retry residual/Tweedie/lr/ff. Do not shave 1h HPs. Do not start CatBoost/MLP until LGB 50 or snapshot.
+Stay on **Exp56**. Snapshot `lightgbm_t6`. Do not retry haze-count / L2 / temp_delta / Iws_delta. Do not shave 1h HPs. Do not start CatBoost/MLP until LGB 50 or snapshot.

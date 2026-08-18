@@ -42,6 +42,9 @@ def main() -> None:
     out["pres_delta"] = out["PRES"] - src["PRES"].shift(7)
     out["iws_delta"] = out["Iws"] - src["Iws"].shift(7)
     out["dewp_delta"] = out["DEWP"] - src["DEWP"].shift(7)
+    out["haze_hours6"] = (
+        out[[f"pm25_lag{k}" for k in range(1, 7)]] >= 150.0
+    ).sum(axis=1).astype(float)
     fill_cols = fill_cols + ["pres_delta", "iws_delta", "dewp_delta"]
     out[fill_cols] = out[fill_cols].bfill()
     assert len(out) == n0

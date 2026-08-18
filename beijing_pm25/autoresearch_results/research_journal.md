@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-47 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), Exp47 (month_sin), Exp55 (pres_delta), **Exp56** (dewp_delta, val 57.66 / test 54.49). Exp51–54 lr/ff/residual/Tweedie missed.
+49 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46 (31 leaves), Exp47 (month_sin), Exp55 (pres_delta), **Exp56** (dewp_delta, val 57.66 / test 54.49). Exp57–58 haze_hours6 and reg_lambda missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,18 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp56)
+## This fire (2026-08-18, Exp57–58)
 
-New Exp55 slices: late 21–23 RMSE 64.25 vs 17–20 52.26. Weekend 57.85 vs weekday 53.45. **dewp_fall & not pres_rise n=1648 actual increment −4.14, Exp55 predicted +3.14** (corr with pres_delta 0.02).
+New Exp56 slices: **dur6 increment already calibrated (−42.2 vs −41.9)**; dur3-5 under-cleans (−10.8 vs −23.5). Late 21–23 RMSE 64.57. Sunday need −9.01 pred +2.43.
 
-**Exp56 side-KEEP** (1h DISCARD). Val 57.658 beat 58.038, test 54.487 beat 54.751. Dewpoint-fall increment flipped to **−0.22**. actual≥200 **99.57** vs persist 99.10. New t+6 recipe: 31 leaves + month_sin + pres_delta + dewp_delta.
+**Exp57 DISCARD** haze_hours6. Val 57.864 test 54.385. dur3-5 increment unchanged. Axis closed: trees already have the six lags.
 
-t+6 recipe is now Exp56. 1h champion unchanged: Exp30.
+**Exp58 DISCARD** reg_lambda=1. Val 57.704 test 54.540. Did not shrink the 3.17 val gap. Axis closed for L2=1.
+
+t+6 recipe remains Exp56. 1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp56. Do not add temp_delta or Iws_delta. Snapshot `lightgbm_t6` or leave the feature set
+1. Stay on Exp56. Snapshot `lightgbm_t6`. Do not retry haze-count / L2 / temp_delta / Iws_delta
 2. Do not retry residual / Tweedie / poisson / lr / ff nearby
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`
