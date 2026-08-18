@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-62 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, Exp68, **Exp70** (extra_trees + ff=1.0, val 57.44 / test 54.62). Exp71 anticyclone missed.
+63 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, Exp68, Exp70, **Exp72** (extra_trees + linear_tree, val 57.43 / test 54.33). Exp71 anticyclone missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,16 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp71)
+## This fire (2026-08-18, Exp72)
 
-New Exp70 slices: **persist>=150 under PRES>=1022 n=535 RMSE 98.77, 22% SSE, need −25.6, pred −53.9.** Extra-trees over-cleans high-pressure haze.
+New Exp70 slices: **typical persist>=150 persist-vs-pred-increment corr −0.445 vs persist-vs-actual −0.024.** |need|<20 persist>=150 RMSE 50.16 vs persist-6 11.03, pred −21.4.
 
-**Exp71 DISCARD** anticyclone. Val 57.518 lost to 57.441, test 54.320. High-PRES increment still −54.1. Axis closed: PRES-level dummy.
+**Exp72** 1h DISCARD, **t+6 side-KEEP** linear_tree. Val 57.429 beat 57.441, test 54.330. Typical increment still −24.5; January RMSE 83.32 → 81.14. New t+6 recipe.
 
-t+6 recipe remains Exp70. 1h champion unchanged: Exp30.
+1h champion unchanged: Exp30.
 
 ## Next (original process)
 
-1. Stay on Exp70 extra_trees + ff=1.0. Do not retry PRES dummies / ff=0.9 / extra_trees off / min_data
+1. Stay on Exp72 extra_trees + linear_tree + ff=1.0. Do not retry linear_tree off / PRES dummies / extra_trees off
 2. Do not retry bagging / lags / rain products / persist×hour / prev-direction / leaf L1-L2
 3. Do not start CatBoost/MLP until LightGBM hits 50 or is snapshotted as `lightgbm_final`

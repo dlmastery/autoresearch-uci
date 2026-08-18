@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp71 (1h still Exp30; t+6 recipe Exp70)
+# Autoresearch checkpoint — after Exp72 (1h still Exp30; t+6 recipe Exp72)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -9,24 +9,25 @@
 - skill vs persist-1 **+6.15%** · 1h noise floor val ±0.08
 
 ## t+6 side ladder (do not mix composites)
-- **Exp 70** LightGBM 31 leaves + extra_trees + feature_fraction 1.0 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW · test **54.620** · val **57.441**
-- vs persist-6 **61.83** skill **+11.7%**
+- **Exp 72** LightGBM extra_trees + linear_tree + ff=1.0 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW · test **54.330** · val **57.429**
+- vs persist-6 **61.83** skill **+12.1%**
+- prior Exp70 54.620 / 57.441
 - snapshot: `code_versions/lightgbm_t6/`
 
 ## Residual (this fire)
 - **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05
-- **Exp70 new slices:** persist>=150 under PRES>=1022 n=535 RMSE **98.77**, 22% SSE, need **−25.6**, pred **−53.9**. October persist>=150 is calibrated (−15.6 vs −15.3).
-- **Exp71:** high-PRES P>=150 increment **−54.1**.
+- **Exp70 new slices:** typical persist>=150 n=731, persist vs pred increment corr **−0.445** vs persist vs actual **−0.024**. |need|<20 persist>=150 n=302 RMSE 50.16 vs persist-6 11.03, pred **−21.4**.
+- **Exp72:** typical P>=150 increment still **−24.5**; corr still **−0.43**. January RMSE 83.32 → **81.14**.
 
 ## This fire
-- **Exp71 DISCARD** anticyclone. Val 57.518 test 54.320. Axis closed: PRES-level dummy.
+- **Exp72** 1h DISCARD, **t+6 side-KEEP** linear_tree. Val 57.429 beat 57.441, test 54.330. New t+6 recipe.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
 - t+6: delta6, month_cos, stagn_index, path_smooth=1, lr 0.02, feature_fraction 0.6, persist-6 residual, Tweedie, Iws_delta, temp_delta, haze_hours6, reg_lambda=1, prev_SE/prev_cv, rain_mass, bagging_freq=1, drop lag13-24, MAE/quantile, doy_sin/doy_cos, heating_night / clock×heating, reg_alpha/L1, num_leaves<31, extra_trees min_data=50, anticyclone / PRES dummy
 
 ## Process
-LightGBM **45/50**. Isolation holds. 1h champion unchanged. t+6 recipe remains Exp70 extra_trees + ff=1.0.
+LightGBM **46/50**. Isolation holds. 1h champion unchanged. t+6 recipe is now Exp72 extra_trees + linear_tree + ff=1.0.
 
 ## Next pasteable
-Stay on **Exp70**. High-PRES dirty still predicts −54 vs need −26 after an anticyclone flag. Do not retry PRES>=1015 / PRES×persist / ff=0.9 / extra_trees off. Fill remaining LGB 5. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
+Stay on **Exp72**. Typical dirty persist slope still −0.43 after linear leaves. Do not retry linear_tree off / PRES dummies / ff=0.9 / extra_trees off. Fill remaining LGB 4. Do not start CatBoost/MLP until LGB 50 or `lightgbm_final`.
