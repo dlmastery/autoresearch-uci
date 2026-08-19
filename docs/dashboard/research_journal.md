@@ -126,8 +126,16 @@ New Exp97 slices: January weekday n=520 is **21.0% SSE**, RMSE **37.18 vs persis
 
 1h champion unchanged: Exp97. CatBoost **30/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp105)
+
+New Exp97 slices: January weekday persist>=150 n=141 is **13.0% SSE**, RMSE **56.12 vs persist 45.99** (pred_d −18.33 vs need −7.60). January weekday hours 0-5 **51.08 vs persist 43.95**. January Friday 18-21 **65.27 vs persist 50.33**.
+
+**Exp105 DISCARD** early_stopping_rounds=50. **Bit-identical** to Exp97.
+
+1h champion unchanged: Exp97. CatBoost **31/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry min_data=50 / iws_delta / Depthwise / heating products / rsm / l2
-3. Leave Exp97 or rethink January weekday over-clean without a leaf floor. Do not start MLP
+2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2
+3. Leave Exp97 or rethink January weekday persist>=150 without a patience/leaf-floor knob. Do not start MLP
