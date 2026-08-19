@@ -144,8 +144,18 @@ New Exp97 slices: January weekday persist>=150 with delta6>20 n=92 is **10.1% SS
 
 1h champion unchanged: Exp97. CatBoost **33/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp108–Exp109)
+
+New Exp97 slices: **2014-01-16** n=24 is **6.1% of all 2014 SSE**, RMSE **93.08 vs persist 64.49** (pred_d −58.69 vs need −9.21, mean 457.5). Other January Thursdays match persist (01-02 28.86 vs 29.93). January weekday persist>=300 n=39 is **7.4% SSE**, RMSE **80.36 vs persist 55.80**; not-January persist>=300 beats persist (34.41 vs 41.44). January weekday persist 18-21 n=26 RMSE **58.70 vs persist 44.95**, need **+26.38** pred_d **+1.34**.
+
+**Exp108 DISCARD** is_severe. Val **22.313** test **20.899**. 2014-01-16 93.08→**100.50**. persist>=300 80.36→**84.72**.
+
+**Exp109 DISCARD** evening_peak. Val **22.349** test **20.756**. persist 18-21 58.70→**59.78**. Hour 20 32.48→32.32.
+
+1h champion unchanged: Exp97. CatBoost **35/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean
-3. Leave Exp97 or rethink January Thursday persist>=150 (70.42 vs persist 50.96, Iws 4.13, mean 343.8) without another wind-scale or 6-hour trend. Do not start MLP
+2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins
+3. Leave Exp97 or rethink 2014-01-16 mega-haze (93.08 vs persist 64.49, 6.1% SSE) without lag1 flags, wind-scale, 6h trend, or evening bins. Do not start MLP

@@ -46,6 +46,10 @@ def main() -> None:
     extra["pres_delta"] = extra["PRES"].diff().fillna(0.0)
     extra["pm25_delta6"] = extra["pm25_lag1"] - extra["pm25_lag7"]
     extra["log_iws"] = np.log1p(extra["Iws"])
+    extra["is_severe"] = (extra["pm25_lag1"] >= 250.0).astype(float)
+    extra["evening_peak"] = (
+        (extra["hour"] >= 18.0) & (extra["hour"] <= 21.0)
+    ).astype(float)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

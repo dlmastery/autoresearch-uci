@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 107 experiments · 11 KEEP · 96 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 33/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 109 experiments · 11 KEEP · 98 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 35/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -133,6 +133,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 105 | DISCARD | catboost | 20.735 | 22.167 | -22.167 | 11.398 | 0.9503 |
 | 106 | DISCARD | catboost | 20.671 | 22.345 | -22.345 | 11.380 | 0.9506 |
 | 107 | DISCARD | catboost | 20.783 | 22.310 | -22.310 | 11.399 | 0.9501 |
+| 108 | DISCARD | catboost | 20.899 | 22.313 | -22.313 | 11.407 | 0.9495 |
+| 109 | DISCARD | catboost | 20.756 | 22.349 | -22.349 | 11.380 | 0.9502 |
 
 ## Champion residual slices (2014 test)
 
@@ -160,3 +162,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp105 early_stopping_rounds=50 DISCARD (bit-identical to Exp97). CatBoost 31/50.
 - Exp106 pm25_delta6 DISCARD (val 22.345, test 20.671). Building leftover 61.11→60.16. Thursday 70.42→72.21. CatBoost 32/50.
 - Exp107 log_iws DISCARD (val 22.310, test 20.783). Thursday persist 70.42→72.35. Iws<5 56.88→58.75. CatBoost 33/50.
+- Exp108 is_severe DISCARD (val 22.313, test 20.899). 2014-01-16 93.08→100.50. persist>=300 80.36→84.72. CatBoost 34/50.
+- Exp109 evening_peak DISCARD (val 22.349, test 20.756). persist 18-21 58.70→59.78. CatBoost 35/50.
