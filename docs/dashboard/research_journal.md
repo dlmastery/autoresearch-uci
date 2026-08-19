@@ -186,8 +186,16 @@ New Exp97 slices: January excluding 10 bomb hours (01-16 h0-8 + 01-31 h1) n=679 
 
 1h champion unchanged: Exp97. CatBoost **39/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp114)
+
+New diagnosis: **2013 val persist RMSE 24.50** vs 2014 test **22.32**. Exp97 skill is **+9.5% on val** vs **+7.1% on test**. 2013 January persist **37.47** mean **166.8**, persist>=300 n=**138** vs 2014 n=39. 2013 February persist **38.30** vs 2014 **26.01**.
+
+**Exp114 DISCARD** is_janfeb. Val **22.342** test **20.792**. January 34.84→35.02. Peak-heating subset of is_heating did not help 2013 val.
+
+1h champion unchanged: Exp97. CatBoost **40/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6max / roll3mean / is_severe / evening_peak / hour bins / rh_delta / temp_delta / extra weather increments / se_iws / se_start
-3. January typical hours already beat persist. Leave Exp97 or target 2013 val without bomb-chasing features. Do not start MLP
+2. Do not retry month dummies / is_janfeb / roll3mean / se_iws / weather increments / lag1 flags / evening bins / heating products
+3. 2013 val persist 24.50 is a harder year; Exp97 already +9.5% skill there. Leave Exp97 or regularize for 2013 without calendar subsets or bomb-chasing. Do not start MLP

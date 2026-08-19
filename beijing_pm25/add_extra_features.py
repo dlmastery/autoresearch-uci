@@ -54,6 +54,7 @@ def main() -> None:
     extra["temp_delta"] = extra["TEMP"].diff().fillna(0.0)
     extra["se_iws"] = extra["cbwd_SE"] * extra["Iws"]
     extra["pm25_roll3mean"] = extra[["pm25_lag1", "pm25_lag2", "pm25_lag3"]].mean(axis=1)
+    extra["is_janfeb"] = mo.isin([1, 2]).astype(float)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 
