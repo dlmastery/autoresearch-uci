@@ -118,8 +118,16 @@ New Exp97 slices: onset n=83 is **29.4% of SSE**. Onset dPRES>=1 n=20 is **14.7%
 
 1h champion unchanged: Exp97. CatBoost **29/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp104)
+
+New Exp97 slices: January weekday n=520 is **21.0% SSE**, RMSE **37.18 vs persist 33.67** (skill −10.4%, pred_d −4.86 vs need +0.35). January weekend **26.39 vs persist 33.29** (skill +20.7%). January Friday **50.59 vs persist 46.70**.
+
+**Exp104 DISCARD** min_data_in_leaf=20. **Bit-identical** to Exp97.
+
+1h champion unchanged: Exp97. CatBoost **30/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry iws_delta / Depthwise / heating products / rsm / l2
-3. Leave Exp97 or a non-tendency rethink. Do not start MLP
+2. Do not retry min_data=50 / iws_delta / Depthwise / heating products / rsm / l2
+3. Leave Exp97 or rethink January weekday over-clean without a leaf floor. Do not start MLP
