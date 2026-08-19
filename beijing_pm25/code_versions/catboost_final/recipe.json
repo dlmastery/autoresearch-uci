@@ -1,0 +1,20 @@
+{
+  "snapshot": "catboost_final",
+  "catboost_cycle": "50/50 complete",
+  "1h_champion": {
+    "experiment_num": 97,
+    "backbone": "catboost",
+    "test_rmse": 20.73514958690229,
+    "val_rmse": 22.166611495156538,
+    "composite": -22.166611495156538,
+    "skill_vs_persist1": 0.0709
+  },
+  "t6_recipe": {
+    "experiment_num": 76,
+    "backbone": "lightgbm",
+    "test_rmse": 54.312,
+    "val_rmse": 57.161,
+    "do_not_mix_with": "Exp97 1h composite"
+  },
+  "note": "Isolated CatBoost 50/50 complete. Next isolated cycle: MLP from Exp97 features. Do not copy CatBoost HPs."
+}

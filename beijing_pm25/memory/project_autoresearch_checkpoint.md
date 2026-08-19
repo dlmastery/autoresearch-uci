@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp124 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp125 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -9,25 +9,26 @@
 - skill vs persist-1 **+7.09%** · 1h noise floor val ±0.08
 - Features: inversion+delta + rh_magnus + dewp_delta + is_heating · depth 6 · lr 0.03 · l2=3 · Plain SymmetricTree
 
+## Best 2014 test (not champion)
+- **Exp 125** MLP default · test **20.648** · val **22.623** · January **31.02** (beats persist 33.58)
+
 ## t+6 side ladder (do not mix composites)
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** cv persist>=150 n=505 is **12.4%** of 2014 SSE, RMSE **28.95** vs persist **27.68**, need +1.28 pred_d **−0.01**. 2013 val cv-dirty persist RMSE **37.95** vs 2014 **27.68**, 2013 need **−0.09** vs 2014 **+1.28**. Mean inversion on that slice 6.36.
-- **Exp124 DISCARD** cv_inv. Val **22.250** test **20.754**. cv persist>=150 28.95→**29.44**, pred_d −0.01→**−0.38**.
+- **NEW:** typical |need|<=10 n=5117 RMSE **8.35** vs persist **5.08** (trees over-adjust). |need|>=30 n=689 beats persist 59.01 vs 67.57. persist>=q67 is **67.1%** of SSE. corr(|need|,|err|)=**0.866**.
+- **Exp125 DISCARD** MLP default. Val **22.623** test **20.648**. Typical 8.35→**7.28**. January 34.84→**31.02**. Onset 110.06→109.53.
 
 ## This fire
-- **Exp124 DISCARD** cv_inv. Test 20.754 val 22.250. Axis closed: calm×inversion. **CatBoost 50/50 complete.**
+- Snapshot `code_versions/catboost_final`.
+- **Exp125 DISCARD** MLP 256-128-64 dropout 0.2. Test-win val-loss. MLP **1/50**.
 
 ## Exhausted / closed
-- 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- CatBoost 1h: Ordered, Plain lr=0.01, Plain depth=4, Lossguide, Depthwise, month_sin, pm25_accel, l2=10 on RH, rsm=0.8, cbwd_prev_NW, random_strength=2, heating_night, bagging_temperature=2 (inert), rh_iws, heating_build, pres_delta, min_data_in_leaf=20 (inert), early_stopping=50 (inert), pm25_delta6, log_iws, is_severe, evening_peak, rh_delta, temp_delta, se_iws, pm25_roll3mean, is_janfeb, drop lag13-24, iws_clip100, drop dow, model_size_reg=1.0 (inert), Bernoulli subsample=0.8, border_count=128, nw_iws, is_morning, dow_sin, cv_inv
-- is_heating is IN the champion
-- CatBoost t+6: l2=10, bagging_temperature=2 (inert), drop rh_magnus, random_strength=2
-- t+6 LGB recipe remains Exp76
+- 1h tree HPs and CatBoost 50/50 as in prior checkpoint
+- Do not retry CatBoost products/regularizers on the MLP cycle
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **1/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-CatBoost **50/50 complete**. Snapshot `catboost_final` from Exp97. Isolate **MLP** (1/50) from Exp97 features on the frozen 2014 test year. Do not mix CatBoost HPs into MLP. Do not retry cv_inv / dow_sin / hour bins / wind×Iws / unused CatBoost regularizer HPs. 1h champion remains Exp97. t+6 recipe remains Exp76.
+Stay isolated on **MLP Exp125 recipe** (not the 1h champion). Regularize 2013 val (dropout / width / weight_decay / epochs). Do not mix CatBoost HPs. Do not retry tree features. 1h champion remains Exp97 until MLP composite beats −22.167.

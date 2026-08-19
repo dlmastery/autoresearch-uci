@@ -274,8 +274,16 @@ New diagnosis: cv persist>=150 n=505 is **12.4% of 2014 SSE**, RMSE **28.95 vs p
 
 1h champion unchanged: Exp97. **CatBoost 50/50 complete.** t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp125)
+
+Snapshot `code_versions/catboost_final`. New diagnosis: typical |need|<=10 n=5117 RMSE **8.35 vs persist 5.08** (trees over-adjust). |need|>=30 beats persist 59.01 vs 67.57. persist>=q67 is **67.1% of SSE**. corr(|need|,|err|)=**0.866**.
+
+**Exp125 DISCARD** MLP default 256-128-64. Val **22.623** (gate). Test **20.648** beat Exp97 20.735 (best 2014). January 34.84→**31.02** (now beats persist 33.58). Typical 8.35→**7.28**. Onset 110.06→109.53.
+
+1h champion unchanged: Exp97. MLP **1/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Snapshot `catboost_final` from Exp97
-2. Isolate **MLP** (1/50) from Exp97 features on the frozen 2014 test year
-3. Do not mix CatBoost HPs into MLP. Do not retry cv_inv / dow_sin / hour bins / wind×Iws
+1. Stay isolated on **MLP Exp125 recipe**
+2. Regularize 2013 val (dropout / width / weight_decay). Do not mix CatBoost HPs
+3. 1h champion remains Exp97 until MLP composite beats −22.167
