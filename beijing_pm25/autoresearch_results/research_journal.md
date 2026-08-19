@@ -102,8 +102,16 @@ New Exp97 slices: January persist>=150 delta1>0 n=109 RMSE **53.00 vs persist 39
 
 1h champion unchanged: Exp97. CatBoost **27/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp102)
+
+New Exp97 slices: January is 8.7% of hours but **24.5% of SSE**. January persist>=150 delta1>0 PRES>=1025 n=52 is **0.7% n / 7.2% SSE**, RMSE **68.80 vs persist 47.75** (need +13.38 pred_d −18.48). not-January building-dirty beats persist (29.41 vs 32.76).
+
+**Exp102 DISCARD** Depthwise. Val 22.322 test 21.040. The 52-hour shard 68.80→**77.22**. SymmetricTree stays.
+
+1h champion unchanged: Exp97. CatBoost **28/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **CatBoost Exp97**
-2. Rethink architecture: **grow_policy=Depthwise** (Lossguide closed). Do not retry another is_heating product
-3. Do not start MLP
+1. Stay isolated on **CatBoost Exp97 SymmetricTree**
+2. Do not retry Depthwise max_leaves / Lossguide / heating products
+3. Leave the 0.7% shard or a non-grow-policy rethink. Do not start MLP
