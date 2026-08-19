@@ -314,8 +314,16 @@ New diagnosis: Iws q3 n=1836 (Iws 5.34–17.88) is **37.34% of Exp127 SSE** vs 3
 
 1h champion unchanged: Exp97. MLP **5/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp130)
+
+New diagnosis: SE wind n=2937 is 36.9% of hours but **43.6% of Exp127 SSE** vs 41.1% of Exp97, RMSE **22.56 vs CatBoost 21.87** vs persist 23.27, need +2.51 pred_d **+0.77**. SE persist>=150 n=562 **32.65 vs CB 30.59**. Rain Ir>0 n=260 **24.89 vs CB 21.51**.
+
+**Exp130 DISCARD** 1h (val **22.527** vs Exp97 22.167). Test **20.457** new 2014 best. SE 22.56→**21.92**. SE persist>=150 32.65→**30.37** (beats CB). Val tied Exp127 22.528. Promote Exp130 as MLP recipe.
+
+1h champion unchanged: Exp97. MLP **6/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp127 recipe** (hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4)
-2. Change unused **batch_size** next, or raise lr to 1e-3 (opposite of the underfit). Do not retry nearby lr shrink, width shrink, dropout 0.4, or wd 1e-3
+1. Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4)
+2. Change unused **epochs** or **patience** next. Do not retry batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
