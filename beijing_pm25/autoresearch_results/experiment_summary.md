@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 114 experiments · 11 KEEP · 103 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 40/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 115 experiments · 11 KEEP · 104 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 41/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -140,6 +140,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 112 | DISCARD | catboost | 20.804 | 22.316 | -22.316 | 11.394 | 0.9500 |
 | 113 | DISCARD | catboost | 20.743 | 22.360 | -22.360 | 11.423 | 0.9503 |
 | 114 | DISCARD | catboost | 20.792 | 22.342 | -22.342 | 11.406 | 0.9501 |
+| 115 | DISCARD | catboost | 20.688 | 22.260 | -22.260 | 11.352 | 0.9506 |
 
 ## Champion residual slices (2014 test)
 
@@ -174,3 +175,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp112 se_iws DISCARD (val 22.316, test 20.804). January onset 139.91→143.53. 01-31 h1 inert. CatBoost 38/50.
 - Exp113 pm25_roll3mean DISCARD (val 22.360, test 20.743). Hour-2 abs 155→139. CatBoost 39/50.
 - Exp114 is_janfeb DISCARD (val 22.342, test 20.792). 2013 val persist 24.50 is harder year. CatBoost 40/50.
+- Exp115 drop lag13-24 DISCARD (val 22.260 near-miss, test 20.688). Long lags help 2013 val. CatBoost 41/50.

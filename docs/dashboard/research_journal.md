@@ -194,8 +194,16 @@ New diagnosis: **2013 val persist RMSE 24.50** vs 2014 test **22.32**. Exp97 ski
 
 1h champion unchanged: Exp97. CatBoost **40/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp115)
+
+New diagnosis: lag24 corr with y is **0.306 on 2013 val** vs **0.397 train** vs **0.440 test**. lag12 0.509 val vs 0.558 train vs 0.610 test. 2013 val persist **24.50** vs 2014 **22.32**.
+
+**Exp115 DISCARD** drop lag13-24. Val **22.260** (near-miss, +0.093) test **20.688** (beat). January 34.84→34.02. Hypothesis inverted: long lags slightly help 2013 val.
+
+1h champion unchanged: Exp97. CatBoost **41/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry month dummies / is_janfeb / roll3mean / se_iws / weather increments / lag1 flags / evening bins / heating products
-3. 2013 val persist 24.50 is a harder year; Exp97 already +9.5% skill there. Leave Exp97 or regularize for 2013 without calendar subsets or bomb-chasing. Do not start MLP
+2. Do not retry drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Long lags slightly help 2013 val. Leave Exp97 or regularize 2013 without lag-window cuts or calendar subsets. Do not start MLP
