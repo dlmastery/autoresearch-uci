@@ -52,6 +52,7 @@ def main() -> None:
     ).astype(float)
     extra["rh_delta"] = extra["rh_magnus"].diff().fillna(0.0)
     extra["temp_delta"] = extra["TEMP"].diff().fillna(0.0)
+    extra["se_iws"] = extra["cbwd_SE"] * extra["Iws"]
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 
