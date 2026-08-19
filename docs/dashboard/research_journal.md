@@ -110,8 +110,16 @@ New Exp97 slices: January is 8.7% of hours but **24.5% of SSE**. January persist
 
 1h champion unchanged: Exp97. CatBoost **28/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp103)
+
+New Exp97 slices: onset n=83 is **29.4% of SSE**. Onset dPRES>=1 n=20 is **14.7% SSE**, RMSE **158.68 vs persist 156.02** (need +119 pred_d −0.96). corr(pres_delta, need | onset)=**0.34**.
+
+**Exp103 DISCARD** pres_delta. Val 22.352 test 20.820. Onset dPRES>=1 158.68→**157.78**, pred_d still −0.40 versus need +119.
+
+1h champion unchanged: Exp97. CatBoost **29/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **CatBoost Exp97 SymmetricTree**
-2. Do not retry Depthwise max_leaves / Lossguide / heating products
-3. Leave the 0.7% shard or a non-grow-policy rethink. Do not start MLP
+1. Stay isolated on **CatBoost Exp97**
+2. Do not retry iws_delta / Depthwise / heating products / rsm / l2
+3. Leave Exp97 or a non-tendency rethink. Do not start MLP

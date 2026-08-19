@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 102 experiments · 11 KEEP · 91 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 28/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 103 experiments · 11 KEEP · 92 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 29/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -128,6 +128,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 100 | DISCARD | catboost | 20.726 | 22.178 | -22.178 | 11.348 | 0.9504 |
 | 101 | DISCARD | catboost | 20.990 | 22.322 | -22.322 | 11.483 | 0.9491 |
 | 102 | DISCARD | catboost | 21.040 | 22.322 | -22.322 | 11.392 | 0.9489 |
+| 103 | DISCARD | catboost | 20.820 | 22.352 | -22.352 | 11.440 | 0.9499 |
 
 ## Champion residual slices (2014 test)
 
@@ -150,3 +151,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp100 rh_iws DISCARD (val 22.178, test 20.726). Jan rh_iws q3 39.39→40.03. CatBoost 26/50.
 - Exp101 heating_build DISCARD (val 22.322, test 20.990). Jan persist>=150 delta1>0 53.00→53.86. CatBoost 27/50.
 - Exp102 Depthwise DISCARD (val 22.322, test 21.040). High-PRES building-dirty 68.80→77.22. CatBoost 28/50.
+- Exp103 pres_delta DISCARD (val 22.352, test 20.820). Onset dPRES>=1 158.68→157.78. CatBoost 29/50.
