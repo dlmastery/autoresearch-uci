@@ -41,6 +41,7 @@ def main() -> None:
     extra["heating_night"] = extra["is_heating"] * (
         (extra["hour"] >= 18.0) | (extra["hour"] <= 6.0)
     ).astype(float)
+    extra["rh_iws"] = extra["rh_magnus"] / (extra["Iws"] + 1.0)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

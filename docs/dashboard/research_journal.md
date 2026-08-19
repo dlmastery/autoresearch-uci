@@ -86,8 +86,16 @@ New Exp97 slices: January RH>=70 is **all Ir=0**. January RH>=70 Iws<2 n=45 RMSE
 
 1h champion unchanged: Exp97. CatBoost **25/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp100)
+
+New Exp97 slices: January RH>=70 Iws<2 persist>=150 n=17 RMSE **68.74 vs persist 36.22**. January RH>=70 Iws<2 dewp_rise n=12 RMSE **51.75 vs persist 9.02**. January rh_iws q3 n=156 RMSE **39.39 vs persist 28.71**.
+
+**Exp100 DISCARD** rh_iws. Val 22.178 (0.012 above Exp97). Test 20.726. January rh_iws q3 39.39→**40.03** worse. Ratio redundant with rh_magnus plus Iws.
+
+1h champion unchanged: Exp97. CatBoost **26/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97** (Plain + rh_magnus + dewp_delta + is_heating, val 22.167)
-2. Do not retry heating_day / bagging_temperature=5 / month_sin / rsm / l2 / wind dummy
-3. January RH>=70 Iws<2 leftover needs a non-clock non-bootstrap rethink. Do not start MLP
+2. Do not retry stagn_index / heating_day / T=5 / month_sin / rsm / l2
+3. January moist-calm persist leftover needs a non-ratio rethink. Do not start MLP

@@ -1,6 +1,6 @@
-# Autoresearch checkpoint — after Exp99 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp100 (1h still Exp97; t+6 recipe Exp76)
 
-**Updated:** 2026-08-18
+**Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
 **test_hash:** `efb0012c1873e5bf2fe56d0cbb3d429c1d879da92273a15cc7bb6532e0ba79fc`
 
@@ -13,23 +13,21 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW Exp97:** Jan RH>=70 all have Ir=0. Jan RH>=70 Iws<2 n=45 RMSE **42.65** vs persist **22.94** (skill −85.9%). Jan RH>=70 hours 0-5 n=37 RMSE **38.33** vs persist **18.85** (skill −103.4%). JJA RH>=70 Ir=0 is fine (14.93 vs persist 15.75).
-- **Exp98 heating_night:** hours 0-5 38.33→37.60; Iws<2 worsened 42.65→44.31.
-- **Exp99 bagging_temperature=2:** bit-identical to Exp97.
+- **NEW Exp97:** Jan RH>=70 Iws<2 persist>=150 n=17 RMSE **68.74** vs persist **36.22** (pred_d −30.2 vs need −12.2). Jan RH>=70 Iws<2 dewp_rise n=12 RMSE **51.75** vs persist **9.02**. Jan rh_iws q3 n=156 RMSE **39.39** vs persist **28.71**.
+- **Exp100 rh_iws:** Jan rh_iws q3 **40.03** worse. Val 22.178 (0.012 above Exp97). Test 20.726 slightly better.
 
 ## This fire
-- **Exp98 DISCARD** heating_night. Val 22.343. Axis closed: winter-night product.
-- **Exp99 DISCARD** bagging_temperature=2. Bit-identical. Axis closed: T=2 inert on 1h Plain.
+- **Exp100 DISCARD** rh_iws. Val 22.178 test 20.726. Axis closed: RH/Iws ratio.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- CatBoost 1h: Ordered, Plain lr=0.01, Plain depth=4, Lossguide, month_sin, pm25_accel, l2=10 on RH, rsm=0.8, cbwd_prev_NW, random_strength=2, heating_night, bagging_temperature=2 (inert)
+- CatBoost 1h: Ordered, Plain lr=0.01, Plain depth=4, Lossguide, month_sin, pm25_accel, l2=10 on RH, rsm=0.8, cbwd_prev_NW, random_strength=2, heating_night, bagging_temperature=2 (inert), rh_iws
 - is_heating is IN the champion
 - CatBoost t+6: l2=10, bagging_temperature=2 (inert), drop rh_magnus, random_strength=2
 - t+6 LGB recipe remains Exp76
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **25/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **26/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **CatBoost Exp97**. Do not retry heating_day / bagging_temperature=5 / month_sin / rsm / l2 / wind dummy. January RH>=70 Iws<2 leftover (42.65 vs persist 22.94) needs a non-clock non-bootstrap rethink. Do not start MLP.
+Stay isolated on **CatBoost Exp97**. Do not retry stagn_index / heating_day / T=5 / month_sin / rsm / l2. January moist-calm persist>=150 leftover (68.74 vs persist 36.22) needs a non-ratio rethink. Do not start MLP.
