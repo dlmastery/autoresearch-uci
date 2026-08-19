@@ -298,8 +298,16 @@ New diagnosis: collapse n=162 MLP **78.82 vs CatBoost 74.05** vs persist 97.87, 
 
 1h champion unchanged: Exp97. MLP **3/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp128)
+
+New diagnosis: hour 21 persist>=150 n=65 RMSE **58.72 vs CatBoost 50.21** vs persist **56.30**, need +1.72 pred_d **+5.15**. |need|>=80 n=82 is **46.5% of Exp127 SSE** vs 41.3% of Exp97, RMSE **139.40 vs CB 131.19**, pred_d **−16.53 vs CB −27.85**. April 29.24 vs CB 27.06.
+
+**Exp128 DISCARD** hidden 128-64-32. Val **23.080** missed Exp127 22.528. Test **21.344**. Hour-21 persist>=150 58.72→**64.79**. |need|>=80 139.40→**143.33**. Typical 7.03→**7.81**. Hypothesis inverted.
+
+1h champion unchanged: Exp97. MLP **4/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp127 recipe** (dropout 0.2, weight_decay 1e-4)
-2. Shrink width next. Do not retry dropout 0.4 or wd 1e-3
+1. Stay isolated on **MLP Exp127 recipe** (hidden 256-128-64, dropout 0.2, weight_decay 1e-4)
+2. Change unused Adam **lr** next. Do not retry nearby width shrink, dropout 0.4, or wd 1e-3
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167

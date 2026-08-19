@@ -50,6 +50,8 @@ def main() -> None:
         k, v = item.split("=", 1)
         if v.lower() in {"true", "false"}:
             bb[k] = v.lower() == "true"
+        elif v[:1] in "[{" and v[-1:] in "]}":
+            bb[k] = json.loads(v)
         else:
             try:
                 bb[k] = int(v) if v.isdigit() or (v.startswith("-") and v[1:].isdigit()) else float(v)

@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 127 experiments · 11 KEEP · 116 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 3/50 · FT-Transformer 0/50
+**Campaign:** 128 experiments · 11 KEEP · 117 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 4/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -153,6 +153,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 125 | DISCARD | mlp | 20.648 | 22.623 | -22.623 | 11.332 | 0.9507 |
 | 126 | DISCARD | mlp | 20.483 | 22.729 | -22.729 | 11.437 | 0.9515 |
 | 127 | DISCARD | mlp | 20.773 | 22.528 | -22.528 | 11.380 | 0.9501 |
+| 128 | DISCARD | mlp | 21.344 | 23.080 | -23.080 | 11.756 | 0.9474 |
 
 ## Champion residual slices (2014 test)
 
@@ -200,3 +201,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp125 MLP default DISCARD (val 22.623, test 20.648). January 34.84→31.02. Typical 8.35→7.28. MLP 1/50.
 - Exp126 MLP dropout=0.3 DISCARD (val 22.729, test **20.483** best 2014). April 28.86→26.61. MLP 2/50.
 - Exp127 MLP wd=1e-4 DISCARD 1h (val **22.528** beat Exp125 22.623, test 20.773). Collapse 78.82→81.47. MLP 3/50.
+- Exp128 MLP hidden 128-64-32 DISCARD (val **23.080**, test 21.344). Hour-21 persist>=150 58.72→64.79. Typical 7.03→7.81. MLP 4/50.
