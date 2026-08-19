@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 97 experiments · 11 KEEP · 86 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 23/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 99 experiments · 11 KEEP · 88 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 25/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -123,6 +123,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 95 | DISCARD | catboost | 21.005 | 22.451 | -22.451 | 11.549 | 0.9490 |
 | 96 | KEEP | catboost | 20.881 | 22.357 | -22.357 | 11.473 | 0.9496 |
 | 97 | KEEP | catboost | 20.735 | 22.167 | -22.167 | 11.398 | 0.9503 |
+| 98 | DISCARD | catboost | 20.786 | 22.343 | -22.343 | 11.411 | 0.9501 |
+| 99 | DISCARD | catboost | 20.735 | 22.167 | -22.167 | 11.398 | 0.9503 |
 
 ## Champion residual slices (2014 test)
 
@@ -140,3 +142,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 
 - **Exp96 KEEP** dewp_delta. First 1h KEEP since Exp30.
 - **Exp97 KEEP** is_heating on Exp96. Val 22.167 test 20.735. January RH bomb only 38.25→36.68. CatBoost 23/50.
+- Exp98 heating_night DISCARD (val 22.343). Jan RH>=70 Iws<2 42.65→44.31.
+- Exp99 bagging_temperature=2 DISCARD (bit-identical to Exp97). CatBoost 25/50.

@@ -38,6 +38,9 @@ def main() -> None:
     extra["DEWP_lag1"] = extra["DEWP_lag1"].fillna(extra["DEWP"])
     extra["cbwd_prev_NW"] = extra["cbwd_NW"].shift(1).fillna(extra["cbwd_NW"])
     extra["dewp_delta"] = extra["DEWP"].diff().fillna(0.0)
+    extra["heating_night"] = extra["is_heating"] * (
+        (extra["hour"] >= 18.0) | (extra["hour"] <= 6.0)
+    ).astype(float)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

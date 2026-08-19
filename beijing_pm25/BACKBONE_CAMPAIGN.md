@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp97 KEEP:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 23/50. **1h champion is now Exp97 CatBoost.**
+**Honest audit after Exp99:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 25/50. **1h champion remains Exp97 CatBoost.**
 
 ## Mandate vs what happened
 
@@ -22,14 +22,14 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
 | lightgbm | 20, 25, 29–76 (50) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018; Tie 2017 Sci Rep | Yes |
-| catboost | 21, 26, 77–97 (23) | Prokhorenkova 2018; Tie 2017 RH+dewp_delta; Huang 2014 Nature is_heating | No |
+| catboost | 21, 26, 77–99 (25) | Prokhorenkova 2018 bagging_temperature inert; Tie 2017; Huang 2014 is_heating | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
 ## Recovery (from Exp32; after Exp76)
 
-Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **23/50** (**1h champion Exp97 CatBoost**; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
+Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **25/50** (**1h champion Exp97 CatBoost**; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
 Do not start MLP / FT-Transformer until CatBoost is snapshotted.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
@@ -101,6 +101,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 65. ~~CatBoost 1h random_strength=2 on Exp91~~ Exp95 DISCARD (val 22.451 inert vs Exp91 22.449)
 66. **CatBoost 1h dewp_delta on Exp91** Exp96 **KEEP** (val 22.357 / test 20.881). New 1h champion.
 67. **CatBoost 1h is_heating on Exp96** Exp97 **KEEP** (val 22.167 / test 20.735). New 1h champion.
-68. **Stay on Exp97. Diagnose January RH>=70 leftover. Do not retry month_sin / rsm / l2 / wind dummy. Do not start MLP.** ← **next**
+68. ~~CatBoost 1h heating_night on Exp97~~ Exp98 DISCARD (val 22.343; Iws<2 worse)
+69. ~~CatBoost 1h bagging_temperature=2 on Exp97~~ Exp99 DISCARD (bit-identical)
+70. **Stay on Exp97. Do not retry heating_day / T=5. January RH>=70 Iws<2 leftover needs a non-clock non-bootstrap rethink. Do not start MLP.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.
