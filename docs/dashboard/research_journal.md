@@ -282,8 +282,16 @@ Snapshot `code_versions/catboost_final`. New diagnosis: typical |need|<=10 n=511
 
 1h champion unchanged: Exp97. MLP **1/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp126)
+
+New diagnosis: MLP val-test gap **1.975** vs CatBoost **1.432**. February 24.09→25.56 and April 27.06→28.86 ate Exp125's January win (34.84→31.02). 2013 February persist **38.30** vs 2014 **26.01**.
+
+**Exp126 DISCARD** dropout=0.3. Val **22.729** worse than Exp125 22.623. Test **20.483** (new best 2014). April 28.86→**26.61**. February still 25.47 vs Exp97 24.09. Hypothesis inverted.
+
+1h champion unchanged: Exp97. MLP **2/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp125 recipe**
-2. Regularize 2013 val (dropout / width / weight_decay). Do not mix CatBoost HPs
-3. 1h champion remains Exp97 until MLP composite beats −22.167
+1. Stay isolated on **MLP Exp125 recipe** (dropout 0.2)
+2. Regularize 2013 val with width or weight_decay, not another dropout
+3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167

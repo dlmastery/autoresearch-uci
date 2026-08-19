@@ -117,7 +117,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 81. ~~CatBoost 1h is_morning on Exp97~~ Exp122 DISCARD (val 22.346; hour 8-9 18.16→18.00; val rose)
 82. ~~CatBoost 1h dow_sin on Exp97~~ Exp123 DISCARD (val 22.360; Thursday 20.85→21.31)
 83. ~~CatBoost 1h cv_inv on Exp97~~ Exp124 DISCARD (val 22.250; cv persist>=150 28.95→29.44)
-84. ~~MLP default 256-128-64 on Exp97 features~~ Exp125 DISCARD (val 22.623; test **20.648** best 2014; Jan 31.02)
-85. **Stay on MLP Exp125 recipe. Regularize 2013 val (dropout/width/wd). Do not mix CatBoost HPs. 1h champion Exp97.** ← **next**
+84. ~~MLP default 256-128-64 on Exp97 features~~ Exp125 DISCARD (val 22.623; test 20.648; Jan 31.02)
+85. ~~MLP dropout=0.3 on Exp125 recipe~~ Exp126 DISCARD (val 22.729; test **20.483** best 2014)
+86. **Stay on MLP Exp125 recipe. Regularize 2013 val with width or weight_decay, not dropout 0.4. Do not mix CatBoost HPs. 1h champion Exp97.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.
