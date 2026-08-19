@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 90 experiments · 9 KEEP · 81 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 16/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 92 experiments · 9 KEEP · 83 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 18/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -114,6 +114,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 88 | DISCARD | catboost | 20.802 | 22.488 | -22.488 | 11.475 | 0.9500 |
 | 89 | DISCARD | catboost | 21.056 | 22.708 | -22.708 | 11.525 | 0.9488 |
 | 90 | DISCARD | catboost | 21.133 | 22.467 | -22.467 | 11.500 | 0.9484 |
+| 91 | DISCARD | catboost | 21.045 | 22.449 | -22.449 | 11.510 | 0.9488 |
+| 92 | DISCARD | catboost | 20.822 | 22.596 | -22.596 | 11.541 | 0.9499 |
 
 ## Champion residual slices (2014 test)
 
@@ -168,3 +170,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp88 CatBoost 1h l2=10 DISCARD (val 22.488, **test 20.802** beat Exp30). Hour-10 persist>=150 48.03→39.21. CatBoost 14/50.
 - Exp89 CatBoost 1h month_sin DISCARD (val 22.708, test 21.056). Jan cv 33.27→32.97. JJA tax.
 - Exp90 CatBoost 1h pm25_accel DISCARD (val 22.467, test 21.133). Jan cv 35.26 worse. CatBoost 16/50.
+- Exp91 CatBoost 1h rh_magnus DISCARD / NEAR-MISS (val **22.449** best CatBoost val, 0.052 from Exp30; test 21.045). Low-PRES dirty 31.25→29.82.
+- Exp92 CatBoost RH+l2=10 DISCARD (val 22.596, test 20.822 beat Exp30). CatBoost 18/50.

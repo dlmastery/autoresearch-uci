@@ -27,6 +27,11 @@ def main() -> None:
     mo = pd.to_datetime(times["time"]).dt.month
     extra["is_heating"] = mo.isin([11, 12, 1, 2]).astype(float)
     extra["month_sin"] = np.sin(2.0 * np.pi * mo / 12.0)
+    extra["rh_magnus"] = (
+        100.0 * np.exp(17.625 * extra["DEWP"] / (243.04 + extra["DEWP"])) / np.exp(
+            17.625 * extra["TEMP"] / (243.04 + extra["TEMP"])
+        )
+    ).clip(0.0, 100.0)
     # First row of weather lags is NaN; fill from contemporaneous so n_rows stays frozen.
     extra["Iws_lag1"] = extra["Iws_lag1"].fillna(extra["Iws"])
     extra["TEMP_lag1"] = extra["TEMP_lag1"].fillna(extra["TEMP"])

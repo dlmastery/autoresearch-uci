@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp90:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 16/50.
+**Honest audit after Exp92:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 18/50.
 
 ## Mandate vs what happened
 
@@ -22,14 +22,14 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
 | lightgbm | 20, 25, 29–76 (50) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018; Tie 2017 Sci Rep | Yes |
-| catboost | 21, 26, 77–90 (16) | Prokhorenkova 2018; Ke 2017; Zheng 2013 KDD month_sin; Tie 2017 | No |
+| catboost | 21, 26, 77–92 (18) | Prokhorenkova 2018; Ke 2017; Zheng 2013; Tie 2017 RH | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
 ## Recovery (from Exp32; after Exp76)
 
-Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **16/50** (1h champion still Exp30; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
+Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **18/50** (1h champion still Exp30; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
 Do not start MLP / FT-Transformer until CatBoost is snapshotted.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
@@ -94,6 +94,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 58. ~~CatBoost 1h l2_leaf_reg=10~~ Exp88 DISCARD (val 22.488; **test 20.80** beat Exp30; hour-10 HIT)
 59. ~~CatBoost 1h month_sin~~ Exp89 DISCARD (val 22.708; Jan cv flat; JJA tax)
 60. ~~CatBoost 1h pm25_accel~~ Exp90 DISCARD (val 22.467; Jan cv worse)
-61. **Stay on Exp78. Do not retry month_sin / accel / l2=20 / Lossguide. Leave NEAR-MISS or a non-lag physical feature. Do not start MLP.** ← **next**
+61. ~~CatBoost 1h rh_magnus~~ Exp91 DISCARD / NEAR-MISS (val **22.449** best CatBoost val)
+62. ~~CatBoost RH+l2=10~~ Exp92 DISCARD (val 22.596; test 20.82 beat Exp30)
+63. **Stay on Exp91 rh_magnus. Do not retry l2=10 / month_sin / accel / Lossguide. Leave 0.052 NEAR-MISS or non-regularizer rethink. Do not start MLP.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.
