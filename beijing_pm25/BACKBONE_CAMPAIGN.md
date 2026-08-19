@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp80:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 6/50.
+**Honest audit after Exp82:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 8/50.
 
 ## Mandate vs what happened
 
@@ -22,14 +22,14 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
 | lightgbm | 20, 25, 29–76 (50) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018; Tie 2017 Sci Rep | Yes |
-| catboost | 21, 26, 77–80 (6) | Prokhorenkova 2018 Ordered/Plain; Dorogush 2018 lr | No |
+| catboost | 21, 26, 77–82 (8) | Prokhorenkova 2018 Ordered/Plain/l2; Dorogush 2018 lr | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
 ## Recovery (from Exp32; after Exp76)
 
-Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **6/50** (1h champion still Exp30; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
+Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **8/50** (1h champion still Exp30; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
 Do not start MLP / FT-Transformer until CatBoost is snapshotted.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
@@ -84,6 +84,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 48. ~~CatBoost Plain on Exp30 features~~ Exp78 DISCARD / NEAR-MISS (val 22.472; h20 Jan 25.59) ← **current CatBoost recipe**
 49. ~~CatBoost Plain lr=0.01~~ Exp79 DISCARD (val 22.587; Jan typical still −11)
 50. ~~CatBoost Plain depth=4~~ Exp80 DISCARD (val 22.795; Jan typical −9.6, JJA tax)
-51. **Stay on Exp78 Plain depth6 lr=0.03. Next: l2_leaf_reg or CatBoost t+6. Do not retry Ordered / lr 0.01 / depth 4.** ← **next**
+51. ~~CatBoost Plain t+6 on Exp76 features~~ Exp81 DISCARD (val 57.86; test **53.93** beat Exp76)
+52. ~~CatBoost t+6 l2_leaf_reg=10~~ Exp82 DISCARD (val 58.16; Sat typical flat)
+53. **Stay on CatBoost. Next: bagging_temperature or t+6 feature. Do not retry Ordered / lr 0.01 / depth 4 / l2=10.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

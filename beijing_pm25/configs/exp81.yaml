@@ -1,0 +1,82 @@
+paths:
+  results_dir: C:\Users\abhir\autoresearch-uci\beijing_pm25\autoresearch_results
+task_type: regression
+primary_metric: rmse
+backbone: catboost
+backbone_config:
+  seed: 0
+  n_jobs: 4
+  iterations: 2000
+  depth: 6
+  learning_rate: 0.03
+  l2_leaf_reg: 3
+  early_stopping_rounds: 100
+  boosting_type: Plain
+data:
+  format: csv
+  path: C:\Users\abhir\autoresearch-uci\beijing_pm25\data\features_horizon6.csv
+  target_columns:
+  - pm25
+  feature_columns:
+  - DEWP
+  - TEMP
+  - PRES
+  - Iws
+  - Is
+  - Ir
+  - cbwd_NE
+  - cbwd_NW
+  - cbwd_SE
+  - cbwd_cv
+  - pm25_lag1
+  - pm25_lag2
+  - pm25_lag3
+  - pm25_lag4
+  - pm25_lag5
+  - pm25_lag6
+  - pm25_lag7
+  - pm25_lag8
+  - pm25_lag9
+  - pm25_lag10
+  - pm25_lag11
+  - pm25_lag12
+  - pm25_lag13
+  - pm25_lag14
+  - pm25_lag15
+  - pm25_lag16
+  - pm25_lag17
+  - pm25_lag18
+  - pm25_lag19
+  - pm25_lag20
+  - pm25_lag21
+  - pm25_lag22
+  - pm25_lag23
+  - pm25_lag24
+  - hour_sin
+  - hour_cos
+  - dow
+  - is_weekend
+  - pm25_delta1
+  - inversion_spread
+  - month_sin
+  - pres_delta
+  - dewp_delta
+  - cbwd_prev_NW
+  - rh_magnus
+split:
+  name: calendar_year
+  manifest_dir: C:\Users\abhir\autoresearch-uci\beijing_pm25\data
+composite:
+  higher_is_better: false
+  penalty_weight: 0.1
+  below_threshold: -40.0
+hardware:
+  n_threads: 4
+  cpu_affinity:
+  - 0
+  - 2
+  - 4
+  - 6
+description: Exp81 CatBoost Plain on Exp76 t+6 rh_magnus features (CatBoost cycle
+  7/50)
+seed: 0
