@@ -234,8 +234,16 @@ New diagnosis: hour 1 RMSE **29.32 vs persist 28.19**. 2013 val hour-1 need **�
 
 1h champion unchanged: Exp97. CatBoost **45/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp120)
+
+New diagnosis: January PRES>=1025 n=428 is **16.5% of 2014 SSE**, RMSE **36.25 vs persist 33.83**, need +0.52 pred_d **−5.60**. Train 2011 PRES>=1025 **34.7%** vs 2013 val 24.4 vs 2014 25.9. Inversion mean train ~10.1 vs val 11.03 vs test 11.67.
+
+**Exp120 DISCARD** border_count=128. Val **22.264** test **21.139**. January PRES>=1025 36.25→**38.85**, pred_d −5.60→**−5.88**. Coarser borders over-cleaned more.
+
+1h champion unchanged: Exp97. CatBoost **46/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Keep weekday features and Bayesian bagging. Leave Exp97 or regularize 2013 with a non-nearby unused knob. Do not start MLP
+2. Do not retry border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Keep weekday features, Bayesian bagging, default 254 borders. Leave Exp97 or rethink a feature (not another unused regularizer HP). Do not start MLP

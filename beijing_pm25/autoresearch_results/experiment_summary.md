@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 119 experiments · 11 KEEP · 108 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 45/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 120 experiments · 11 KEEP · 109 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 46/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -145,6 +145,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 117 | DISCARD | catboost | 20.795 | 22.212 | -22.212 | 11.398 | 0.9500 |
 | 118 | DISCARD | catboost | 20.735 | 22.167 | -22.167 | 11.398 | 0.9503 |
 | 119 | DISCARD | catboost | 20.818 | 22.231 | -22.231 | 11.433 | 0.9499 |
+| 120 | DISCARD | catboost | 21.139 | 22.264 | -22.264 | 11.572 | 0.9484 |
 
 ## Champion residual slices (2014 test)
 
@@ -184,3 +185,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp117 drop dow DISCARD (val 22.212 near-miss, test 20.795). Thursday 20.85→21.82. CatBoost 43/50.
 - Exp118 model_size_reg=1.0 DISCARD (bit-identical to Exp97). Hour-20 Wednesday and Friday evenings unchanged. CatBoost 44/50.
 - Exp119 Bernoulli subsample=0.8 DISCARD (val 22.231, test 20.818). January hour-1 74.63→74.97. CatBoost 45/50.
+- Exp120 border_count=128 DISCARD (val 22.264, test 21.139). January PRES>=1025 36.25→38.85. CatBoost 46/50.
