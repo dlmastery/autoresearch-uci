@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp86:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 12/50.
+**Honest audit after Exp88:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is 50/50. Isolated CatBoost is 14/50.
 
 ## Mandate vs what happened
 
@@ -22,14 +22,14 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
 | lightgbm | 20, 25, 29–76 (50) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018; Tie 2017 Sci Rep | Yes |
-| catboost | 21, 26, 77–86 (12) | Prokhorenkova 2018 Ordered/Plain/l2/bagging/random_strength; Tie 2017 RH | No |
+| catboost | 21, 26, 77–88 (14) | Prokhorenkova 2018; Ke 2017 Lossguide; Tie 2017 RH | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
 ## Recovery (from Exp32; after Exp76)
 
-Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **12/50** (1h champion still Exp30; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
+Isolation: LightGBM cycle is **50/50 complete**. Isolated CatBoost is **14/50** (1h champion still Exp30; t+6 recipe Exp76). Snapshot `code_versions/catboost_start/`.
 Do not start MLP / FT-Transformer until CatBoost is snapshotted.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
@@ -90,6 +90,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 54. ~~CatBoost t+6 drop rh_magnus~~ Exp84 DISCARD (val 58.07; RH<40 worse)
 55. ~~CatBoost Ordered t+6~~ Exp85 DISCARD (val **57.66** closest CatBoost t+6, still miss)
 56. ~~CatBoost Ordered t+6 random_strength=2~~ Exp86 DISCARD (val 57.68; test 54.25)
-57. **Return to 1h Exp78 Plain. Do not retry t+6 randomness HPs / l2=10 / drop rh_magnus / 1h Ordered / lr 0.01 / depth 4.** ← **next**
+57. ~~CatBoost 1h Lossguide~~ Exp87 DISCARD (val 22.476; hour-10 worse)
+58. ~~CatBoost 1h l2_leaf_reg=10~~ Exp88 DISCARD (val 22.488; **test 20.80** beat Exp30; hour-10 HIT)
+59. **Stay on CatBoost. Best val Exp78. Do not retry l2=20 / Lossguide / 1h Ordered / lr 0.01 / depth 4. Feature rethink or leave NEAR-MISS.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

@@ -346,6 +346,10 @@ class CatBoostBackbone(Backbone):
         }
         if config.get("boosting_type") is not None:
             params["boosting_type"] = str(config["boosting_type"])
+        if config.get("grow_policy") is not None:
+            params["grow_policy"] = str(config["grow_policy"])
+        if config.get("max_leaves") is not None:
+            params["max_leaves"] = int(config["max_leaves"])
         self._params = params
         if self._task_type in ("binary_classification", "multiclass_classification"):
             self._model = CatBoostClassifier(**params)
