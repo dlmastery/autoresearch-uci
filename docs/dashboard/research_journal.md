@@ -290,8 +290,16 @@ New diagnosis: MLP val-test gap **1.975** vs CatBoost **1.432**. February 24.09�
 
 1h champion unchanged: Exp97. MLP **2/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp127)
+
+New diagnosis: collapse n=162 MLP **78.82 vs CatBoost 74.05** vs persist 97.87, pred_d **−22.24** vs CB **−24.95** vs need **−86.31**. December 21.58 vs CB 21.02. Hour 1 27.90 beats persist 28.19.
+
+**Exp127 DISCARD** 1h (composite −22.528 vs Exp97 −22.167). Val **22.528** beat Exp125 22.623 (new MLP val recipe). Test 20.773. Collapse 78.82→**81.47**. January 31.02→**30.82**.
+
+1h champion unchanged: Exp97. MLP **3/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp125 recipe** (dropout 0.2)
-2. Regularize 2013 val with width or weight_decay, not another dropout
+1. Stay isolated on **MLP Exp127 recipe** (dropout 0.2, weight_decay 1e-4)
+2. Shrink width next. Do not retry dropout 0.4 or wd 1e-3
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
