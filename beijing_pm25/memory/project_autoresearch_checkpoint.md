@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp112 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp113 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -13,21 +13,21 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW Exp97:** January onset n=18 is **10.3% SSE**, RMSE **139.91** vs persist **127.93**. **2014-01-31 hour 1** alone is **3.5% of all 2014 SSE**, need **+332**, SE, Iws **41.58**. January onset SE n=10 is **6.9% SSE**, RMSE **154.00** vs persist **149.49**. corr(se×Iws, need | Jan onset)=**0.56**. se_start hours beat persist.
-- **Exp112 se_iws:** val 22.316, January onset 139.91→143.53 worse, 01-31 h1 348→347 inert.
+- **NEW Exp97:** January excluding 10 bomb hours (01-16 h0-8 + 01-31 h1) n=679 **BEATS persist**, RMSE **29.19** vs **30.83**, skill **+5.3%**. The 10 bombs are **7.5% SSE**, RMSE **160.58** vs persist **114.72**. Hour 2 after the +332 spike chases lag1=469 to pred **499** vs actual **344**.
+- **Exp113 pm25_roll3mean:** val 22.360, hour-2 abs 155→139, January post-onset 89.11→83.90, val still lost.
 
 ## This fire
-- **Exp112 DISCARD** se_iws. Test 20.804 val 22.316. Axis closed: SE×Iws products.
+- **Exp113 DISCARD** pm25_roll3mean. Test 20.743 val 22.360. Axis closed: rolling persist means.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
-- CatBoost 1h: Ordered, Plain lr=0.01, Plain depth=4, Lossguide, Depthwise, month_sin, pm25_accel, l2=10 on RH, rsm=0.8, cbwd_prev_NW, random_strength=2, heating_night, bagging_temperature=2 (inert), rh_iws, heating_build, pres_delta, min_data_in_leaf=20 (inert), early_stopping=50 (inert), pm25_delta6, log_iws, is_severe, evening_peak, rh_delta, temp_delta, se_iws
+- CatBoost 1h: Ordered, Plain lr=0.01, Plain depth=4, Lossguide, Depthwise, month_sin, pm25_accel, l2=10 on RH, rsm=0.8, cbwd_prev_NW, random_strength=2, heating_night, bagging_temperature=2 (inert), rh_iws, heating_build, pres_delta, min_data_in_leaf=20 (inert), early_stopping=50 (inert), pm25_delta6, log_iws, is_severe, evening_peak, rh_delta, temp_delta, se_iws, pm25_roll3mean
 - is_heating is IN the champion
 - CatBoost t+6: l2=10, bagging_temperature=2 (inert), drop rh_magnus, random_strength=2
 - t+6 LGB recipe remains Exp76
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **38/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **39/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **CatBoost Exp97**. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins / rh_delta / temp_delta / extra weather increments / se_iws / se_start. Leave Exp97 or rethink the 2014-01-31 hour-1 bomb (3.5% SSE, need +332) without lag1 flags, wind-scale, 6h trend, evening bins, RH increments, extra weather deltas, or SE-Iws products. Do not start MLP.
+Stay isolated on **CatBoost Exp97**. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6max / roll3mean / is_severe / evening_peak / hour bins / rh_delta / temp_delta / extra weather increments / se_iws / se_start. January typical hours already beat persist. Leave Exp97 or target 2013 val without bomb-chasing features. Do not start MLP.

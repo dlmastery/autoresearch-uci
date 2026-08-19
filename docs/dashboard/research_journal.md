@@ -178,8 +178,16 @@ New Exp97 slices: January onset n=18 is **10.3% SSE**, RMSE **139.91 vs persist 
 
 1h champion unchanged: Exp97. CatBoost **38/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp113)
+
+New Exp97 slices: January excluding 10 bomb hours (01-16 h0-8 + 01-31 h1) n=679 **BEATS persist**, RMSE **29.19 vs 30.83**, skill **+5.3%**. The 10 bombs are **7.5% SSE**, RMSE **160.58 vs persist 114.72**. After the +332 spike, hour 2 chases lag1=469 to pred **499** vs actual **344**.
+
+**Exp113 DISCARD** pm25_roll3mean. Val **22.360** test **20.743**. Hour-2 abs 155→**139**. January post-onset 89.11→83.90 still vs persist 59.80.
+
+1h champion unchanged: Exp97. CatBoost **39/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins / rh_delta / temp_delta / extra weather increments / se_iws / se_start
-3. Leave Exp97 or rethink the 2014-01-31 hour-1 bomb (3.5% SSE, need +332) without lag1 flags, wind-scale, 6h trend, evening bins, RH increments, extra weather deltas, or SE-Iws products. Do not start MLP
+2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6max / roll3mean / is_severe / evening_peak / hour bins / rh_delta / temp_delta / extra weather increments / se_iws / se_start
+3. January typical hours already beat persist. Leave Exp97 or target 2013 val without bomb-chasing features. Do not start MLP
