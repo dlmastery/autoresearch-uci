@@ -116,6 +116,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 80. ~~CatBoost 1h nw_iws on Exp97~~ Exp121 DISCARD (val 22.240; H20 NW 18.55→17.49; val rose)
 81. ~~CatBoost 1h is_morning on Exp97~~ Exp122 DISCARD (val 22.346; hour 8-9 18.16→18.00; val rose)
 82. ~~CatBoost 1h dow_sin on Exp97~~ Exp123 DISCARD (val 22.360; Thursday 20.85→21.31)
-83. **Stay on Exp97. Last CatBoost slot 50/50. Do not retry dow_sin/dow_cos. Leave Exp97 or one unused feature that is not cyclic weekday, hour bins, wind-speed products, or unused regularizer HPs. Do not start MLP.** ← **next**
+83. ~~CatBoost 1h cv_inv on Exp97~~ Exp124 DISCARD (val 22.250; cv persist>=150 28.95→29.44)
+84. **CatBoost 50/50 complete. Snapshot catboost_final. Isolate MLP 1/50 from Exp97 features. Do not mix CatBoost HPs.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

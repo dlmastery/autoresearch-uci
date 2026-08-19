@@ -266,8 +266,16 @@ New diagnosis: corr(dow_sin, y) val **−0.078** vs 2011 **+0.051** vs 2012 **�
 
 1h champion unchanged: Exp97. CatBoost **49/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp124)
+
+New diagnosis: cv persist>=150 n=505 is **12.4% of 2014 SSE**, RMSE **28.95 vs persist 27.68**, need +1.28 pred_d **−0.01**. 2013 val cv-dirty persist RMSE **37.95** vs 2014 **27.68**, 2013 need **−0.09** vs 2014 **+1.28**. Mean inversion 6.36.
+
+**Exp124 DISCARD** cv_inv. Val **22.250** test **20.754**. cv persist>=150 28.95→**29.44**, pred_d −0.01→**−0.38**. Calm times inversion over-cleaned.
+
+1h champion unchanged: Exp97. **CatBoost 50/50 complete.** t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **CatBoost Exp97**
-2. Do not retry dow_sin / dow_cos / hour-bin dummies / wind×Iws / border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Keep numeric dow, is_weekend, hour_sin/hour_cos. Last CatBoost slot (50/50): leave Exp97 or one unused feature that is not cyclic weekday, hour bins, wind-speed products, or unused regularizer HPs. Do not start MLP until CatBoost 50/50.
+1. Snapshot `catboost_final` from Exp97
+2. Isolate **MLP** (1/50) from Exp97 features on the frozen 2014 test year
+3. Do not mix CatBoost HPs into MLP. Do not retry cv_inv / dow_sin / hour bins / wind×Iws

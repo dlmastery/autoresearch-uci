@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 123 experiments · 11 KEEP · 112 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 49/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 124 experiments · 11 KEEP · 113 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -149,6 +149,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 121 | DISCARD | catboost | 20.804 | 22.240 | -22.240 | 11.391 | 0.9500 |
 | 122 | DISCARD | catboost | 20.763 | 22.346 | -22.346 | 11.397 | 0.9502 |
 | 123 | DISCARD | catboost | 20.829 | 22.360 | -22.360 | 11.437 | 0.9499 |
+| 124 | DISCARD | catboost | 20.754 | 22.250 | -22.250 | 11.410 | 0.9502 |
 
 ## Champion residual slices (2014 test)
 
@@ -192,3 +193,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp121 nw_iws DISCARD (val 22.240, test 20.804). Hour-20 NW 18.55→17.49 but val rose. CatBoost 47/50.
 - Exp122 is_morning DISCARD (val 22.346, test 20.763). Hour 8-9 18.16→18.00 but val rose. CatBoost 48/50.
 - Exp123 dow_sin DISCARD (val 22.360, test 20.829). Thursday 20.85→21.31. CatBoost 49/50.
+- Exp124 cv_inv DISCARD (val 22.250, test 20.754). cv persist>=150 28.95→29.44. **CatBoost 50/50 complete.**
