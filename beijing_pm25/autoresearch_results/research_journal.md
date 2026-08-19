@@ -242,8 +242,16 @@ New diagnosis: January PRES>=1025 n=428 is **16.5% of 2014 SSE**, RMSE **36.25 v
 
 1h champion unchanged: Exp97. CatBoost **46/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp121)
+
+New diagnosis: hour-20 NW n=66 RMSE **18.55 vs persist 13.83**, need +1.88 pred_d **−1.49**. NW persist>=150 Iws>=10 n=101 RMSE **47.82 vs persist 55.06** but pred_d **−28.2** vs need −19.15. Train NW share 32–37% vs 2013 31.4 vs 2014 28.2.
+
+**Exp121 DISCARD** nw_iws. Val **22.240** test **20.804**. Hour-20 NW 18.55→**17.49** (pred_d −1.49→−0.74) but val rose. Dirty NW Iws>=10 over-cleaned more (−28.2→**−30.28**).
+
+1h champion unchanged: Exp97. CatBoost **47/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Keep weekday features, Bayesian bagging, default 254 borders. Leave Exp97 or rethink a feature (not another unused regularizer HP). Do not start MLP
+2. Do not retry wind×Iws / border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Keep weekday features, Bayesian bagging, default 254 borders. Leave Exp97 or rethink a feature that is not wind-speed products or unused regularizer HPs. Do not start MLP
