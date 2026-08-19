@@ -114,6 +114,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 78. ~~CatBoost 1h Bernoulli subsample=0.8 on Exp97~~ Exp119 DISCARD (val 22.231; Jan hour-1 74.63→74.97)
 79. ~~CatBoost 1h border_count=128 on Exp97~~ Exp120 DISCARD (val 22.264; test 21.139; Jan PRES 36.25→38.85)
 80. ~~CatBoost 1h nw_iws on Exp97~~ Exp121 DISCARD (val 22.240; H20 NW 18.55→17.49; val rose)
-81. **Stay on Exp97. Do not retry wind×Iws. Leave Exp97 or rethink a feature that is not wind-speed products or unused regularizer HPs. Do not start MLP.** ← **next**
+81. ~~CatBoost 1h is_morning on Exp97~~ Exp122 DISCARD (val 22.346; hour 8-9 18.16→18.00; val rose)
+82. **Stay on Exp97. Do not retry hour-bin dummies. Leave Exp97 or rethink a feature that is not hour bins, wind-speed products, or unused regularizer HPs. Do not start MLP.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

@@ -57,6 +57,7 @@ def main() -> None:
     extra["is_janfeb"] = mo.isin([1, 2]).astype(float)
     extra["iws_clip100"] = np.minimum(extra["Iws"], 100.0)
     extra["nw_iws"] = extra["cbwd_NW"] * extra["Iws"]
+    extra["is_morning"] = ((extra["hour"] >= 7.0) & (extra["hour"] <= 9.0)).astype(float)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

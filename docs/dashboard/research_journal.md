@@ -250,8 +250,16 @@ New diagnosis: hour-20 NW n=66 RMSE **18.55 vs persist 13.83**, need +1.88 pred_
 
 1h champion unchanged: Exp97. CatBoost **47/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp122)
+
+New diagnosis: hour 8-9 n=663 RMSE **18.16 vs persist 18.26**, need −0.20 pred_d **−1.47**. 2013 val hour 8-9 need **−2.37** vs 2014 **−0.20** vs 2010 **+0.05**. January hour 8-9 need +0.26 pred_d −2.80.
+
+**Exp122 DISCARD** is_morning. Val **22.346** test **20.763**. Hour 8-9 18.16→**18.00** (pred_d −1.47→−1.14) but 2013 val rose. Morning flag overfit 2013 breakup.
+
+1h champion unchanged: Exp97. CatBoost **48/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry wind×Iws / border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Keep weekday features, Bayesian bagging, default 254 borders. Leave Exp97 or rethink a feature that is not wind-speed products or unused regularizer HPs. Do not start MLP
+2. Do not retry hour-bin dummies / wind×Iws / border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Keep weekday features, hour_sin/hour_cos, Bayesian bagging, default 254 borders. Leave Exp97 or rethink a feature that is not hour bins, wind-speed products, or unused regularizer HPs. Do not start MLP
