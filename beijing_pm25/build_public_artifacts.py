@@ -44,8 +44,14 @@ def load_log() -> list[dict]:
     return rows
 
 
+def champion_num() -> int:
+    best = json.loads((RESULTS / "best_config.json").read_text(encoding="utf-8"))
+    return int(best["experiment_num"])
+
+
 def champion_preds() -> pd.DataFrame:
-    pred = pd.read_csv(RESULTS / "trade_logs" / "exp30_predictions.csv")
+    n = champion_num()
+    pred = pd.read_csv(RESULTS / "trade_logs" / f"exp{n}_predictions.csv")
     times = pd.read_csv(DATA / "times.csv", parse_dates=["time"])
     pred["time"] = times.iloc[pred["index"].to_numpy()].reset_index(drop=True)["time"].to_numpy()
     pred["month"] = pred["time"].dt.month
@@ -55,7 +61,8 @@ def champion_preds() -> pd.DataFrame:
 
 
 def build_diagnostics(pred: pd.DataFrame, log: list[dict]) -> dict:
-    champ = next(e for e in log if e["experiment_num"] == 30)
+    n = champion_num()
+    champ = next(e for e in log if e["experiment_num"] == n)
     y, p = pred["actual"].to_numpy(), pred["prediction"].to_numpy()
     onset = pred[pred["delta_actual"] >= 50]
     collapse = pred[pred["delta_actual"] <= -50]
@@ -85,8 +92,8 @@ def build_diagnostics(pred: pd.DataFrame, log: list[dict]) -> dict:
     for e in log:
         bb[e.get("backbone", "?")] += 1
     return {
-        "experiment_num": 30,
-        "backbone": "lightgbm",
+        "experiment_num": n,
+        "backbone": champ.get("backbone", "unknown"),
         "composite": champ["composite"],
         "test_rmse": float(rmse(y, p)),
         "val_rmse": champ["val_primary"],

@@ -2,9 +2,9 @@
 
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
-**Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 95 experiments · 9 KEEP · 86 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 21/50 · MLP 0/50 · FT-Transformer 0/50
+**Champion:** Exp96 catboost · test RMSE **20.881** · val RMSE **22.357** · skill vs persistence **+6.4%**
+**Campaign:** 96 experiments · 10 KEEP · 86 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 22/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -19,6 +19,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 22 | xgboost | from champion: stack inversion_spread onto delta champion | 21.122 | 22.470 | -22.470 |
 | 29 | lightgbm | LightGBM on Exp22 inversion+delta features | 20.784 | 22.428 | -22.428 |
 | 30 | lightgbm | LightGBM num_leaves 31 to 63 on Exp29 champion | 20.945 | 22.397 | -22.397 |
+| 96 | catboost | CatBoost Plain add dewp_delta on Exp91 rh_magnus (CatBoost cycle 22/50) | 20.881 | 22.357 | -22.357 |
 
 ## All experiments
 
@@ -119,62 +120,22 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 93 | DISCARD | catboost | 20.945 | 22.569 | -22.569 | 11.531 | 0.9493 |
 | 94 | DISCARD | catboost | 21.063 | 22.528 | -22.528 | 11.502 | 0.9487 |
 | 95 | DISCARD | catboost | 21.005 | 22.451 | -22.451 | 11.549 | 0.9490 |
+| 96 | KEEP | catboost | 20.881 | 22.357 | -22.357 | 11.473 | 0.9496 |
 
 ## Champion residual slices (2014 test)
 
-- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.4 (pred 169 vs actual 248)
-- Worst month: 01 RMSE=33.07
-- Best month: 07 RMSE=13.60
-- Worst hour: 20:00 RMSE=31.93
-- Spike F1@75: 0.941 (P=0.933 R=0.949)
-- p99 |error|=79.5 · max |error|=497.1
-- Haze ≥150 n=1638: model 35.50 vs persist-1 35.31 (zero 1h skill)
-- Persist-6 on same 7950 rows: **61.83**. Exp39 t+6 test **55.32** (skill +10.5%, 1h-gate DISCARD)
-- Haze streaks ≥6h n=1069: model 29.31 vs persist-1 28.94 (loses inside episodes)
-- High-PRES tercile skill +3.7% vs low-PRES +7.8%
-- 2014 H1 skill +4.5% vs H2 +9.1%. Seed noise ≈ val ±0.08, test ±0.04 (Exp44)
-- t+6 side ladder: persist-6 **61.83**. **Exp76 (Exp75 + linear_lambda=1) 54.31/57.16** (side-KEEP). Prior Exp75 rh_magnus 54.73/57.19; Exp72 54.33/57.43. Snapshot `code_versions/lightgbm_t6/` and `code_versions/lightgbm_final/`.
-- t+6 actual≥200 n=944: model 101.2 **loses to persist-6 97.1**. Low-actual bias +30.3 / high-actual −34.0
-- Exp47 need+100 n=286 predicted increment **+21 vs needed +146**. 76% of hours closer to mean 98 than persist.
-- Exp53 persist-6 residual: test 55.044 val 58.684 (redundant, corr 0.990). Exp53 R²/MAPE are residual-scale.
-- Exp54 Tweedie: test 54.790 val 58.672 side-MISS. Tail worse (actual≥200 105.4, need+100 increment +16.5).
-- **Exp55 t+6 side-KEEP** (1h DISCARD): val 58.038 / test 54.751. dPRES>=1 increment flipped +3.05 → −1.90.
-- **Exp56 t+6 side-KEEP** (1h DISCARD): val 57.658 / test 54.487. dewp_fall & not pres_rise increment flipped +3.14 → −0.22. actual≥200 99.57 vs persist 99.10. New t+6 recipe.
-- Exp57 haze_hours6 side-MISS (val 57.864). Exp58 reg_lambda=1 side-MISS (val 57.704).
-- **Exp59 t+6 side-KEEP** (1h DISCARD): val 57.601 / test 54.419. left-NW increment +9.11 → +5.69. New t+6 recipe.
-- Exp60 rain_mass side-MISS (val 57.849). Ir>1 increment unchanged (+0.74).
-- Exp61 bagging_freq=1 side-MISS (val 57.736). Late-dirty increment still +30.6.
-- Exp62 drop lag13–24 side-MISS (val 58.051, **test 53.835** best t+6 test). NW-on-haze pred −7 vs need −145.
-- Exp63 MAE side-MISS (val 58.798). Typical-hour RMSE 32.50 vs Exp59 34.30 vs persist 32.35. RMSE val gate failed.
-- Exp64 doy_sin side-MISS (val 58.053, test 54.135). January onset increment still +20.9 vs need +124.6.
-- Exp65 heating_night side-MISS (val 57.649, test 54.322). January night 00-06 onset increment still −7.1 vs need +112.9. Evening onset +41.0 → +47.3.
-- Exp66 reg_alpha=1 side-MISS (val 57.719, test 54.454). Wrong-sign onset increment still −24.0 vs need +90.9.
-- Exp67 num_leaves 15 side-MISS (val 57.916, test 54.424). Typical persist>=150 increment still −20.4 vs need −0.7.
-- **Exp68 extra_trees t+6 side-KEEP** (1h DISCARD): val 57.498 beat 57.601, test 54.482. SE-night increment still −13.0. New t+6 recipe.
-- Exp69 min_data=50 side-MISS (val 57.620, test 54.425). Feb typical P>=150 increment −41.5 vs need +4.4.
-- **Exp70 feature_fraction 1.0 t+6 side-KEEP** (1h DISCARD): val 57.441 beat 57.498, test 54.620. Saturday skill still +1.5. New t+6 recipe.
-- Exp71 anticyclone side-MISS (val 57.518, test 54.320). High-PRES P>=150 increment −54.1 vs need −30.1.
-- **Exp72 linear_tree t+6 side-KEEP** (1h DISCARD): val 57.429 beat 57.441, test 54.330. Typical P>=150 increment still −24.5. New t+6 recipe.
-- Exp73 max_bin=127 side-MISS (val 57.437, test 54.320). Feb typical P>=150 increment −42.4 vs need +4.4.
-- Exp74 bagging_freq=1 side-MISS (val 57.502, test 54.581). Moist P>=150 onset increment −9.3 vs need +91.0.
-- **Exp75 rh_magnus t+6 side-KEEP** (1h DISCARD): val 57.191 beat 57.429, test 54.730. persist>=250 typical still −52.2. Hour-6 RH=100 row predicted 872 vs 116.
-- **Exp76 linear_lambda=1 t+6 side-KEEP** (1h DISCARD): val 57.161 beat 57.191, test 54.312. Hour-6 67.07→53.55, blow-up 872→132. persist>=250 typical still −52.7. New t+6 recipe. LightGBM 50/50.
-- Exp77 CatBoost Ordered 1h DISCARD (val 23.190, test 21.520). h20 Jan 31.30 worse than Exp30 27.61. Axis closed: Ordered on 1h.
-- Exp78 CatBoost Plain 1h DISCARD / NEAR-MISS (val 22.472 lost by 0.075, test 21.058). h20 Jan 25.59 beat Exp30 27.61. January still 35.16 vs 33.07. CatBoost 4/50.
-- Exp79 CatBoost Plain lr=0.01 DISCARD (val 22.587, test 21.040). Jan P>=150 typical 40.32→37.55, pred −13.0→−11.4. Val worse than Exp78.
-- Exp80 CatBoost Plain depth=4 DISCARD (val 22.795, test 21.057). Jan typical 36.10 / pred −9.6; onset 108.81 beat Exp30. JJA tax. CatBoost 6/50.
-- Exp81 CatBoost Plain t+6 DISCARD (val 57.857, **test 53.929** beat Exp76 54.312). Sat typical 39.80→36.78. Side-MISS on val.
-- Exp82 CatBoost t+6 l2=10 DISCARD (val 58.159, test 53.895). Sat typical flat 36.85. CatBoost 8/50.
-- Exp83 CatBoost t+6 bagging_temperature=2 DISCARD (bit-identical to Exp81). Axis closed: T=2 inert on Plain.
-- Exp84 CatBoost t+6 drop rh_magnus DISCARD (val 58.075, test 54.155). RH<40 47.49 worse. CatBoost 10/50.
-- Exp85 CatBoost Ordered t+6 DISCARD (val **57.658** best CatBoost t+6 val, still miss vs Exp76 57.161; test 53.940). Wrong-sign pred −24.9→−23.1.
-- Exp86 CatBoost Ordered random_strength=2 DISCARD (val 57.684, test 54.254). CatBoost 12/50.
-- Exp87 CatBoost 1h Lossguide DISCARD (val 22.476, test 21.188). Hour-10 persist>=150 48.03→52.60. Axis closed: Lossguide.
-- Exp88 CatBoost 1h l2=10 DISCARD (val 22.488, **test 20.802** beat Exp30). Hour-10 persist>=150 48.03→39.21. CatBoost 14/50.
-- Exp89 CatBoost 1h month_sin DISCARD (val 22.708, test 21.056). Jan cv 33.27→32.97. JJA tax.
-- Exp90 CatBoost 1h pm25_accel DISCARD (val 22.467, test 21.133). Jan cv 35.26 worse. CatBoost 16/50.
-- Exp91 CatBoost 1h rh_magnus DISCARD / NEAR-MISS (val **22.449** best CatBoost val, 0.052 from Exp30; test 21.045). Low-PRES dirty 31.25→29.82.
-- Exp92 CatBoost RH+l2=10 DISCARD (val 22.596, test 20.822 beat Exp30). CatBoost 18/50.
-- Exp93 CatBoost rsm=0.8 DISCARD (val 22.569, test **20.945** ties Exp30). Hour-10 23.95→23.27. CatBoost 19/50.
-- Exp94 CatBoost 1h cbwd_prev_NW DISCARD (val 22.528, test 21.063). hiP dirty 44.27→43.36; no-NW stagnant 43.72→43.66 flat. CatBoost 20/50.
-- Exp95 CatBoost 1h random_strength=2 DISCARD (val 22.451 vs Exp91 22.449, test 21.005). hiP dirty 44.27→43.89. CatBoost 21/50.
+- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.6 (pred 169 vs actual 248)
+- Worst month: 01 RMSE=34.94
+- Best month: 07 RMSE=13.31
+- Worst hour: 20:00 RMSE=32.51
+- Spike F1@75: 0.939 (P=0.924 R=0.956)
+- p99 |error|=77.3 · max |error|=499.4
+- Skill vs persist-1 **+6.43%** (Exp30 was +6.15%). Friday 24.03 now beats persist 24.13.
+- January still 34.94 vs persist 33.58. Hour-1 29.82 vs persist 28.19. Onset n=83 RMSE 110.32 vs persist 107.80.
+- t+6 side ladder unchanged: **Exp76** 54.31/57.16. Do not mix composites.
+
+## Recent notes
+
+- Exp91 CatBoost 1h rh_magnus DISCARD / NEAR-MISS (val 22.449, then best CatBoost val).
+- Exp92–95 DISCARD: l2=10, rsm=0.8, cbwd_prev_NW, random_strength=2.
+- **Exp96 KEEP** dewp_delta on Exp91. First 1h KEEP since Exp30. New champion CatBoost 20.881/22.357. CatBoost 22/50.
