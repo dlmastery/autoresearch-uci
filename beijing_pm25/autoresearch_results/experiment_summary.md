@@ -2,9 +2,9 @@
 
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
-**Champion:** Exp96 catboost · test RMSE **20.881** · val RMSE **22.357** · skill vs persistence **+6.4%**
-**Campaign:** 96 experiments · 10 KEEP · 86 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 22/50 · MLP 0/50 · FT-Transformer 0/50
+**Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
+**Campaign:** 97 experiments · 11 KEEP · 86 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 23/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -20,6 +20,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 29 | lightgbm | LightGBM on Exp22 inversion+delta features | 20.784 | 22.428 | -22.428 |
 | 30 | lightgbm | LightGBM num_leaves 31 to 63 on Exp29 champion | 20.945 | 22.397 | -22.397 |
 | 96 | catboost | CatBoost Plain add dewp_delta on Exp91 rh_magnus (CatBoost cycle 22/50) | 20.881 | 22.357 | -22.357 |
+| 97 | catboost | CatBoost Plain add is_heating on Exp96 dewp_delta (CatBoost cycle 23/50) | 20.735 | 22.167 | -22.167 |
 
 ## All experiments
 
@@ -121,21 +122,21 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 94 | DISCARD | catboost | 21.063 | 22.528 | -22.528 | 11.502 | 0.9487 |
 | 95 | DISCARD | catboost | 21.005 | 22.451 | -22.451 | 11.549 | 0.9490 |
 | 96 | KEEP | catboost | 20.881 | 22.357 | -22.357 | 11.473 | 0.9496 |
+| 97 | KEEP | catboost | 20.735 | 22.167 | -22.167 | 11.398 | 0.9503 |
 
 ## Champion residual slices (2014 test)
 
-- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.6 (pred 169 vs actual 248)
-- Worst month: 01 RMSE=34.94
-- Best month: 07 RMSE=13.31
-- Worst hour: 20:00 RMSE=32.51
-- Spike F1@75: 0.939 (P=0.924 R=0.956)
-- p99 |error|=77.3 · max |error|=499.4
-- Skill vs persist-1 **+6.43%** (Exp30 was +6.15%). Friday 24.03 now beats persist 24.13.
-- January still 34.94 vs persist 33.58. Hour-1 29.82 vs persist 28.19. Onset n=83 RMSE 110.32 vs persist 107.80.
+- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.4 (pred 169 vs actual 248)
+- Worst month: 01 RMSE=34.84
+- Best month: 07 RMSE=13.13
+- Worst hour: 20:00 RMSE=32.48
+- Spike F1@75: 0.940 (P=0.930 R=0.951)
+- p99 |error|=75.3 · max |error|=499.1
+- Skill vs persist-1 **+7.09%** (Exp96 +6.43%, Exp30 +6.15%). JJA 13.84 (no summer tax).
+- January still 34.84 vs persist 33.58. January RH>=70 **36.68** vs persist **23.94**. January hour-1 74.63 vs persist 69.40.
 - t+6 side ladder unchanged: **Exp76** 54.31/57.16. Do not mix composites.
 
 ## Recent notes
 
-- Exp91 CatBoost 1h rh_magnus DISCARD / NEAR-MISS (val 22.449, then best CatBoost val).
-- Exp92–95 DISCARD: l2=10, rsm=0.8, cbwd_prev_NW, random_strength=2.
-- **Exp96 KEEP** dewp_delta on Exp91. First 1h KEEP since Exp30. New champion CatBoost 20.881/22.357. CatBoost 22/50.
+- **Exp96 KEEP** dewp_delta. First 1h KEEP since Exp30.
+- **Exp97 KEEP** is_heating on Exp96. Val 22.167 test 20.735. January RH bomb only 38.25→36.68. CatBoost 23/50.

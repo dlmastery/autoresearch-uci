@@ -24,7 +24,9 @@ persistence (2014) test RMSE 22.316
 
 **Exp30 KEEP** num_leaves 31→63. Test 20.945 (slightly worse) but val 22.397 (better). Skill +6.15%. Held the 1h crown until Exp96.
 
-**Exp96 KEEP** CatBoost Plain + rh_magnus + dewp_delta (Tie 2017). Test **20.881** · val **22.357** · composite **−22.357**. **Current 1h champion.** Skill +6.43%. First 1h KEEP since Exp30.
+**Exp96 KEEP** CatBoost Plain + rh_magnus + dewp_delta (Tie 2017). Test **20.881** · val **22.357** · composite **−22.357**. Skill +6.43%. First 1h KEEP since Exp30.
+
+**Exp97 KEEP** is_heating on Exp96 (Huang 2014). Test **20.735** · val **22.167** · composite **−22.167**. **Current 1h champion.** Skill +7.09%.
 
 ## What was thrown away
 
@@ -34,7 +36,7 @@ persistence (2014) test RMSE 22.316
 
 ## Champion residual (computed, not remembered)
 
-See `champion_diagnostics.json`. Exp96 onset n=95 RMSE 103.63. January 34.94. Hour 20 32.51. Spike F1@75 = 0.939. Skill +6.43%.
+See `champion_diagnostics.json`. Exp97 onset / month / hour slices after this KEEP. Skill +7.09%. January RH>=70 leftover still 36.68 vs persist 23.94.
 
 ## Process note (2026-08-18)
 
@@ -66,8 +68,16 @@ New Exp91 slices: Friday n=1119 RMSE **24.81 vs persist 24.13 / Exp30 23.59**. H
 
 CatBoost **22/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-18, Exp97 KEEP)
+
+New Exp96 slices: January RH>=70 n=84 RMSE **38.25 vs persist 23.94 / Exp30 29.59** (skill −59.8%). January Iws<2 **34.91 vs persist 29.42**. January hour-1 **76.95 vs persist 69.40** (need +8.32 pred_d −5.35). Hour-1 outside January **20.63 ≈ persist 20.60**.
+
+**Exp97 KEEP** is_heating. Val **22.167** beat Exp96 22.357. Test **20.735** beat 20.881. Composite **−22.167**. Skill **+7.09%**. January RH>=70 38.25→36.68 (missed 24–32). JJA 14.05→**13.84** (no month_sin summer tax). **New 1h champion is CatBoost Exp97.**
+
+CatBoost **23/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **CatBoost Exp96** (Plain + rh_magnus + dewp_delta, val 22.357)
-2. Diagnose January / hour-1 leftovers. Do not retry rsm=0.6 / l2=10 / month_sin / accel / Lossguide / cbwd_prev_SE / random_strength=5
+1. Stay isolated on **CatBoost Exp97** (Plain + rh_magnus + dewp_delta + is_heating, val 22.167)
+2. Diagnose January RH>=70 leftover (36.68 vs persist 23.94). Do not retry month_sin / rsm / l2 / wind dummy
 3. Do not start MLP

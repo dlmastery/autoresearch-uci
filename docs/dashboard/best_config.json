@@ -1,9 +1,9 @@
 {
-  "experiment_num": 96,
+  "experiment_num": 97,
   "backbone": "catboost",
-  "composite": -22.356532556244133,
-  "test_primary": 20.880700654348953,
-  "val_primary": 22.356532556244133,
+  "composite": -22.166611495156538,
+  "test_primary": 20.73514958690229,
+  "val_primary": 22.166611495156538,
   "config": {
     "paths": {
       "results_dir": "C:\\Users\\abhir\\autoresearch-uci\\beijing_pm25\\autoresearch_results"
@@ -69,7 +69,8 @@
         "pm25_delta1",
         "inversion_spread",
         "rh_magnus",
-        "dewp_delta"
+        "dewp_delta",
+        "is_heating"
       ]
     },
     "split": {
@@ -90,8 +91,8 @@
         6
       ]
     },
-    "description": "Exp96 CatBoost Plain add dewp_delta on Exp91 rh_magnus (CatBoost cycle 22/50)",
+    "description": "Exp97 CatBoost Plain add is_heating on Exp96 dewp_delta (CatBoost cycle 23/50)",
     "seed": 0
   },
-  "timestamp": "2026-08-18T22:36:05"
+  "timestamp": "2026-08-18T23:05:33"
 }
