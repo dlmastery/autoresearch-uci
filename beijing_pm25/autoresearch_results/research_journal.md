@@ -154,8 +154,16 @@ New Exp97 slices: **2014-01-16** n=24 is **6.1% of all 2014 SSE**, RMSE **93.08 
 
 1h champion unchanged: Exp97. CatBoost **35/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp110)
+
+New Exp97 slices: **2014-01-16 hours 0-8** n=9 is **4.0% of all 2014 SSE**, RMSE **123.22 vs persist 48.74** (pred_d −118.60 vs need −10.00, mean 605). Hours 9-23 **beat persist** (68.94 vs 72.31). RH rises 58.5→79.6, Iws<3. corr(rh_delta, need | 0-8)=**0.72**. Other January overnight persist>=150 beats persist (39.85 vs 49.48).
+
+**Exp110 DISCARD** rh_delta. Val **22.236** (near-miss, +0.069 inside ±0.08 noise) test **20.661**. Hours 0-8 123.22→**122.74** leftover inert.
+
+1h champion unchanged: Exp97. CatBoost **36/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins
-3. Leave Exp97 or rethink 2014-01-16 mega-haze (93.08 vs persist 64.49, 6.1% SSE) without lag1 flags, wind-scale, 6h trend, or evening bins. Do not start MLP
+2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins / rh_delta
+3. Leave Exp97 or rethink 2014-01-16 hours 0-8 (123.22 vs persist 48.74, 4.0% SSE) without lag1 flags, wind-scale, 6h trend, evening bins, or RH increments. Do not start MLP
