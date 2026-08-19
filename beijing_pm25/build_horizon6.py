@@ -37,6 +37,13 @@ def main() -> None:
     # First ~29 train rows are NaN; bfill so n_rows stays frozen (all in 2010 train).
     fill_cols = weather + [f"pm25_lag{k}" for k in range(1, 25)] + ["pm25_delta1", "pm25_delta6", "inversion_spread"]
     out[fill_cols] = out[fill_cols].bfill()
+    # Magnus-Tetens RH (%) from as-of-t-6 TEMP, DEWP (Alduchov & Eskridge 1996).
+    # Clip the rare DEWP>TEMP instrument glitch to 100.
+    out["rh_magnus"] = (
+        100.0 * np.exp(17.625 * out["DEWP"] / (243.04 + out["DEWP"])) / np.exp(
+            17.625 * out["TEMP"] / (243.04 + out["TEMP"])
+        )
+    ).clip(0.0, 100.0)
     out["stagn_index"] = out["inversion_spread"] / (out["Iws"] + 1.0)
     # Issue-time 1h tendencies (t-6 minus t-7). Iws is cumulative and resets on
     # direction change, so Iws_delta is nearly collinear with Iws level.

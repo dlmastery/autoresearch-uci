@@ -1,0 +1,40 @@
+{
+  "snapshot": "lightgbm_final",
+  "lgb_cycle": "50/50 complete",
+  "1h_champion": {
+    "experiment_num": 30,
+    "test_rmse": 20.94459608844015,
+    "val_rmse": 22.39674091100119
+  },
+  "t6_recipe": {
+    "snapshot": "lightgbm_t6",
+    "experiment_num": 76,
+    "role": "t+6 side-ladder recipe (not the 1h champion)",
+    "test_rmse": 54.312357669721564,
+    "val_rmse": 57.16128069097798,
+    "skill_vs_persist6": 0.1216,
+    "backbone_config": {
+      "seed": 0,
+      "n_estimators": 2000,
+      "num_leaves": 31,
+      "learning_rate": 0.01,
+      "feature_fraction": 1.0,
+      "bagging_fraction": 0.6,
+      "early_stopping_rounds": 50,
+      "extra_trees": true,
+      "linear_tree": true,
+      "linear_lambda": 1
+    },
+    "extra_features": [
+      "month_sin",
+      "pres_delta",
+      "dewp_delta",
+      "cbwd_prev_NW",
+      "rh_magnus"
+    ],
+    "data": "features_horizon6.csv",
+    "do_not_mix_with": "Exp30 1h composite",
+    "previous_recipe": 75
+  },
+  "note": "Do not mix 1h composite with t+6 val. Next isolated cycle: CatBoost."
+}

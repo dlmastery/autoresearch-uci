@@ -14,7 +14,6 @@ backbone_config:
   early_stopping_rounds: 50
   extra_trees: true
   linear_tree: true
-  linear_lambda: 1
 data:
   format: csv
   path: C:\Users\abhir\autoresearch-uci\beijing_pm25\data\features_horizon6.csv
@@ -80,6 +79,6 @@ hardware:
   - 2
   - 4
   - 6
-description: Exp76 t+6 linear_lambda=1 on Exp75 extra_trees linear rh_magnus (LGB
-  side ladder 50/50)
+description: Exp75 t+6 add rh_magnus Magnus RH on Exp72 extra_trees linear (LGB side
+  ladder 49/50)
 seed: 0

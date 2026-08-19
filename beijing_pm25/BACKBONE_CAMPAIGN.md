@@ -3,7 +3,7 @@
 Source: `generalized_ml_autoresearch/templates/CLAUDE_template.md` § Per-Backbone N-Experiment Mandate
 and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 
-**Honest audit after Exp74:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32.
+**Honest audit after Exp76:** this project did **not** follow the original skill through Exp31; isolation resumed at Exp32. LightGBM cycle is now 50/50.
 
 ## Mandate vs what happened
 
@@ -21,16 +21,16 @@ and `skills/ml-autoresearch-setup/SKILL.md` Step 8–11.
 | Backbone | Exps | Distinct publications used | Cycle complete? |
 |---|---:|---|---|
 | xgboost | 1–19, 22–24, 27–28 (24) | Chen & Guestrin 2016; Liang 2015 (inversion feature) | No |
-| lightgbm | 20, 25, 29–74 (48) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018 | No |
+| lightgbm | 20, 25, 29–76 (50) | Ke 2017; Zheng 2015 KDD; Huang 2014 Nature; Chen 2016; Tang 2016 ACP; Geurts 2006; Shi 2018; Tie 2017 Sci Rep | Yes |
 | catboost | 21, 26 (2) | Prokhorenkova 2018 defaults only | No |
 | mlp / linear / ridge | 0 | — | No |
 | ft_transformer / tabnet / tabtransformer / saint | 0 | — | No |
 | lstm | 0 | — | No |
 
-## Recovery (from Exp32; after Exp74)
+## Recovery (from Exp32; after Exp76)
 
-Isolation: **stay on LightGBM** (1h champion Exp30; t+6 side ladder Exp39) until 50 LGB experiments.
-Do not start CatBoost / MLP / FT-Transformer until that cycle is snapshotted to `code_versions/lightgbm_final/`.
+Isolation: LightGBM cycle is **50/50 complete** (1h champion Exp30; t+6 recipe Exp76). Snapshot `code_versions/lightgbm_final/`.
+Next isolated cycle: **CatBoost** (currently 2/50). Do not start MLP / FT-Transformer until CatBoost is snapshotted.
 
 Within LightGBM, paper queue (one publication / one change per experiment):
 
@@ -77,6 +77,8 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 41. ~~t+6 extra_trees linear_tree~~ Exp72 **side-KEEP** (val 57.43 / test 54.33) ← **current t+6 recipe**
 42. ~~t+6 max_bin=127~~ Exp73 DISCARD (val 57.44; Feb typical still −42)
 43. ~~t+6 bagging_freq=1 on extra_trees+linear~~ Exp74 DISCARD (val 57.50; moist onset still −9)
-44. **Stay on Exp72; do not retry bagging freq; fill remaining LGB 2** ← **next**
+44. ~~t+6 rh_magnus Magnus RH~~ Exp75 **side-KEEP** (val 57.19 / test 54.73; hour-6 blow-up 872)
+45. ~~t+6 linear_lambda=1~~ Exp76 **side-KEEP** (val 57.16 / test 54.31; hour-6 53.55, blow-up 132) ← **current t+6 recipe**
+46. **LightGBM 50/50 complete. Snapshot `lightgbm_final`. Next: isolated CatBoost.** ← **next**
 
 Then isolated cycles: CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.

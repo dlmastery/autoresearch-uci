@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 74 experiments · 9 KEEP · 65 DISCARD
-**Mandate gap:** LightGBM 48/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 76 experiments · 9 KEEP · 67 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 2/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -98,6 +98,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 72 | DISCARD | lightgbm | 54.330 | 57.429 | -57.529 | 35.007 | 0.6590 |
 | 73 | DISCARD | lightgbm | 54.320 | 57.437 | -57.537 | 34.985 | 0.6591 |
 | 74 | DISCARD | lightgbm | 54.581 | 57.502 | -57.602 | 35.254 | 0.6558 |
+| 75 | DISCARD | lightgbm | 54.730 | 57.191 | -57.291 | 35.108 | 0.6540 |
+| 76 | DISCARD | lightgbm | 54.312 | 57.161 | -57.261 | 35.137 | 0.6592 |
 
 ## Champion residual slices (2014 test)
 
@@ -112,7 +114,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Haze streaks ≥6h n=1069: model 29.31 vs persist-1 28.94 (loses inside episodes)
 - High-PRES tercile skill +3.7% vs low-PRES +7.8%
 - 2014 H1 skill +4.5% vs H2 +9.1%. Seed noise ≈ val ±0.08, test ±0.04 (Exp44)
-- t+6 side ladder: persist-6 **61.83**. **Exp72 (Exp70 + linear_tree) 54.33/57.43** (side-KEEP). Prior Exp70 54.62/57.44. Snapshot `code_versions/lightgbm_t6/`.
+- t+6 side ladder: persist-6 **61.83**. **Exp76 (Exp75 + linear_lambda=1) 54.31/57.16** (side-KEEP). Prior Exp75 rh_magnus 54.73/57.19; Exp72 54.33/57.43. Snapshot `code_versions/lightgbm_t6/` and `code_versions/lightgbm_final/`.
 - t+6 actual≥200 n=944: model 101.2 **loses to persist-6 97.1**. Low-actual bias +30.3 / high-actual −34.0
 - Exp47 need+100 n=286 predicted increment **+21 vs needed +146**. 76% of hours closer to mean 98 than persist.
 - Exp53 persist-6 residual: test 55.044 val 58.684 (redundant, corr 0.990). Exp53 R²/MAPE are residual-scale.
@@ -136,3 +138,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - **Exp72 linear_tree t+6 side-KEEP** (1h DISCARD): val 57.429 beat 57.441, test 54.330. Typical P>=150 increment still −24.5. New t+6 recipe.
 - Exp73 max_bin=127 side-MISS (val 57.437, test 54.320). Feb typical P>=150 increment −42.4 vs need +4.4.
 - Exp74 bagging_freq=1 side-MISS (val 57.502, test 54.581). Moist P>=150 onset increment −9.3 vs need +91.0.
+- **Exp75 rh_magnus t+6 side-KEEP** (1h DISCARD): val 57.191 beat 57.429, test 54.730. persist>=250 typical still −52.2. Hour-6 RH=100 row predicted 872 vs 116.
+- **Exp76 linear_lambda=1 t+6 side-KEEP** (1h DISCARD): val 57.161 beat 57.191, test 54.312. Hour-6 67.07→53.55, blow-up 872→132. persist>=250 typical still −52.7. New t+6 recipe. LightGBM 50/50.

@@ -1,10 +1,10 @@
 {
   "snapshot": "lightgbm_t6",
-  "experiment_num": 72,
+  "experiment_num": 76,
   "role": "t+6 side-ladder recipe (not the 1h champion)",
-  "test_rmse": 54.32966011672015,
-  "val_rmse": 57.428777543093716,
-  "skill_vs_persist6": 0.121,
+  "test_rmse": 54.312357669721564,
+  "val_rmse": 57.16128069097798,
+  "skill_vs_persist6": 0.1216,
   "backbone_config": {
     "seed": 0,
     "n_estimators": 2000,
@@ -14,10 +14,17 @@
     "bagging_fraction": 0.6,
     "early_stopping_rounds": 50,
     "extra_trees": true,
-    "linear_tree": true
+    "linear_tree": true,
+    "linear_lambda": 1
   },
-  "extra_features": ["month_sin", "pres_delta", "dewp_delta", "cbwd_prev_NW"],
+  "extra_features": [
+    "month_sin",
+    "pres_delta",
+    "dewp_delta",
+    "cbwd_prev_NW",
+    "rh_magnus"
+  ],
   "data": "features_horizon6.csv",
   "do_not_mix_with": "Exp30 1h composite",
-  "previous_recipe": 70
+  "previous_recipe": 75
 }

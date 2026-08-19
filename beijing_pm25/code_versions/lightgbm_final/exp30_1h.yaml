@@ -7,17 +7,14 @@ backbone_config:
   seed: 0
   n_jobs: 4
   n_estimators: 2000
-  num_leaves: 31
+  num_leaves: 63
   learning_rate: 0.01
-  feature_fraction: 1.0
+  feature_fraction: 0.8
   bagging_fraction: 0.6
   early_stopping_rounds: 50
-  extra_trees: true
-  linear_tree: true
-  linear_lambda: 1
 data:
   format: csv
-  path: C:\Users\abhir\autoresearch-uci\beijing_pm25\data\features_horizon6.csv
+  path: C:\Users\abhir\autoresearch-uci\beijing_pm25\data\features_full.csv
   target_columns:
   - pm25
   feature_columns:
@@ -61,11 +58,6 @@ data:
   - is_weekend
   - pm25_delta1
   - inversion_spread
-  - month_sin
-  - pres_delta
-  - dewp_delta
-  - cbwd_prev_NW
-  - rh_magnus
 split:
   name: calendar_year
   manifest_dir: C:\Users\abhir\autoresearch-uci\beijing_pm25\data
@@ -80,6 +72,5 @@ hardware:
   - 2
   - 4
   - 6
-description: Exp76 t+6 linear_lambda=1 on Exp75 extra_trees linear rh_magnus (LGB
-  side ladder 50/50)
+description: Exp30 LightGBM num_leaves 31 to 63 on Exp29 champion
 seed: 0

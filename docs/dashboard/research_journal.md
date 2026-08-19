@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-65 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, Exp68, Exp70, **Exp72** (extra_trees + linear_tree, val 57.43 / test 54.33). Exp74 bagging_freq=1 missed.
+67 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, Exp68, Exp70, Exp72, **Exp75** rh_magnus (val 57.19 / test 54.73), **Exp76** linear_lambda=1 (val 57.16 / test 54.31). Exp74 bagging_freq=1 missed.
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,16 +38,18 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp74)
+## This fire (2026-08-18, Exp75–76)
 
-New Exp72 slices: **inv<=6 persist>=150 onsets n=129 RMSE 110.39 vs persist-6 98.51 (skill −12.1%)**, need **+91.0**, pred **−7.4**.
+New Exp72 slices: persist>=250 typical n=237 RMSE **82.39 vs persist-6 28.27 (skill −191.5%)**, need **−0.1**, pred **−51.5**. Hour 22 RMSE **65.19**. RH 70-85 persist>=150 skill only **+4.8%**.
 
-**Exp74 DISCARD** bagging_freq=1. Val 57.502 lost to 57.429, test 54.581. Moist-onset increment −9.3. Axis closed: extra_trees+linear bagging.
+**Exp75 t+6 side-KEEP** (1h DISCARD) Magnus RH. Val 57.191 beat 57.429, test 54.730. Hour-6 RH=100 row predicted 872 vs 116.
 
-t+6 recipe remains Exp72. 1h champion unchanged: Exp30.
+**Exp76 t+6 side-KEEP** (1h DISCARD) linear_lambda=1. Val 57.161 / test 54.312. Hour-6 67.07→53.55, blow-up 872→132. persist>=250 typical still −52.7.
+
+t+6 recipe is now Exp76. 1h champion unchanged: Exp30. LightGBM **50/50**. Snapshot `code_versions/lightgbm_final/`.
 
 ## Next (original process)
 
-1. Stay on Exp72 extra_trees + linear_tree + ff=1.0. Do not retry bagging freq / max_bin 63 / linear_tree off / extra_trees off
-2. Do not retry lags / rain products / persist×hour / prev-direction / leaf L1-L2 / PRES dummies
-3. Two LGB slots left; then snapshot `lightgbm_final` or start CatBoost. Do not start CatBoost/MLP until LGB 50 or that snapshot.
+1. Isolated **CatBoost** cycle (currently 2/50). Do not mix t+6 val with the Exp30 1h composite
+2. Do not retry bagging / max_bin / another RH formula / linear_lambda nearby values first
+3. persist>=250 typical still predicts −53 vs need 0 on Exp76 — open residual if returning to t+6 after CatBoost snapshot
