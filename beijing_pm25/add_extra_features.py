@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).resolve().parent
@@ -25,6 +26,7 @@ def main() -> None:
     extra["hour"] = pd.to_datetime(times["time"]).dt.hour.astype(float)
     mo = pd.to_datetime(times["time"]).dt.month
     extra["is_heating"] = mo.isin([11, 12, 1, 2]).astype(float)
+    extra["month_sin"] = np.sin(2.0 * np.pi * mo / 12.0)
     # First row of weather lags is NaN; fill from contemporaneous so n_rows stays frozen.
     extra["Iws_lag1"] = extra["Iws_lag1"].fillna(extra["Iws"])
     extra["TEMP_lag1"] = extra["TEMP_lag1"].fillna(extra["TEMP"])
