@@ -218,8 +218,16 @@ New diagnosis: corr(dow, y) train **0.000** vs val **0.063** vs test **0.069**. 
 
 1h champion unchanged: Exp97. CatBoost **43/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp118)
+
+New diagnosis: hour-20 Wednesday n=49 RMSE **73.90 vs persist 74.10** (need +15.43 pred_d +3.18). Hour-20 Wednesday mean PM train **107.6** vs 2013 val **84.6** vs 2014 **114.0**. Friday 18-21 n=189 RMSE **26.96 vs persist 24.54**, corr(pred_d, need) **−0.144**. 2013 Friday persist **27.5** is the hardest val weekday.
+
+**Exp118 DISCARD** model_size_reg=1.0. **Bit-identical** to Exp97. Weak leaf-size penalty does not change any split. Keep dow and is_weekend.
+
+1h champion unchanged: Exp97. CatBoost **44/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Keep weekday features. Leave Exp97 or regularize 2013 without dropping dow, Iws transforms, lag-window cuts, or calendar subsets. Do not start MLP
+2. Do not retry model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Keep weekday features. Leave Exp97 or regularize 2013 with a non-nearby unused knob. Do not start MLP
