@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 84 experiments · 9 KEEP · 75 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 10/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 86 experiments · 9 KEEP · 77 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 12/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -108,6 +108,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 82 | DISCARD | catboost | 53.895 | 58.159 | -58.259 | 35.172 | 0.6644 |
 | 83 | DISCARD | catboost | 53.929 | 57.857 | -57.957 | 35.235 | 0.6640 |
 | 84 | DISCARD | catboost | 54.155 | 58.075 | -58.175 | 35.348 | 0.6612 |
+| 85 | DISCARD | catboost | 53.940 | 57.658 | -57.758 | 35.125 | 0.6639 |
+| 86 | DISCARD | catboost | 54.254 | 57.684 | -57.784 | 35.305 | 0.6599 |
 
 ## Champion residual slices (2014 test)
 
@@ -156,3 +158,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp82 CatBoost t+6 l2=10 DISCARD (val 58.159, test 53.895). Sat typical flat 36.85. CatBoost 8/50.
 - Exp83 CatBoost t+6 bagging_temperature=2 DISCARD (bit-identical to Exp81). Axis closed: T=2 inert on Plain.
 - Exp84 CatBoost t+6 drop rh_magnus DISCARD (val 58.075, test 54.155). RH<40 47.49 worse. CatBoost 10/50.
+- Exp85 CatBoost Ordered t+6 DISCARD (val **57.658** best CatBoost t+6 val, still miss vs Exp76 57.161; test 53.940). Wrong-sign pred −24.9→−23.1.
+- Exp86 CatBoost Ordered random_strength=2 DISCARD (val 57.684, test 54.254). CatBoost 12/50.
