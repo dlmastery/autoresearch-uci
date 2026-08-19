@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 116 experiments · 11 KEEP · 105 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 42/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 117 experiments · 11 KEEP · 106 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 43/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -142,6 +142,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 114 | DISCARD | catboost | 20.792 | 22.342 | -22.342 | 11.406 | 0.9501 |
 | 115 | DISCARD | catboost | 20.688 | 22.260 | -22.260 | 11.352 | 0.9506 |
 | 116 | DISCARD | catboost | 20.767 | 22.323 | -22.323 | 11.479 | 0.9502 |
+| 117 | DISCARD | catboost | 20.795 | 22.212 | -22.212 | 11.398 | 0.9500 |
 
 ## Champion residual slices (2014 test)
 
@@ -178,3 +179,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp114 is_janfeb DISCARD (val 22.342, test 20.792). 2013 val persist 24.50 is harder year. CatBoost 40/50.
 - Exp115 drop lag13-24 DISCARD (val 22.260 near-miss, test 20.688). Long lags help 2013 val. CatBoost 41/50.
 - Exp116 iws_clip100 DISCARD (val 22.323, test 20.767). Iws tail is useful. CatBoost 42/50.
+- Exp117 drop dow DISCARD (val 22.212 near-miss, test 20.795). Thursday 20.85→21.82. CatBoost 43/50.

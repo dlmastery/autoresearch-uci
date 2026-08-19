@@ -210,8 +210,16 @@ New diagnosis: train Iws mean **26.82** with **7.2%** hours >100 vs val **21.42 
 
 1h champion unchanged: Exp97. CatBoost **42/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp117)
+
+New diagnosis: corr(dow, y) train **0.000** vs val **0.063** vs test **0.069**. 2013 Thursday mean **80.6** (cleanest weekday) vs train Thu **96.5** vs 2014 Thu **109.8**. Test Thu/Fri lose to persist.
+
+**Exp117 DISCARD** drop dow. Val **22.212** (near-miss, +0.045 inside ±0.08) test **20.795**. Thursday 20.85→**21.82**. dow still helps; keep is_weekend too.
+
+1h champion unchanged: Exp97. CatBoost **43/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry Iws clips / log_iws / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Leave Exp97 or regularize 2013 without Iws transforms, lag-window cuts, or calendar subsets. Do not start MLP
+2. Do not retry drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Keep weekday features. Leave Exp97 or regularize 2013 without dropping dow, Iws transforms, lag-window cuts, or calendar subsets. Do not start MLP
