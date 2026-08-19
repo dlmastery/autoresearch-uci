@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp30 lightgbm · test RMSE **20.945** · val RMSE **22.397** · skill vs persistence **+6.1%**
-**Campaign:** 78 experiments · 9 KEEP · 69 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 4/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 80 experiments · 9 KEEP · 71 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 6/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -102,6 +102,8 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 76 | DISCARD | lightgbm | 54.312 | 57.161 | -57.261 | 35.137 | 0.6592 |
 | 77 | DISCARD | catboost | 21.520 | 23.190 | -23.190 | 12.023 | 0.9465 |
 | 78 | DISCARD | catboost | 21.058 | 22.472 | -22.472 | 11.496 | 0.9488 |
+| 79 | DISCARD | catboost | 21.040 | 22.587 | -22.587 | 11.494 | 0.9489 |
+| 80 | DISCARD | catboost | 21.057 | 22.795 | -22.795 | 11.557 | 0.9488 |
 
 ## Champion residual slices (2014 test)
 
@@ -144,3 +146,5 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - **Exp76 linear_lambda=1 t+6 side-KEEP** (1h DISCARD): val 57.161 beat 57.191, test 54.312. Hour-6 67.07→53.55, blow-up 872→132. persist>=250 typical still −52.7. New t+6 recipe. LightGBM 50/50.
 - Exp77 CatBoost Ordered 1h DISCARD (val 23.190, test 21.520). h20 Jan 31.30 worse than Exp30 27.61. Axis closed: Ordered on 1h.
 - Exp78 CatBoost Plain 1h DISCARD / NEAR-MISS (val 22.472 lost by 0.075, test 21.058). h20 Jan 25.59 beat Exp30 27.61. January still 35.16 vs 33.07. CatBoost 4/50.
+- Exp79 CatBoost Plain lr=0.01 DISCARD (val 22.587, test 21.040). Jan P>=150 typical 40.32→37.55, pred −13.0→−11.4. Val worse than Exp78.
+- Exp80 CatBoost Plain depth=4 DISCARD (val 22.795, test 21.057). Jan typical 36.10 / pred −9.6; onset 108.81 beat Exp30. JJA tax. CatBoost 6/50.
