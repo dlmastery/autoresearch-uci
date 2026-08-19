@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp128 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp129 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -19,19 +19,20 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** hour 21 persist>=150 n=65 MLP **58.72** vs CatBoost **50.21** vs persist **56.30**, need **+1.72** pred_d **+5.15**. |need|>=80 n=82 is **46.5%** of Exp127 SSE vs 41.3% of Exp97, RMSE **139.40** vs CB **131.19**, pred_d **−16.53** vs CB **−27.85**. April 29.24 vs CB 27.06.
-- **Exp128 DISCARD** hidden 128-64-32. Val **23.080** missed Exp127 22.528. Test 21.344. Hour-21 persist>=150 58.72→**64.79**. |need|>=80 139.40→**143.33**. Typical 7.03→**7.81**.
+- **NEW:** Iws q3 n=1836 (Iws 5.34–17.88) is **37.34%** of Exp127 SSE vs 33.64% of Exp97, RMSE **26.41** vs CB **25.03** vs persist **28.64**. April Iws q3 **52.7** loses persist **52.1**. persist>=300 pred_d **−3.39** vs need **−6.23**.
+- **Exp129 DISCARD** Adam lr=1e-4. Val **23.069** missed Exp127 22.528. Test 21.349. Iws q3 26.41→**27.03**. April Iws q3 52.7→**54.95**. persist>=300 40.54→**43.57**.
 
 ## This fire
-- **Exp128 DISCARD** 1h vs Exp97. Width shrink inverted. MLP val recipe remains Exp127. MLP **4/50**.
+- **Exp129 DISCARD** 1h vs Exp97. Lower lr underfit. MLP val recipe remains Exp127. MLP **5/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
 - MLP dropout=0.3 (do not retry 0.4/0.5)
 - MLP hidden 128-64-32 (do not retry 64-32-16 or another nearby shrink)
+- MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **4/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **5/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp127 recipe** (hidden 256-128-64, dropout 0.2, weight_decay 1e-4). Change an unused axis next (**Adam lr**, not dropout 0.4, not wd 1e-3, not another width shrink). Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp127 recipe** (hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4). Change unused **batch_size** next, or raise lr to 1e-3 (opposite of the underfit). Do not retry nearby lr shrink, dropout 0.4, wd 1e-3, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.

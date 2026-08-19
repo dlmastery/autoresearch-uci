@@ -306,8 +306,16 @@ New diagnosis: hour 21 persist>=150 n=65 RMSE **58.72 vs CatBoost 50.21** vs per
 
 1h champion unchanged: Exp97. MLP **4/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp129)
+
+New diagnosis: Iws q3 n=1836 (Iws 5.34–17.88) is **37.34% of Exp127 SSE** vs 33.64% of Exp97, RMSE **26.41 vs CatBoost 25.03** vs persist 28.64. April Iws q3 **52.7 loses persist 52.1**. persist>=300 pred_d **−3.39 vs need −6.23**.
+
+**Exp129 DISCARD** Adam lr=1e-4. Val **23.069** missed Exp127 22.528. Test **21.349**. Iws q3 26.41→**27.03**. April Iws q3 52.7→**54.95**. persist>=300 40.54→**43.57**. Hypothesis inverted (underfit).
+
+1h champion unchanged: Exp97. MLP **5/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp127 recipe** (hidden 256-128-64, dropout 0.2, weight_decay 1e-4)
-2. Change unused Adam **lr** next. Do not retry nearby width shrink, dropout 0.4, or wd 1e-3
+1. Stay isolated on **MLP Exp127 recipe** (hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4)
+2. Change unused **batch_size** next, or raise lr to 1e-3 (opposite of the underfit). Do not retry nearby lr shrink, width shrink, dropout 0.4, or wd 1e-3
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
