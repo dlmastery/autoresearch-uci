@@ -55,6 +55,7 @@ def main() -> None:
     extra["se_iws"] = extra["cbwd_SE"] * extra["Iws"]
     extra["pm25_roll3mean"] = extra[["pm25_lag1", "pm25_lag2", "pm25_lag3"]].mean(axis=1)
     extra["is_janfeb"] = mo.isin([1, 2]).astype(float)
+    extra["iws_clip100"] = np.minimum(extra["Iws"], 100.0)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

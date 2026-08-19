@@ -202,8 +202,16 @@ New diagnosis: lag24 corr with y is **0.306 on 2013 val** vs **0.397 train** vs 
 
 1h champion unchanged: Exp97. CatBoost **41/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp116)
+
+New diagnosis: train Iws mean **26.82** with **7.2%** hours >100 vs val **21.42 / 4.7%** vs test **19.44 / 4.1%**. Train Iws p99 **273** vs val p90 **51**. Snow corr 0.055 val vs 0.007 train.
+
+**Exp116 DISCARD** iws_clip100. Val **22.323** test **20.767**. January 34.84→35.03. Iws storm tail is useful; clip did not help 2013.
+
+1h champion unchanged: Exp97. CatBoost **42/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Long lags slightly help 2013 val. Leave Exp97 or regularize 2013 without lag-window cuts or calendar subsets. Do not start MLP
+2. Do not retry Iws clips / log_iws / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Leave Exp97 or regularize 2013 without Iws transforms, lag-window cuts, or calendar subsets. Do not start MLP
