@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp76 (1h still Exp30; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp78 (1h still Exp30; t+6 recipe Exp76)
 
 **Updated:** 2026-08-18
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -15,14 +15,14 @@
 - snapshot: `code_versions/lightgbm_t6/` and `code_versions/lightgbm_final/`
 
 ## Residual (this fire)
-- **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05
-- **Exp72 new slices:** persist>=250 typical n=237 RMSE **82.39** vs persist-6 **28.27** (skill **−191.5%**), need **−0.1**, pred **−51.5**. Hour 22 RMSE **65.19**. RH 70-85 persist>=150 skill only **+4.8%**.
-- **Exp75:** val **57.191** side-KEEP. Hour-6 blow-up RMSE **67.07**, one RH=100 row pred **872** vs actual **116**.
-- **Exp76:** hour-6 **53.55**, blow-up row **132**. persist>=250 typical still pred **−52.7** vs need **−0.1**.
+- **1h Exp30:** Jan 33.07 vs JJA 14.03 · H20 31.93 · onset n=83 RMSE 110.05 · pred +0.2 vs need +87.4
+- **NEW Exp30:** hour-20 January n=29 RMSE **27.61** vs persist **25.29** (skill **−9.2%**). persist>=150 typical n=1490 RMSE **23.14** vs persist **19.34** (skill **−19.6%**), pred **−4.7**.
+- **Exp77 Ordered:** h20 Jan **31.30** (worse); onset pred **−3.3**.
+- **Exp78 Plain NEAR-MISS:** h20 Jan **25.59** (beats Exp30); val 22.472 lost by 0.075; January still **35.16** vs 33.07.
 
 ## This fire
-- **Exp75 t+6 side-KEEP** rh_magnus. Val 57.191 beat 57.429, test 54.730. 1h DISCARD.
-- **Exp76 t+6 side-KEEP** linear_lambda=1. Val 57.161 beat 57.191, test 54.312. 1h DISCARD. Hour-6 bomb closed.
+- **Exp77 DISCARD** CatBoost Ordered. Val 23.190 test 21.520. Axis closed: Ordered on 1h nowcast.
+- **Exp78 DISCARD / NEAR-MISS** CatBoost Plain. Val 22.472 test 21.058. Hour-20 January fixed; overall January not.
 
 ## Exhausted / closed
 - 1h: depth {3,5,8}, lr {0.05,0.005}, min_child {10,50}, weather lags, raw hour, subsample {0.5,1.0}, GOSS, DART, Huber, is_heating, extra_trees, min_data=100, linear_tree, accel, vent_index, max_bin, roll6max, bagging_freq=1, seed, t+6-as-1h-KEEP
@@ -30,7 +30,7 @@
 - t+6 open: rh_magnus + linear_lambda=1 (current recipe). persist>=250 typical over-clean still open.
 
 ## Process
-LightGBM **50/50 complete**. Isolation holds. 1h champion unchanged (Exp30). t+6 recipe is Exp76. Snapshot `code_versions/lightgbm_final/`.
+LightGBM **50/50 complete**. CatBoost **4/50**. Isolation holds. 1h champion unchanged (Exp30). t+6 recipe remains Exp76. Snapshot `code_versions/catboost_start/`.
 
 ## Next pasteable
-LightGBM cycle is done. Next isolated cycle: **CatBoost** (2/50 so far). Do not mix t+6 val with the 1h composite. Do not retry bagging / max_bin / another RH formula. persist>=250 typical still predicts −53 vs need 0 on Exp76.
+Stay on isolated **CatBoost Plain** (Exp78 near-miss). Next: Plain **lr=0.01** or **depth=4** on Exp30 features. Do not retry Ordered. Do not start MLP. Do not mix t+6 val with the 1h composite.

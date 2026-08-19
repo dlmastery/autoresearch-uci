@@ -1,0 +1,7 @@
+{
+  "snapshot": "catboost_start",
+  "before_experiment": 77,
+  "1h_champion": 30,
+  "t6_recipe": 76,
+  "note": "Isolated CatBoost cycle starts from Exp30 features; do not copy LightGBM HPs."
+}

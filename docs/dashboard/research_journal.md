@@ -26,7 +26,7 @@ persistence (2014) test RMSE 22.316
 
 ## What was thrown away
 
-67 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, Exp68, Exp70, Exp72, **Exp75** rh_magnus (val 57.19 / test 54.73), **Exp76** linear_lambda=1 (val 57.16 / test 54.31). Exp74 bagging_freq=1 missed.
+69 DISCARDs on the 1h gate. t+6 side-KEEPs: Exp46, Exp47, Exp55, Exp56, Exp59, Exp68, Exp70, Exp72, Exp75 rh_magnus, **Exp76** linear_lambda=1 (val 57.16 / test 54.31). CatBoost Exp77 Ordered miss; Exp78 Plain NEAR-MISS (val 22.472).
 
 1h bagging was a no-op until Exp43 (`bagging_freq` default 0). Seed noise ≈ val ±0.08 (Exp44). Depth/lr/weather-lags/raw-hour/subsample/GOSS/DART/Huber/extra_trees/min_data/linear_tree/accel/vent/max_bin/roll6max/bagging_freq=1: no composite gain.
 
@@ -38,18 +38,18 @@ See `champion_diagnostics.json`. Onset n=95 RMSE 103.35. January 33.07. Hour 20 
 
 Exp1–31 did **not** follow the original hillclimb skill (50 isolated experiments per backbone, many papers inside each). Recovery: isolate LightGBM, paper recipes (GOSS, DART, objectives), then CatBoost / MLP / FT-Transformer. Dashboard and 14-section audit pack brought up to the original github.io standard this session.
 
-## This fire (2026-08-18, Exp75–76)
+## This fire (2026-08-18, Exp77–78)
 
-New Exp72 slices: persist>=250 typical n=237 RMSE **82.39 vs persist-6 28.27 (skill −191.5%)**, need **−0.1**, pred **−51.5**. Hour 22 RMSE **65.19**. RH 70-85 persist>=150 skill only **+4.8%**.
+New Exp30 slices: hour-20 January n=29 RMSE **27.61 vs persist 25.29 (skill −9.2%)**. persist>=150 typical n=1490 RMSE **23.14 vs 19.34 (skill −19.6%)**, pred **−4.7**.
 
-**Exp75 t+6 side-KEEP** (1h DISCARD) Magnus RH. Val 57.191 beat 57.429, test 54.730. Hour-6 RH=100 row predicted 872 vs 116.
+**Exp77 DISCARD** CatBoost Ordered. Val 23.190 / test 21.520. h20 Jan 31.30 worse; onset pred −3.3. Axis closed: Ordered on 1h nowcast.
 
-**Exp76 t+6 side-KEEP** (1h DISCARD) linear_lambda=1. Val 57.161 / test 54.312. Hour-6 67.07→53.55, blow-up 872→132. persist>=250 typical still −52.7.
+**Exp78 DISCARD / NEAR-MISS** CatBoost Plain. Val 22.472 lost by 0.075 (seed floor ±0.08). Test 21.058. h20 Jan **25.59** beat Exp30. January still 35.16 vs 33.07.
 
-t+6 recipe is now Exp76. 1h champion unchanged: Exp30. LightGBM **50/50**. Snapshot `code_versions/lightgbm_final/`.
+1h champion unchanged: Exp30. t+6 recipe remains Exp76. CatBoost **4/50**.
 
 ## Next (original process)
 
-1. Isolated **CatBoost** cycle (currently 2/50). Do not mix t+6 val with the Exp30 1h composite
-2. Do not retry bagging / max_bin / another RH formula / linear_lambda nearby values first
-3. persist>=250 typical still predicts −53 vs need 0 on Exp76 — open residual if returning to t+6 after CatBoost snapshot
+1. Stay isolated on **CatBoost Plain**. Next: lr 0.01 or depth 4 on Exp30 features
+2. Do not retry Ordered. Do not start MLP
+3. Do not mix t+6 val with the Exp30 1h composite
