@@ -58,6 +58,7 @@ def main() -> None:
     extra["iws_clip100"] = np.minimum(extra["Iws"], 100.0)
     extra["nw_iws"] = extra["cbwd_NW"] * extra["Iws"]
     extra["is_morning"] = ((extra["hour"] >= 7.0) & (extra["hour"] <= 9.0)).astype(float)
+    extra["dow_sin"] = np.sin(2.0 * np.pi * extra["dow"] / 7.0)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

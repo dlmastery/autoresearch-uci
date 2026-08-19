@@ -258,8 +258,16 @@ New diagnosis: hour 8-9 n=663 RMSE **18.16 vs persist 18.26**, need −0.20 pred
 
 1h champion unchanged: Exp97. CatBoost **48/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp123)
+
+New diagnosis: corr(dow_sin, y) val **−0.078** vs 2011 **+0.051** vs 2012 **−0.046**. Numeric dow corr val 0.065 vs train ~0. Test residual corr with dow_sin **−0.027**. Thursday still loses persist 20.85 vs 20.75.
+
+**Exp123 DISCARD** dow_sin. Val **22.360** test **20.829**. Thursday 20.85→**21.31**. Cyclic weekday taxed val more than drop-dow (22.212). Keep numeric dow.
+
+1h champion unchanged: Exp97. CatBoost **49/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry hour-bin dummies / wind×Iws / border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
-3. Keep weekday features, hour_sin/hour_cos, Bayesian bagging, default 254 borders. Leave Exp97 or rethink a feature that is not hour bins, wind-speed products, or unused regularizer HPs. Do not start MLP
+2. Do not retry dow_sin / dow_cos / hour-bin dummies / wind×Iws / border_count {64,128} / Bernoulli subsample / model_size_reg {1.0, 2.0} / drop dow / drop is_weekend / Iws clips / drop lag7-12 / month dummies / roll3mean / se_iws / weather increments / lag1 flags / evening bins
+3. Keep numeric dow, is_weekend, hour_sin/hour_cos. Last CatBoost slot (50/50): leave Exp97 or one unused feature that is not cyclic weekday, hour bins, wind-speed products, or unused regularizer HPs. Do not start MLP until CatBoost 50/50.
