@@ -134,8 +134,18 @@ New Exp97 slices: January weekday persist>=150 n=141 is **13.0% SSE**, RMSE **56
 
 1h champion unchanged: Exp97. CatBoost **31/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp106–Exp107)
+
+New Exp97 slices: January weekday persist>=150 with delta6>20 n=92 is **10.1% SSE**, RMSE **61.11 vs persist 43.87** (pred_d −17.76 vs need −1.91). Falling 6h beats persist (45.87 vs 54.46). January Thursday persist>=150 n=47 is **6.8% SSE**, RMSE **70.42 vs persist 50.96**, mean Iws **4.13 vs 10.14** on other January weekday persist, mean actual **343.8**. Hours 18-21 persist need **+26.38** pred_d **+1.34**.
+
+**Exp106 DISCARD** pm25_delta6. Val **22.345** test **20.671**. Building leftover 61.11→60.16 (missed 44–56). Thursday 70.42→**72.21** worse.
+
+**Exp107 DISCARD** log_iws. Val **22.310** test **20.783**. Thursday 70.42→**72.35**. Iws<5 persist 56.88→**58.75** worse.
+
+1h champion unchanged: Exp97. CatBoost **33/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2
-3. Leave Exp97 or rethink January weekday persist>=150 without a patience/leaf-floor knob. Do not start MLP
+2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean
+3. Leave Exp97 or rethink January Thursday persist>=150 (70.42 vs persist 50.96, Iws 4.13, mean 343.8) without another wind-scale or 6-hour trend. Do not start MLP
