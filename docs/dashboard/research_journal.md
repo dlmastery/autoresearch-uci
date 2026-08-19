@@ -94,8 +94,16 @@ New Exp97 slices: January RH>=70 Iws<2 persist>=150 n=17 RMSE **68.74 vs persist
 
 1h champion unchanged: Exp97. CatBoost **26/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp101)
+
+New Exp97 slices: January persist>=150 delta1>0 n=109 RMSE **53.00 vs persist 39.20** (skill −35.2%, need +4.82 pred_d −6.04). January persist>=150 already falling skill **+10.6%**. January persist>=150 PRES>=1025 n=88 RMSE **68.58 vs persist 60.04**.
+
+**Exp101 DISCARD** heating_build. Val 22.322 test 20.990. Building-dirty 53.00→**53.86**. JJA 13.84→14.00. Third interaction DISCARD after heating_night and rh_iws.
+
+1h champion unchanged: Exp97. CatBoost **27/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **CatBoost Exp97** (Plain + rh_magnus + dewp_delta + is_heating, val 22.167)
-2. Do not retry stagn_index / heating_day / T=5 / month_sin / rsm / l2
-3. January moist-calm persist leftover needs a non-ratio rethink. Do not start MLP
+1. Stay isolated on **CatBoost Exp97**
+2. Rethink architecture: **grow_policy=Depthwise** (Lossguide closed). Do not retry another is_heating product
+3. Do not start MLP

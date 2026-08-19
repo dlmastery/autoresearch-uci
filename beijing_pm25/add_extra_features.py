@@ -42,6 +42,7 @@ def main() -> None:
         (extra["hour"] >= 18.0) | (extra["hour"] <= 6.0)
     ).astype(float)
     extra["rh_iws"] = extra["rh_magnus"] / (extra["Iws"] + 1.0)
+    extra["heating_build"] = extra["is_heating"] * np.maximum(extra["pm25_delta1"], 0.0)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 100 experiments · 11 KEEP · 89 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 26/50 · MLP 0/50 · FT-Transformer 0/50
+**Campaign:** 101 experiments · 11 KEEP · 90 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 27/50 · MLP 0/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -126,6 +126,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 98 | DISCARD | catboost | 20.786 | 22.343 | -22.343 | 11.411 | 0.9501 |
 | 99 | DISCARD | catboost | 20.735 | 22.167 | -22.167 | 11.398 | 0.9503 |
 | 100 | DISCARD | catboost | 20.726 | 22.178 | -22.178 | 11.348 | 0.9504 |
+| 101 | DISCARD | catboost | 20.990 | 22.322 | -22.322 | 11.483 | 0.9491 |
 
 ## Champion residual slices (2014 test)
 
@@ -146,3 +147,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp98 heating_night DISCARD (val 22.343). Jan RH>=70 Iws<2 42.65→44.31.
 - Exp99 bagging_temperature=2 DISCARD (bit-identical to Exp97). CatBoost 25/50.
 - Exp100 rh_iws DISCARD (val 22.178, test 20.726). Jan rh_iws q3 39.39→40.03. CatBoost 26/50.
+- Exp101 heating_build DISCARD (val 22.322, test 20.990). Jan persist>=150 delta1>0 53.00→53.86. CatBoost 27/50.
