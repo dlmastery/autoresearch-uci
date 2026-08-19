@@ -111,6 +111,7 @@ Within LightGBM, paper queue (one publication / one change per experiment):
 75. ~~CatBoost 1h early_stopping_rounds=50 on Exp97~~ Exp105 DISCARD (bit-identical)
 76. ~~CatBoost 1h drop dow on Exp97~~ Exp117 DISCARD (val 22.212 near-miss; Thursday worse)
 77. ~~CatBoost 1h model_size_reg=1.0 on Exp97~~ Exp118 DISCARD (bit-identical)
-78. **Stay on Exp97. Do not retry model_size_reg {1.0, 2.0}. Keep weekday features. Leave Exp97 or regularize 2013 with a non-nearby unused knob. Do not start MLP.** ← **next**
+78. ~~CatBoost 1h Bernoulli subsample=0.8 on Exp97~~ Exp119 DISCARD (val 22.231; Jan hour-1 74.63→74.97)
+79. **Stay on Exp97. Do not retry Bernoulli subsample. Keep weekday features and Bayesian bagging. Leave Exp97 or regularize 2013 with a non-nearby unused knob. Do not start MLP.** ← **next**
 
 Then isolated cycles: finish CatBoost 50 → MLP 50 → FT-Transformer 50 → TabNet if time.
