@@ -162,8 +162,16 @@ New Exp97 slices: **2014-01-16 hours 0-8** n=9 is **4.0% of all 2014 SSE**, RMSE
 
 1h champion unchanged: Exp97. CatBoost **36/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp111)
+
+New Exp97 slices: 2014-01-16 hours 0-8 **not-NW** n=6 is **3.3% SSE**, RMSE **137.65 vs persist 42.70** (need +9.33 pred_d −120.74). cv subset n=3 RMSE **151.75 vs persist 52.38**. Other January overnight persist and cv persist>=300 hours 0-8 excluding Jan 16 **match or beat persist**. January onset n=18 is **10.3% SSE**, RMSE **139.91 vs persist 127.93**. Hour 20 need +7.65 pred_d +4.96.
+
+**Exp111 DISCARD** temp_delta. Val **22.357** test **20.715**. Hour 20 32.48→**32.50**. Jan16 hours 0-8 123.22→**128.48** worse.
+
+1h champion unchanged: Exp97. CatBoost **37/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **CatBoost Exp97**
-2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins / rh_delta
-3. Leave Exp97 or rethink 2014-01-16 hours 0-8 (123.22 vs persist 48.74, 4.0% SSE) without lag1 flags, wind-scale, 6h trend, evening bins, or RH increments. Do not start MLP
+2. Do not retry early_stopping=30 / min_data=50 / iws_delta / Depthwise / heating products / rsm / l2 / pm25_delta6 / log_iws / roll6mean / is_severe / evening_peak / hour bins / rh_delta / temp_delta / extra weather increments
+3. Leave Exp97 or rethink January onset (n=18, 10.3% SSE, RMSE 139.91 vs persist 127.93) without lag1 flags, wind-scale, 6h trend, evening bins, RH increments, or extra weather deltas. Do not start MLP

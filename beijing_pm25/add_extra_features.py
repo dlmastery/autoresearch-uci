@@ -51,6 +51,7 @@ def main() -> None:
         (extra["hour"] >= 18.0) & (extra["hour"] <= 21.0)
     ).astype(float)
     extra["rh_delta"] = extra["rh_magnus"].diff().fillna(0.0)
+    extra["temp_delta"] = extra["TEMP"].diff().fillna(0.0)
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 
