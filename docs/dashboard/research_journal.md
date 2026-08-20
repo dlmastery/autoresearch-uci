@@ -474,9 +474,18 @@ New diagnosis: crash persist>=150 and need<-50 n=110 RMSE **86.06 vs CatBoost 81
 
 1h champion unchanged: Exp97. MLP **25/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp150)
+
+New diagnosis: rain persist>=100 n=79 RMSE **38.52 vs CatBoost 33.16** vs persist 44.20, need −14.53 pred_d **−8.62** (3.5% of Exp136 SSE; clip=1.0 under-washes). Ir>0 24.06 vs CB 21.51. January 30.96 vs JJA 13.96. Onset 110.39 vs persist 107.80. Hour 20 32.19. Val 22.259 vs test 20.509 is the bottleneck.
+
+**Exp150 DISCARD** grad_clip=0. Val **22.402** missed Exp136 22.259. Test **20.400** beat Exp136. Rain persist>=100 38.52→**39.15**; pred_d −8.62→**−8.69** flat. Crash 86.06→**80.40** now beats CB 81.81. Collapse 76.83→**72.68**. Typical 7.21→**7.50**. Unclipped steps helped crash but taxed rain and 2013 val.
+
+1h champion unchanged: Exp97. MLP **26/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. **Rethink architecture** next (e.g. unused grad_clip). Do not retry hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index)
+2. Next unused axis: **Adam lr=1e-3** (unused opposite of 1e-4). Do not retry grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
+
 
