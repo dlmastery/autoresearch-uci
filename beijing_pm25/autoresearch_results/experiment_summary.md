@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 130 experiments · 11 KEEP · 119 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 6/50 · FT-Transformer 0/50
+**Campaign:** 131 experiments · 11 KEEP · 120 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 7/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -156,6 +156,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 128 | DISCARD | mlp | 21.344 | 23.080 | -23.080 | 11.756 | 0.9474 |
 | 129 | DISCARD | mlp | 21.349 | 23.069 | -23.069 | 11.784 | 0.9473 |
 | 130 | DISCARD | mlp | 20.457 | 22.527 | -22.527 | 11.321 | 0.9517 |
+| 131 | DISCARD | mlp | 20.607 | 22.545 | -22.545 | 11.311 | 0.9509 |
 
 ## Champion residual slices (2014 test)
 
@@ -206,3 +207,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp128 MLP hidden 128-64-32 DISCARD (val **23.080**, test 21.344). Hour-21 persist>=150 58.72→64.79. Typical 7.03→7.81. MLP 4/50.
 - Exp129 MLP Adam lr=1e-4 DISCARD (val **23.069**, test 21.349). Iws q3 26.41→27.03. persist>=300 40.54→43.57. MLP 5/50.
 - Exp130 MLP batch_size=16 DISCARD 1h (val **22.527** tied Exp127, test **20.457** new 2014 best). SE 22.56→21.92. SE persist>=150 32.65→30.37. MLP 6/50.
+- Exp131 MLP epochs=80 DISCARD (val **22.545**, test 20.607). Hour-18 persist>=100 32.58→32.23. MLP 7/50.

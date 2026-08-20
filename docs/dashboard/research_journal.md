@@ -322,8 +322,16 @@ New diagnosis: SE wind n=2937 is 36.9% of hours but **43.6% of Exp127 SSE** vs 4
 
 1h champion unchanged: Exp97. MLP **6/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp131)
+
+New diagnosis: hour 18 persist>=100 n=103 RMSE **32.58 vs CatBoost 27.03** vs persist 36.50, need −1.04 pred_d **+1.82**. Hour 18 overall **26.99 vs CB 24.68** is **7.27% of Exp130 SSE** vs 5.91% of Exp97. February hour 18 **50.6 vs CB 37.5**. Val-test gap **2.07** vs CB 1.432.
+
+**Exp131 DISCARD** epochs=80. Val **22.545** missed Exp130 22.527. Test **20.607**. Hour-18 persist>=100 32.58→**32.23**. Hour 18 26.99→**26.76**. Hypothesis barely moved the tail.
+
+1h champion unchanged: Exp97. MLP **7/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4)
-2. Change unused **epochs** or **patience** next. Do not retry batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, epochs 50)
+2. Change unused **patience** next. Do not retry nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
