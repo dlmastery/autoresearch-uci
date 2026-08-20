@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp160 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp161 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -20,12 +20,12 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** Sat persist>=150 n=284 RMSE **34.51** vs CB **32.94** (need −2.94 pred_d **−4.25** over-clean) vs Sun persist>=150 n=227 RMSE **31.83** vs CB **33.48** (need −10.70 pred_d **−8.52** under-clean). is_weekend is a deterministic function of dow 5–6 (corr 0.79).
-- **Exp160 DISCARD** drop is_weekend keep dow. Val **22.492** missed Exp136 22.259. Test **20.428**. Sat dirty 34.51→**34.38**; Sun dirty 31.83→**32.44** inverted. Keep is_weekend.
-- Drop-raw-weather remains three DISCARDs (Iws, Is, PRES). Do not drop TEMP/DEWP/Ir/dow.
+- **NEW:** inversion_spread equals TEMP−DEWP exactly; corr with rh_magnus **−0.954**. inv q4 n=2220 RMSE **22.17** vs CB **22.39** (32.6% of Exp136 SSE; need −0.87 pred_d **−2.42** dry well-mixed over-clean).
+- **Exp161 DISCARD** drop inversion_spread keep TEMP/DEWP. Val **22.487** missed Exp136 22.259. Test **20.455**. inv q4 22.17→**21.64**; pred_d −2.42→**−2.40**. Saturated inv<=2 16.93→**17.38**. Keep inversion_spread.
+- Do not drop rh_magnus or vent_index (nearby moisture/stability). Do not drop TEMP/DEWP/Ir/dow.
 
 ## This fire
-- **Exp160 DISCARD** 1h vs Exp97. Saturday slightly less over-clean; Sunday inverted. MLP **36/50**.
+- **Exp161 DISCARD** 1h vs Exp97. Dry-inv RMSE improved; over-clean and 2013 val taxed. MLP **37/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -58,13 +58,14 @@
 - MLP drop Is (do not retry drop Ir; rain under-cleans)
 - MLP drop PRES (do not retry drop TEMP or DEWP)
 - MLP drop is_weekend (do not retry drop dow)
+- MLP drop inversion_spread (do not retry drop rh_magnus or vent_index)
 - Exp136 extra-feature adds (137–147 plus heating_build, rh_iws) exhausted
 - MLP extra depth (Exp148) exhausted
 - MLP HP opposites (lr, dropout, batch, wd) exhausted
 - Drop-raw-weather (Iws, Is, PRES) exhausted — rethink, not another weather drop
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **36/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **37/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws, keep Is, keep PRES, keep is_weekend, keep dow). Next unused axis: **drop inversion_spread keep TEMP and DEWP** (derived TEMP−DEWP is a linear copy the MLP first layer can form; not another raw weather drop). Do not retry drop is_weekend, drop dow, drop PRES, drop TEMP, drop Is, drop Ir, drop Iws, rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws, keep Is, keep PRES, keep is_weekend, keep dow, keep inversion_spread). Next unused axis: **drop is_heating keep month_sin** (Nov–Feb step dummy is a coarse copy of month_sin; not another inversion/RH drop). Do not retry drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop Is, drop Ir, drop Iws, rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
