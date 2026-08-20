@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp148 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp149 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -19,17 +19,18 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** evening 18-21 persist>=150 n=246 RMSE **39.89** vs CB **38.09** vs persist **44.60**, need **+3.80** pred_d **+1.92** (11.7% of Exp136 SSE; 3-layer under-ramps nested evening haze).
-- **Exp148 DISCARD** extra hidden 256-128-64-32. Val **23.289** missed Exp136 22.259 hard. Test 21.330. eve persist>=150 39.89→**43.24**; pred_d +1.92→**+7.38** (over-ramped). Typical 7.21→7.80. Collapse 76.83→86.28. Onset 110.39→106.91 beats persist 107.80.
+- **NEW:** crash persist>=150 and need<-50 n=110 RMSE **86.06** vs CB **81.81** vs persist **108.97**, need **−95.34** pred_d **−25.16** (24.4% of Exp136 SSE; homoscedastic Smooth-L1 captures 26% of the drop).
+- **Exp149 DISCARD** hetero_loss. Val **22.771** missed Exp136 22.259. Test 21.104. crash 86.06→**92.61**; pred_d −25.16→**−19.41** (captured even less). Typical 7.21→7.49. Collapse 76.83→81.72.
 
 ## This fire
-- **Exp148 DISCARD** 1h vs Exp97. Extra depth over-ramped evening haze and taxed 2013 val like Exp128 width shrink. MLP **24/50**.
+- **Exp149 DISCARD** 1h vs Exp97. Heteroscedastic log-var downweighted crash hours and under-captured the drop. MLP **25/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
 - MLP dropout=0.3 (do not retry 0.4/0.5)
 - MLP hidden 128-64-32 (do not retry 64-32-16 or another nearby shrink)
 - MLP extra hidden 256-128-64-32 (do not retry 5-layer or nearby 4th-layer width 16/64)
+- MLP hetero_loss (do not retry another aleatoric-head or nearby heteroscedastic loss)
 - MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
 - MLP epochs=80 (do not retry 60/100 or another nearby cosine budget)
 - MLP patience=5 (do not retry 3 or another nearby shrink)
@@ -48,7 +49,7 @@
 - MLP extra depth (Exp148) exhausted
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **24/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **25/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). **Rethink architecture** next (e.g. unused hetero_loss), not extra depth or another feature. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). **Rethink architecture** next (e.g. unused grad_clip), not hetero_loss, extra depth, or another feature. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
