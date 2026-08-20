@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 156 experiments · 11 KEEP · 145 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 32/50 · FT-Transformer 0/50
+**Campaign:** 157 experiments · 11 KEEP · 146 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 33/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -182,6 +182,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 154 | DISCARD | mlp | 20.493 | 22.436 | -22.436 | 11.326 | 0.9515 |
 | 155 | DISCARD | mlp | 20.963 | 22.518 | -22.518 | 11.382 | 0.9492 |
 | 156 | DISCARD | mlp | 20.399 | 22.430 | -22.430 | 11.232 | 0.9519 |
+| 157 | DISCARD | mlp | 20.425 | 22.336 | -22.336 | 11.277 | 0.9518 |
 
 ## Champion residual slices (2014 test)
 
@@ -258,3 +259,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp154 MLP weight_decay=0 DISCARD (val **22.436**, test 20.493). Stuck need>20 |pred_d|<5 50.33→50.08. MLP 30/50.
 - Exp155 MLP heating_build DISCARD (val **22.518**, test 20.963). Heating need>20 55.12→54.36; val inverted. MLP 31/50.
 - Exp156 MLP rh_iws DISCARD (val **22.430**, test **20.399**). Humid collapse 71.72→73.39 inverted. MLP 32/50.
+- Exp157 MLP drop Iws keep log_iws DISCARD (val **22.336**, test **20.425**). Iws>=50 10.46→10.51; moderate band 40.49→39.59. MLP 33/50.
