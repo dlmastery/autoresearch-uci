@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp153 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp154 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -20,11 +20,11 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** persist 80-150 n=2068 RMSE **22.91** vs CB **22.65** vs persist **24.17**, need **+0.32** pred_d **−1.31** (32.5% of Exp136 SSE; batch-16 over-cleans moderate haze).
-- **Exp153 DISCARD** batch_size=64. Val **22.638** missed Exp136 22.259. Test 20.744. persist 80-150 22.91→**22.81**; pred_d −1.31→**−0.89**. Typical 7.21→7.30.
+- **NEW:** stuck need>20 and |pred_d|<5 n=293 RMSE **50.33** vs CB **50.03** vs persist **50.51**, need **+37.67** pred_d **+0.52** (22.2% of Exp136 SSE; L2 shrinks residual head to persist).
+- **Exp154 DISCARD** weight_decay=0. Val **22.436** missed Exp136 22.259. Test 20.493. stuck 50.33→**50.08**; pred_d +0.52→**+1.23**. Typical 7.21→7.49.
 
 ## This fire
-- **Exp153 DISCARD** 1h vs Exp97. Larger batch quieted moderate-haze over-clean but taxed 2013 val (sharp-minima). MLP **29/50**.
+- **Exp154 DISCARD** 1h vs Exp97. Zero AdamW decay barely moved stuck hours and taxed typical/val. MLP **30/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -37,6 +37,7 @@
 - MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
 - MLP Adam lr=1e-3 (do not retry 5e-4 or 2e-3)
 - MLP batch_size=64 (do not retry nearby 48 or 128)
+- MLP weight_decay=0 (do not retry nearby 1e-6)
 - MLP epochs=80 (do not retry 60/100 or another nearby cosine budget)
 - MLP patience=5 (do not retry 3 or another nearby shrink)
 - MLP pm25_roll6max (do not retry roll3mean)
@@ -52,9 +53,10 @@
 - MLP cv_inv (do not retry another calm or inversion product)
 - Exp136 extra-feature adds (137–147) exhausted
 - MLP extra depth (Exp148) exhausted
+- MLP HP opposites (lr, dropout, batch, wd) exhausted
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **29/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **30/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). Next unused axis: **weight_decay=0** (unused opposite of 1e-4), not nearby batch, nearby dropout, nearby lr, grad_clip, hetero_loss, extra depth, or another feature. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3, nearby lr shrink/raise, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). **Rethink feature** next (e.g. unused heating_build), not nearby wd or another HP opposite. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
