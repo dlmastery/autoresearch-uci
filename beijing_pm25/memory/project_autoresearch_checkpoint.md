@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp140 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp141 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -10,7 +10,7 @@
 - Features: inversion+delta + rh_magnus + dewp_delta + is_heating · depth 6 · lr 0.03 · l2=3 · Plain SymmetricTree
 
 ## Best 2014 test (not champion)
-- **Exp 135** MLP batch 16 + log_iws + month_sin + pm25_accel · test **20.417** · val **22.350**
+- **Exp 141** MLP batch 16 + log_iws + month_sin + pm25_accel + vent_index + pm25_delta6 · test **20.274** · val **22.356**
 
 ## MLP val recipe (not 1h champion)
 - **Exp 136** MLP batch 16 + wd=1e-4 + log_iws + month_sin + pm25_accel + vent_index · val **22.259** · test **20.509** · January **30.96**
@@ -19,11 +19,11 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** SE Iws>=10 n=1483 RMSE **24.43** vs CB **23.63** vs persist **25.65**, need **+1.84** pred_d **−0.39** (26.5% of Exp136 SSE; wrong-sign over-clean).
-- **Exp140 DISCARD** se_iws. Val **22.439** missed Exp136 22.259. Test 20.519. SE Iws>=10 24.43→**24.53**; pred_d −0.39→**+0.12**. 2013 val inverted.
+- **NEW:** delta6>20 n=2457 RMSE **25.92** vs CB **26.91** vs persist **27.93**, need **+1.17** pred_d **−0.85** (49.4% of Exp136 SSE; mean-reverts a still-building 6h episode).
+- **Exp141 DISCARD** pm25_delta6. Val **22.356** missed Exp136 22.259. Test **20.274** new 2014 best. delta6>20 25.92→**25.60**; pred_d stayed **−0.87**. 2013 val inverted.
 
 ## This fire
-- **Exp140 DISCARD** 1h vs Exp97. se_iws flipped 2014 SE pred_d toward need but RMSE and 2013 val did not. MLP recipe remains Exp136. MLP **16/50**.
+- **Exp141 DISCARD** 1h vs Exp97. 6h slope cut 2014 RMSE but missed 2013 val. MLP recipe remains Exp136. MLP **17/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -36,9 +36,10 @@
 - MLP pres_delta (do not retry temp_delta or rh_delta)
 - MLP evening_peak (do not retry is_morning or heating_night)
 - MLP se_iws (do not retry nw_iws)
+- MLP pm25_delta6 (do not retry another 6h PM slope)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **16/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **17/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). Change a different unused **column class** next (e.g. pm25_delta6). Do not retry rolling PM stats, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). Change a different unused **column class** next (e.g. is_severe). Do not retry rolling PM stats, 6h PM slopes, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.

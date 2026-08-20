@@ -402,8 +402,16 @@ New diagnosis: SE Iws>=10 n=1483 RMSE **24.43 vs CatBoost 23.63** vs persist 25.
 
 1h champion unchanged: Exp97. MLP **16/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp141)
+
+New diagnosis: delta6>20 n=2457 RMSE **25.92 vs CatBoost 26.91** vs persist 27.93, need +1.17 pred_d **−0.85** (49.4% of Exp136 SSE; mean-reverts a still-building 6h episode).
+
+**Exp141 DISCARD** pm25_delta6. Val **22.356** missed Exp136 22.259. Test **20.274** new 2014 best. delta6>20 25.92→**25.60**; pred_d stayed **−0.87**. 2013 val inverted.
+
+1h champion unchanged: Exp97. MLP **17/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change a different unused **column class** next (e.g. pm25_delta6). Do not retry rolling PM stats, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change a different unused **column class** next (e.g. is_severe). Do not retry rolling PM stats, 6h PM slopes, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
