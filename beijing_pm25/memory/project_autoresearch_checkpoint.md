@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp163 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp164 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -10,22 +10,24 @@
 - Features: inversion+delta + rh_magnus + dewp_delta + is_heating · depth 6 · lr 0.03 · l2=3 · Plain SymmetricTree
 
 ## Best 2014 test (not champion)
+- **Exp 164** MLP hidden 512-256-128 on Exp136 features · test **20.201** · val **22.180** (new 2014 best; MLP val best; 0.013 shy of Exp97 composite)
 - **Exp 141** MLP batch 16 + log_iws + month_sin + pm25_accel + vent_index + pm25_delta6 · test **20.274** · val **22.356**
-- **Exp 152** MLP dropout=0.1 on Exp136 recipe · test **20.277** · val **22.290** (near-tie 2014; val close miss)
+- **Exp 152** MLP dropout=0.1 on Exp136 recipe · test **20.277** · val **22.290**
 
 ## MLP val recipe (not 1h champion)
-- **Exp 136** MLP batch 16 + wd=1e-4 + log_iws + month_sin + pm25_accel + vent_index · val **22.259** · test **20.509** · January **30.96**
+- **Exp 164** MLP hidden 512-256-128 + batch 16 + wd=1e-4 + log_iws + month_sin + pm25_accel + vent_index · val **22.180** · test **20.201** · January **31.90**
+- Prior recipe Exp136 val 22.259 / test 20.509 is dominated on both splits.
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** cbwd one-hots sum to 1.0 exactly. cv persist>=150 n=505 RMSE **26.40** vs CB **28.95** vs persist **27.68** (10.5% of SSE; need +1.28 pred_d **−0.76** dirty calm under-build; cv Iws median 1.78 vs non-cv 8.94).
-- **Exp163 DISCARD** drop cbwd_cv keep directed winds. Val **22.350** missed Exp136 22.259. Test **20.556**. cv dirty RMSE stayed 26.40; pred_d −0.76→**−0.09**. cv overall pred_d +0.62→**+1.36** vs need +2.42. Keep cbwd_cv.
-- Do not drop cbwd_NE/NW/SE. Collinear-derived and drop-raw-weather remain closed.
+- **NEW:** need>=30 build n=309 RMSE **65.12** vs persist **64.39** vs CB **64.51** (39.2% of Exp136 SSE; need +50.54 pred_d **+1.23** persist-locked jumps). Typical |need|<=10 already beats CB 7.21 vs 8.35.
+- **Exp164 DISCARD** vs Exp97 (val 22.180 vs 22.167, Δ0.013). Beats Exp136 val **22.259→22.180** and test **20.509→20.201**. Builds 65.12→**65.98** inverted. |need|>=80 135.18→**128.15** beats CB. Typical 7.21→**7.53**. January 30.96→**31.90**.
+- Do not nearby-widen 384/768. MLP recipe updates to Exp164.
 
 ## This fire
-- **Exp163 DISCARD** 1h vs Exp97. Calm under-build eased; val still missed. MLP **39/50**.
+- **Exp164 DISCARD** 1h vs Exp97 (near-miss 0.013). New best 2014 test and new best MLP val. MLP **40/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -33,6 +35,7 @@
 - MLP dropout=0.1 (do not retry 0.05 or 0.15)
 - MLP hidden 128-64-32 (do not retry 64-32-16 or another nearby shrink)
 - MLP extra hidden 256-128-64-32 (do not retry 5-layer or nearby 4th-layer width 16/64)
+- MLP hidden 512-256-128 (do not retry nearby 384/768 or another 3-layer widen)
 - MLP hetero_loss (do not retry another aleatoric-head or nearby heteroscedastic loss)
 - MLP grad_clip=0 (do not retry nearby clip 0.1/5/10)
 - MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
@@ -68,7 +71,7 @@
 - Collinear-derived drops (is_weekend, inversion_spread, is_heating) exhausted — rethink, not another derived copy
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **39/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **40/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws, keep Is, keep PRES, keep is_weekend, keep dow, keep inversion_spread, keep is_heating, keep cbwd_cv). Next unused axis: **hidden 512-256-128** (widen opposite of Exp128 shrink; not extra 4th layer). Do not retry drop cbwd_cv, drop is_heating, drop month_sin, drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop Is, drop Ir, drop Iws, rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp164 recipe** (batch 16, hidden 512-256-128, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). Next unused axis: diagnose Exp164 builds (need>=30 still pred_d +0.97 vs need +50.54) — **not** nearby widen 384/768, extra 4th layer, or dropout 0.1. Do not retry drop cbwd_cv, drop is_heating, drop month_sin, drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop Is, drop Ir, drop Iws, rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
