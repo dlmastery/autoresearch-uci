@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp155 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp156 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -20,11 +20,11 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** heating need>20 n=261 RMSE **55.12** vs CB **55.19** vs persist **54.39**, need **+43.56** pred_d **+1.92** (23.7% of Exp136 SSE; winter builds persist-locked).
-- **Exp155 DISCARD** heating_build. Val **22.518** missed Exp136 22.259. Test 20.963. heating need>20 55.12→**54.36** now beats persist; pred_d +1.92→**+2.79**. January 30.96→31.26.
+- **NEW:** collapse on rh>=q75 n=45 RMSE **71.72** vs CB **65.80** vs persist **81.61**, need **−75.71** pred_d **−11.02** (6.9% of Exp136 SSE; humid crashes capture 15% of the drop).
+- **Exp156 DISCARD** rh_iws. Val **22.430** missed Exp136 22.259. Test **20.399**. humid collapse 71.72→**73.39**; pred_d −11.02→**−9.12**. Hypothesis inverted on the slice.
 
 ## This fire
-- **Exp155 DISCARD** 1h vs Exp97. Winter-momentum product helped the heating-build slice but taxed 2013 val and 2014 test. MLP **31/50**.
+- **Exp156 DISCARD** 1h vs Exp97. Moist-calm ratio inverted humid-crash calibration; 2014 test improved, 2013 val did not. MLP **32/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -52,12 +52,13 @@
 - MLP dow_sin (do not retry dow_cos)
 - MLP cv_inv (do not retry another calm or inversion product)
 - MLP heating_build (do not retry heating_night or another heating product)
-- Exp136 extra-feature adds (137–147) exhausted
+- MLP rh_iws (do not retry another RH/wind ratio)
+- Exp136 extra-feature adds (137–147 plus heating_build, rh_iws) exhausted
 - MLP extra depth (Exp148) exhausted
 - MLP HP opposites (lr, dropout, batch, wd) exhausted
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **31/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **32/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). **Rethink feature** next (e.g. unused rh_iws), not heating_build or another HP opposite. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). Next unused axis: **drop raw Iws** (keep log_iws), not another extra feature. Do not retry rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
