@@ -370,8 +370,16 @@ New diagnosis: vent-q3 n=1985 (Iws 11.3, inversion 14.0) RMSE **19.71 vs CatBoos
 
 1h champion unchanged: Exp97. MLP **12/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp137)
+
+New diagnosis: hours fallen >=80 from 6h lag peak n=620 RMSE **27.53 vs CatBoost 26.26** vs persist 32.91, need −8.11 pred_d **−9.03**. At-peak n=2685 need **+3.80** pred_d **+1.38** (43.8% of SSE).
+
+**Exp137 DISCARD** roll6max. Val **22.451** missed Exp136 22.259. Test **20.478**. Drop>=80 27.37→**27.32**. Onset 110.39→**107.28** (beats persist) but 2013 val inverted.
+
+1h champion unchanged: Exp97. MLP **13/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change another unused **feature** next (e.g. pm25_roll6max). Do not retry nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change another unused **feature** next (e.g. pres_delta). Do not retry rolling PM stats, nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
