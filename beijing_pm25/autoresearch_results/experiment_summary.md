@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 137 experiments · 11 KEEP · 126 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 13/50 · FT-Transformer 0/50
+**Campaign:** 138 experiments · 11 KEEP · 127 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 14/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -163,6 +163,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 135 | DISCARD | mlp | 20.417 | 22.350 | -22.350 | 11.276 | 0.9518 |
 | 136 | DISCARD | mlp | 20.509 | 22.259 | -22.259 | 11.300 | 0.9514 |
 | 137 | DISCARD | mlp | 20.478 | 22.451 | -22.451 | 11.287 | 0.9516 |
+| 138 | DISCARD | mlp | 20.440 | 22.438 | -22.438 | 11.275 | 0.9517 |
 
 ## Champion residual slices (2014 test)
 
@@ -220,3 +221,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp135 MLP pm25_accel DISCARD 1h (val **22.350** new MLP val, test **20.417** new 2014 best). Accel-q4 23.22→23.13. MLP 11/50.
 - Exp136 MLP vent_index DISCARD 1h (val **22.259** new MLP val, gap 0.092, test 20.509). Vent-q3 19.71→19.86. MLP 12/50.
 - Exp137 MLP pm25_roll6max DISCARD (val **22.451**, test 20.478). Onset 110.39→107.28 but val inverted. MLP 13/50.
+- Exp138 MLP pres_delta DISCARD (val **22.438**, test 20.440). Collapse dPRES>=1 86.12→83.33 but val inverted. MLP 14/50.

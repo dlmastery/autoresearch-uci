@@ -378,8 +378,16 @@ New diagnosis: hours fallen >=80 from 6h lag peak n=620 RMSE **27.53 vs CatBoost
 
 1h champion unchanged: Exp97. MLP **13/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp138)
+
+New diagnosis: collapse hours with dPRES>=1 n=51 RMSE **86.12 vs CatBoost 80.04** vs persist 107.64, need −91.41 pred_d **−24.29** (11.3% of Exp136 SSE vs 9.6% of Exp97). persist>=150 collapse n=35 RMSE **97.53 vs CB 88.82**.
+
+**Exp138 DISCARD** pres_delta. Val **22.438** missed Exp136 22.259. Test **20.440**. Collapse dPRES>=1 86.12→**83.33**, pred_d −24.29→**−27.43** vs need −91.41. Hour 20 32.19→**31.62**. 2014 slice held; 2013 val inverted.
+
+1h champion unchanged: Exp97. MLP **14/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change another unused **feature** next (e.g. pres_delta). Do not retry rolling PM stats, nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change another unused **feature** next (e.g. evening_peak). Do not retry rolling PM stats, nearby weather derivatives, nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
