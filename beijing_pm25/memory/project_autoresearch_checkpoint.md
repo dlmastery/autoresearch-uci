@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp146 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp147 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -19,11 +19,11 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** Wednesday n=1149 RMSE **25.99** vs CB **25.07** vs persist **27.60**, need **+1.25** pred_d **−1.09** (23.2% of Exp136 SSE; midweek over-clean, wrong sign).
-- **Exp146 DISCARD** dow_sin. Val **22.716** missed Exp136 22.259. Test 20.826. Wednesday 25.99→**25.90**; pred_d −1.09→**+0.19**. Thursday 19.00→**19.89**. 2013 val inverted hard.
+- **NEW:** cv inversion>=q75 n=486 RMSE **19.55** vs CB **19.03** vs persist **20.77**, need **+0.58** pred_d **−1.67** (5.6% of Exp136 SSE; dry-calm over-clean, mean inv 19.4).
+- **Exp147 DISCARD** cv_inv. Val **22.327** missed Exp136 22.259 (close). Test 20.573. cv inv>=q75 19.55→**19.74**; pred_d −1.67→**−0.90**. RMSE inverted.
 
 ## This fire
-- **Exp146 DISCARD** 1h vs Exp97. Weekday sine moved Wednesday pred_d but taxed Thursday and 2013 val. MLP recipe remains Exp136. MLP **22/50**.
+- **Exp147 DISCARD** 1h vs Exp97. Dry-calm product moved pred_d but raised RMSE. Extra-feature ladder on Exp136 is exhausted. MLP **23/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -42,9 +42,11 @@
 - MLP is_janfeb (do not retry another is_heating split)
 - MLP iws_clip100 (do not retry another Iws transform)
 - MLP dow_sin (do not retry dow_cos)
+- MLP cv_inv (do not retry another calm or inversion product)
+- Exp136 extra-feature adds (137–147) exhausted
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **22/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **23/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). Change a different unused **column class** next (e.g. cv_inv). Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). **Rethink architecture** next (e.g. unused extra hidden layer), not another feature. Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
