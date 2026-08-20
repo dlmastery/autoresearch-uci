@@ -618,10 +618,18 @@ New diagnosis: dirty-stable persist>=150 |need|<=10 n=654 RMSE **13.13 vs persis
 
 MLP **43/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp168)
+
+New diagnosis: onset need>50 n=83 RMSE **110.28 vs persist 107.80** (31.51% of Exp167 SSE; need **+87.40** pred_d **−0.60**; 84% of onsets have pred_d<10 and 40% predict below lag-1). Smooth-L1 beta=1 is MAE at MAE 11.06 so 5117 typical hours drown 83 onsets with equal unit gradients. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp168 DISCARD** huber_beta=20. Val **22.581** missed Exp167 21.972. Test **20.752**. Onset 110.28→**110.64**; pred_d −0.60→**−1.06** versus need +87.40 (hypothesis inverted). Typical 7.14→**8.38**. Dirty-stable 11.99→**12.71**; pred_d −1.78→**−4.39**. Quadratic loss taxed the residual identity path instead of unlocking jumps.
+
+1h champion unchanged: Exp167. MLP **44/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
-2. Next unused axis: diagnose Exp167 onset (110.28 vs persist 107.80). Do not retry pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, huber_beta=1, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
+2. Next unused axis: diagnose Exp167 onset+SE (n=38 RMSE 130.64 vs persist 128.51, 20.25% of SSE, need +98 pred_d +1.33). Do not retry huber_beta 10/40/50 or MSE, pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp167 until composite beats −21.972
 
 

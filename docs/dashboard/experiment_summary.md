@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp167 mlp residual · test RMSE **20.072** · val RMSE **21.972** · skill vs persistence **+10.1%**
-**Campaign:** 167 experiments · 12 KEEP · 155 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 43/50 · FT-Transformer 0/50
+**Campaign:** 168 experiments · 12 KEEP · 156 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 44/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -194,6 +194,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 165 | DISCARD | mlp | 20.467 | 22.448 | -22.448 | 11.389 | 0.9516 |
 | 166 | DISCARD | mlp | 21.338 | 22.442 | -22.442 | 11.703 | 0.9474 |
 | 167 | KEEP | mlp | 20.072 | 21.972 | -21.972 | 11.061 | 0.9535 |
+| 168 | DISCARD | mlp | 20.752 | 22.581 | -22.581 | 11.774 | 0.9503 |
 
 ## Champion residual slices (2014 test)
 
@@ -283,3 +284,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp165 MLP drop pm25_accel DISCARD (val **22.448**, test 20.467). Contra-accel 81.91→79.90; pred_d −1.98→+0.68. Keep accel. MLP 41/50.
 - Exp166 MLP LayerNorm DISCARD (val **22.442**, test **21.338**). Typical |d|>=8 15.37→18.56; January 31.90→36.70. Keep LN off. MLP 42/50.
 - **Exp167 KEEP** residual skips (val **21.972**, test **20.072**). Dirty-stable 13.13→11.99; pred_d −3.91→−1.78. First 1h KEEP since Exp97. MLP 43/50.
+- Exp168 MLP huber_beta=20 DISCARD (val **22.581**, test 20.752). Onset 110.28→110.64; pred_d −0.60→−1.06. Typical 7.14→8.38. Dirty-stable 11.99→12.71. MLP 44/50.
