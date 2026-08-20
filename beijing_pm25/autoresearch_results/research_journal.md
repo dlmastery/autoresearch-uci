@@ -410,8 +410,16 @@ New diagnosis: delta6>20 n=2457 RMSE **25.92 vs CatBoost 26.91** vs persist 27.9
 
 1h champion unchanged: Exp97. MLP **17/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp142)
+
+New diagnosis: lag1>=250 still-rising n=276 RMSE **33.74 vs CatBoost 38.98** vs persist 29.76, need +21.38 pred_d **−1.96** (9.4% of Exp136 SSE; loses persist, wrong-sign drop).
+
+**Exp142 DISCARD** is_severe. Val **22.438** missed Exp136 22.259. Test **20.469**. Rising-severe 33.74→**35.23**; pred_d −1.96→**−3.74**. Hypothesis inverted.
+
+1h champion unchanged: Exp97. MLP **18/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change a different unused **column class** next (e.g. is_severe). Do not retry rolling PM stats, 6h PM slopes, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change a different unused **column class** next (e.g. cbwd_prev_NW). Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
