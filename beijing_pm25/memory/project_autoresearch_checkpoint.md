@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp157 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp158 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -20,11 +20,12 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** Iws>=50 n=746 RMSE **10.46** vs CB **9.92** vs persist **12.61** (2.4% of Exp136 SSE; linear storm tail collinear with log_iws; Iws median 4.92 std 41.64 p99 232).
-- **Exp157 DISCARD** drop Iws keep log_iws. Val **22.336** missed Exp136 22.259. Test **20.425**. Iws>=50 10.46→**10.51**. Iws 5-20 persist>=150 40.49→**39.59**. Raw Iws still useful on 2013 val.
+- **NEW:** Is>0 n=35 RMSE **15.32** vs CB **12.05** vs persist **18.17** (0.25% of Exp136 SSE; test Is 99.56% zero, mean 0.037 std 0.74 p99 0 max 23 → 25-sigma z-score; snow pred_d −6.66 vs need −2.57).
+- **Exp158 DISCARD** drop Is keep Iws. Val **22.394** missed Exp136 22.259. Test **20.395**. Is>0 15.32→**14.56**; pred_d −6.66→**−3.67**. 2013 val has 65 snow hours vs 35 on 2014.
+- Ir>0 n=260 RMSE **24.06** vs CB **21.51** vs persist **27.27** (4.5% of SSE; need −6.30 pred_d −4.29 under-clean — do not drop Ir).
 
 ## This fire
-- **Exp157 DISCARD** 1h vs Exp97. Dropping the linear tail helped the moderate band but missed 2013 val. MLP **33/50**.
+- **Exp158 DISCARD** 1h vs Exp97. Snow slice less over-clean but 2013 val taxed. MLP **34/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -54,12 +55,13 @@
 - MLP heating_build (do not retry heating_night or another heating product)
 - MLP rh_iws (do not retry another RH/wind ratio)
 - MLP drop Iws (do not retry dropping log_iws)
+- MLP drop Is (do not retry drop Ir; rain under-cleans)
 - Exp136 extra-feature adds (137–147 plus heating_build, rh_iws) exhausted
 - MLP extra depth (Exp148) exhausted
 - MLP HP opposites (lr, dropout, batch, wd) exhausted
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **33/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **34/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws). Next unused axis: **drop Is**, not drop Iws or another extra feature. Do not retry rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws, keep Is). Next unused axis: **drop PRES** (PRES–TEMP corr −0.84; PRES q3 33.1% of SSE), not drop Is, drop Ir, or drop Iws. Do not retry rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, drop Ir, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
