@@ -554,10 +554,18 @@ New diagnosis: PRES>=1025 persist>=150 n=413 RMSE **38.33 vs CatBoost 42.89** vs
 
 1h champion unchanged: Exp97. MLP **35/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp160)
+
+New diagnosis: Sat persist>=150 n=284 RMSE **34.51 vs CatBoost 32.94** (need −2.94 pred_d **−4.25** over-clean) vs Sun persist>=150 n=227 RMSE **31.83 vs 33.48** (need −10.70 pred_d **−8.52** under-clean). is_weekend is a deterministic function of dow 5–6 (corr 0.79). January 30.96 vs JJA 13.96. Onset 110.39 vs persist 107.80. Hour 20 32.19. Val 22.259 vs test 20.509 is the bottleneck.
+
+**Exp160 DISCARD** drop is_weekend keep dow. Val **22.492** missed Exp136 22.259. Test **20.428**. Sat dirty 34.51→**34.38**; pred_d −4.25→**−3.97**. Sun dirty 31.83→**32.44**; pred_d −8.52→**−7.25** (more under-clean). Typical 7.21→**7.22**. January 30.96→**30.70**. Onset 110.39→**109.08** still loses persist 107.80.
+
+1h champion unchanged: Exp97. MLP **36/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws, keep Is, keep PRES)
-2. Next unused axis: **drop is_weekend keep dow**. Do not retry drop PRES, drop TEMP, drop DEWP, drop Is, drop Ir, drop Iws, drop log_iws, rh_iws, heating_build, heating_night, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features from 137-147, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, keep Iws, keep Is, keep PRES, keep is_weekend, keep dow)
+2. Next unused axis: **drop inversion_spread keep TEMP and DEWP**. Do not retry drop is_weekend, drop dow, drop PRES, drop TEMP, drop DEWP, drop Is, drop Ir, drop Iws, drop log_iws, rh_iws, heating_build, heating_night, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features from 137-147, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
 
 

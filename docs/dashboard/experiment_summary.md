@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 159 experiments · 11 KEEP · 148 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 35/50 · FT-Transformer 0/50
+**Campaign:** 160 experiments · 11 KEEP · 149 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 36/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -185,6 +185,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 157 | DISCARD | mlp | 20.425 | 22.336 | -22.336 | 11.277 | 0.9518 |
 | 158 | DISCARD | mlp | 20.395 | 22.394 | -22.394 | 11.266 | 0.9519 |
 | 159 | DISCARD | mlp | 20.354 | 22.437 | -22.437 | 11.221 | 0.9521 |
+| 160 | DISCARD | mlp | 20.428 | 22.492 | -22.492 | 11.253 | 0.9518 |
 
 ## Champion residual slices (2014 test)
 
@@ -264,3 +265,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp157 MLP drop Iws keep log_iws DISCARD (val **22.336**, test **20.425**). Iws>=50 10.46→10.51; moderate band 40.49→39.59. MLP 33/50.
 - Exp158 MLP drop Is keep Iws DISCARD (val **22.394**, test **20.395**). Is>0 15.32→14.56; pred_d −6.66→−3.67. MLP 34/50.
 - Exp159 MLP drop PRES keep TEMP DISCARD (val **22.437**, test **20.354**). PRES>=1025 persist>=150 38.33→37.60; pred_d −8.47→−7.66. MLP 35/50.
+- Exp160 MLP drop is_weekend keep dow DISCARD (val **22.492**, test **20.428**). Sat dirty 34.51→34.38; Sun dirty 31.83→32.44 inverted. MLP 36/50.
