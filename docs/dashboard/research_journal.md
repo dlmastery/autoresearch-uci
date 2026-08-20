@@ -330,8 +330,16 @@ New diagnosis: hour 18 persist>=100 n=103 RMSE **32.58 vs CatBoost 27.03** vs pe
 
 1h champion unchanged: Exp97. MLP **7/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp132)
+
+New diagnosis: hour 13 n=333 RMSE **17.98 vs CatBoost 16.22** vs persist 19.99, need −1.41 pred_d **−2.30** (over-cleans midday). January hour 13 **26.2 vs CB 20.4**. April hour 13 pred_d **−7.1 vs need −2.0**. JJA **14.15 vs CB 13.84**.
+
+**Exp132 DISCARD** patience=5. Val **22.757** missed Exp130 22.527. Test **20.764**. Hour 13 17.98→**18.09**. Train 143s→73s. Hypothesis inverted (underfit).
+
+1h champion unchanged: Exp97. MLP **8/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, epochs 50)
-2. Change unused **patience** next. Do not retry nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, epochs 50, patience 10)
+2. Change an unused **feature** next (hour-13 / rain tails). Do not retry nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167

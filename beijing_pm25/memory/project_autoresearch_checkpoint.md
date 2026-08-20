@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp131 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp132 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -19,11 +19,11 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** hour 18 persist>=100 n=103 RMSE **32.58** vs CB **27.03** vs persist **36.50**, need **−1.04** pred_d **+1.82**. Hour 18 overall **26.99** vs CB **24.68** is **7.27%** of Exp130 SSE vs 5.91% of Exp97. February hour 18 **50.6** vs CB **37.5**. Val-test gap **2.07** vs CB **1.432**.
-- **Exp131 DISCARD** epochs=80. Val **22.545** missed Exp130 22.527. Test 20.607. Hour-18 persist>=100 32.58→**32.23**. Hour 18 26.99→**26.76**.
+- **NEW:** hour 13 n=333 RMSE **17.98** vs CB **16.22** vs persist **19.99**, need **−1.41** pred_d **−2.30** (over-cleans midday). January hour 13 **26.2** vs CB **20.4**. April hour 13 pred_d **−7.1** vs need **−2.0**. JJA **14.15** vs CB **13.84**.
+- **Exp132 DISCARD** patience=5. Val **22.757** missed Exp130 22.527. Test 20.764. Hour 13 17.98→**18.09**. Train time 143s→73s (did stop earlier). Hypothesis inverted (underfit).
 
 ## This fire
-- **Exp131 DISCARD** 1h vs Exp97. Slower cosine barely moved evening tails. MLP recipe remains Exp130. MLP **7/50**.
+- **Exp132 DISCARD** 1h vs Exp97. Earlier stop underfit 2013. MLP recipe remains Exp130. MLP **8/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -31,9 +31,10 @@
 - MLP hidden 128-64-32 (do not retry 64-32-16 or another nearby shrink)
 - MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
 - MLP epochs=80 (do not retry 60/100 or another nearby cosine budget)
+- MLP patience=5 (do not retry 3 or another nearby shrink)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **7/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **8/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, epochs 50). Change unused **patience** next. Do not retry nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, epochs 50, patience 10). Change an unused **feature** next (hour-13 / rain tails). Do not retry nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
