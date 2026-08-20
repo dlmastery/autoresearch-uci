@@ -442,8 +442,16 @@ New diagnosis: Iws 5-20 persist>=150 n=373 RMSE **40.49 vs CatBoost 38.50** vs p
 
 1h champion unchanged: Exp97. MLP **21/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp146)
+
+New diagnosis: Wednesday n=1149 RMSE **25.99 vs CatBoost 25.07** vs persist 27.60, need +1.25 pred_d **−1.09** (23.2% of Exp136 SSE; midweek over-clean, wrong sign).
+
+**Exp146 DISCARD** dow_sin. Val **22.716** missed Exp136 22.259. Test **20.826**. Wednesday 25.99→**25.90**; pred_d −1.09→**+0.19**. Thursday 19.00→**19.89**. 2013 val inverted hard.
+
+1h champion unchanged: Exp97. MLP **22/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change a different unused **column class** next (e.g. dow_sin). Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change a different unused **column class** next (e.g. cv_inv). Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
