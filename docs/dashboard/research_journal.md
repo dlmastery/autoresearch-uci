@@ -338,8 +338,16 @@ New diagnosis: hour 13 n=333 RMSE **17.98 vs CatBoost 16.22** vs persist 19.99, 
 
 1h champion unchanged: Exp97. MLP **8/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp133)
+
+New diagnosis: rain Ir>0 n=260 RMSE **24.80 vs CatBoost 21.51** vs persist 27.27, 4.8% of Exp130 SSE vs 3.5% of Exp97. Rainy high-Iws n=87 (mean Iws 30.4) **30.77 vs CB 24.06**, need −11.29 pred_d **−3.89**. June rain n=28 need **−13.93** pred_d **−0.97**.
+
+**Exp133 DISCARD** 1h (val **22.502** vs Exp97 22.167). Val beat Exp130 22.527 (new MLP val). Test **20.587**. Rain 24.80→**23.59**. Rainy high-Iws 30.77→**29.04**. Hypothesis held on rain slice.
+
+1h champion unchanged: Exp97. MLP **9/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp130 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, epochs 50, patience 10)
-2. Change an unused **feature** next (hour-13 / rain tails). Do not retry nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp133 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws)
+2. Change another unused **feature** next. Do not retry log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
