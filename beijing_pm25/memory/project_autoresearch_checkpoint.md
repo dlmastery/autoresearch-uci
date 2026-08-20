@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp135 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp136 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-19
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -13,17 +13,17 @@
 - **Exp 135** MLP batch 16 + log_iws + month_sin + pm25_accel · test **20.417** · val **22.350**
 
 ## MLP val recipe (not 1h champion)
-- **Exp 135** MLP batch 16 + wd=1e-4 + log_iws + month_sin + pm25_accel · val **22.350** · test **20.417** · January **30.92**
+- **Exp 136** MLP batch 16 + wd=1e-4 + log_iws + month_sin + pm25_accel + vent_index · val **22.259** · test **20.509** · January **30.96**
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** accel-q4 n=1941 (mean second-diff +26.4) is **31.5%** of Exp134 SSE, RMSE **23.22** vs CB **24.38** vs persist **25.11**, need **+1.11** pred_d **−0.02** (under-builds accelerating persist). Surprise onset accel<=0 n=35 **138.71** vs persist **133.37**.
-- **Exp135 DISCARD** 1h (val 22.350 vs Exp97 22.167). Val **22.350** beat Exp134 22.432. Test **20.417** new 2014 best. Accel-q4 23.22→**23.13**, pred_d −0.02→**+0.32**.
+- **NEW:** vent-q3 n=1985 (Iws 11.3, inversion 14.0) RMSE **19.71** vs CB **19.00** vs persist **22.59**, 23.3% of Exp135 SSE vs 21.0% of Exp97, need **−0.80** pred_d **−2.54** (over-cleans moderate mixing).
+- **Exp136 DISCARD** 1h (val 22.259 vs Exp97 22.167). Val **22.259** beat Exp135 22.350 (gap **0.092**). Test 20.509. Vent-q3 19.71→**19.86** (2014 slice missed). Hypothesis held on 2013 val.
 
 ## This fire
-- **Exp135 DISCARD** 1h vs Exp97. MLP-side val KEEP vs Exp134. New best 2014 test. MLP **11/50**.
+- **Exp136 DISCARD** 1h vs Exp97. MLP-side val KEEP vs Exp135. Closest 1h composite yet. MLP **12/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -34,7 +34,7 @@
 - MLP patience=5 (do not retry 3 or another nearby shrink)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **11/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **12/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp135 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel). Change another unused **feature** next (e.g. vent_index). Do not retry nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index). Change another unused **feature** next (e.g. pm25_roll6max). Do not retry nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
