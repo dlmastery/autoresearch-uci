@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp152 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp153 (1h still Exp97; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -20,11 +20,11 @@
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** Saturday n=1135 RMSE **20.98** vs CB **20.35** vs persist **22.43**, need **+0.19** pred_d **−0.91** (14.9% of Exp136 SSE; p=0.2 over-cleans weekend).
-- **Exp152 DISCARD** dropout=0.1. Val **22.290** missed Exp136 22.259 by 0.031. Test **20.277**. Saturday 20.98→**20.80**; pred_d −0.91→**−0.08**. Build 51.59→50.79. January 30.96→30.62.
+- **NEW:** persist 80-150 n=2068 RMSE **22.91** vs CB **22.65** vs persist **24.17**, need **+0.32** pred_d **−1.31** (32.5% of Exp136 SSE; batch-16 over-cleans moderate haze).
+- **Exp153 DISCARD** batch_size=64. Val **22.638** missed Exp136 22.259. Test 20.744. persist 80-150 22.91→**22.81**; pred_d −1.31→**−0.89**. Typical 7.21→7.30.
 
 ## This fire
-- **Exp152 DISCARD** 1h vs Exp97. Lower dropout fixed Saturday calibration and cut 2014 test but 2013 val stayed 0.031 above Exp136. MLP **28/50**.
+- **Exp153 DISCARD** 1h vs Exp97. Larger batch quieted moderate-haze over-clean but taxed 2013 val (sharp-minima). MLP **29/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -36,6 +36,7 @@
 - MLP grad_clip=0 (do not retry nearby clip 0.1/5/10)
 - MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
 - MLP Adam lr=1e-3 (do not retry 5e-4 or 2e-3)
+- MLP batch_size=64 (do not retry nearby 48 or 128)
 - MLP epochs=80 (do not retry 60/100 or another nearby cosine budget)
 - MLP patience=5 (do not retry 3 or another nearby shrink)
 - MLP pm25_roll6max (do not retry roll3mean)
@@ -53,7 +54,7 @@
 - MLP extra depth (Exp148) exhausted
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **28/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **29/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). Next unused axis: **batch_size=64** (unused opposite of 16), not nearby dropout, nearby lr, grad_clip, hetero_loss, extra depth, or another feature. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4/0.05/0.15, wd 1e-3, nearby lr shrink/raise, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index). Next unused axis: **weight_decay=0** (unused opposite of 1e-4), not nearby batch, nearby dropout, nearby lr, grad_clip, hetero_loss, extra depth, or another feature. Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3, nearby lr shrink/raise, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.

@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 152 experiments · 11 KEEP · 141 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 28/50 · FT-Transformer 0/50
+**Campaign:** 153 experiments · 11 KEEP · 142 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 29/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -178,6 +178,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 150 | DISCARD | mlp | 20.400 | 22.402 | -22.402 | 11.339 | 0.9519 |
 | 151 | DISCARD | mlp | 20.516 | 22.449 | -22.449 | 11.414 | 0.9514 |
 | 152 | DISCARD | mlp | 20.277 | 22.290 | -22.290 | 11.198 | 0.9525 |
+| 153 | DISCARD | mlp | 20.744 | 22.638 | -22.638 | 11.382 | 0.9503 |
 
 ## Champion residual slices (2014 test)
 
@@ -250,3 +251,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp150 MLP grad_clip=0 DISCARD (val **22.402**, test **20.400**). Rain persist>=100 38.52→39.15; crash 86.06→80.40. MLP 26/50.
 - Exp151 MLP Adam lr=1e-3 DISCARD (val **22.449**, test 20.516). Build persist>=80 need>20 51.59→51.63 flat. MLP 27/50.
 - Exp152 MLP dropout=0.1 DISCARD (val **22.290** close miss, test **20.277**). Saturday pred_d −0.91→−0.08. MLP 28/50.
+- Exp153 MLP batch_size=64 DISCARD (val **22.638**, test 20.744). Persist 80-150 22.91→22.81; pred_d −1.31→−0.89. MLP 29/50.
