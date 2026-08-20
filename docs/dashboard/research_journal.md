@@ -610,11 +610,19 @@ New diagnosis: typical |pred_d|>=8 n=669 RMSE **15.37 vs persist 5.90** vs Exp13
 
 1h champion unchanged: Exp97. MLP **42/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp167)
+
+New diagnosis: dirty-stable persist>=150 |need|<=10 n=654 RMSE **13.13 vs persist 5.95** vs Exp136 12.40 (3.47% of Exp164 SSE; pred_d **−3.91** vs need +0.34; 512-wide trunk overwrites lag-1). January 31.90 vs JJA 13.98. Onset 111.26 vs persist 107.80. Hour 20 32.40. Val 22.180 vs test 20.201; 0.013 shy of Exp97.
+
+**Exp167 KEEP** residual skips. Val **21.972** beat Exp97 22.167 and Exp164 22.180. Test **20.072** new 2014 best. Dirty-stable 13.13→**11.99**; pred_d −3.91→**−1.78**. Typical 7.53→**7.14**. January 31.90→**31.22**. Onset 111.26→**110.28** still loses persist 107.80. Skill vs persist-1 **+10.06%**. First 1h KEEP since Exp97. Champion is now Exp167 residual MLP.
+
+MLP **43/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp164 recipe** (batch 16, hidden 512-256-128, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
-2. Next unused axis: diagnose Exp164 typical over-move without LayerNorm/BatchNorm. Do not retry LayerNorm, BatchNorm, RMSNorm, drop pm25_accel, drop pm25_delta1, nearby 384/768, extra 4th layer, dropout 0.1, drop cbwd_cv, drop is_heating, drop month_sin, drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop DEWP, drop Is, drop Ir, drop Iws, drop log_iws, rh_iws, heating_build, heating_night, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features from 137-147, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
-3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
+1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
+2. Next unused axis: diagnose Exp167 onset (110.28 vs persist 107.80). Do not retry pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+3. Do not mix CatBoost HPs. 1h champion remains Exp167 until composite beats −21.972
 
 
 

@@ -1,25 +1,27 @@
 {
-  "experiment_num": 97,
-  "backbone": "catboost",
-  "composite": -22.166611495156538,
-  "test_primary": 20.73514958690229,
-  "val_primary": 22.166611495156538,
+  "experiment_num": 167,
+  "backbone": "mlp",
+  "composite": -21.972015597737606,
+  "test_primary": 20.072104634476492,
+  "val_primary": 21.972015597737606,
   "config": {
     "paths": {
       "results_dir": "C:\\Users\\abhir\\autoresearch-uci\\beijing_pm25\\autoresearch_results"
     },
     "task_type": "regression",
     "primary_metric": "rmse",
-    "backbone": "catboost",
+    "backbone": "mlp",
     "backbone_config": {
       "seed": 0,
       "n_jobs": 4,
-      "iterations": 2000,
-      "depth": 6,
-      "learning_rate": 0.03,
-      "l2_leaf_reg": 3,
-      "early_stopping_rounds": 100,
-      "boosting_type": "Plain"
+      "weight_decay": 0.0001,
+      "batch_size": 16,
+      "hidden": [
+        512,
+        256,
+        128
+      ],
+      "residual": true
     },
     "data": {
       "format": "csv",
@@ -70,7 +72,11 @@
         "inversion_spread",
         "rh_magnus",
         "dewp_delta",
-        "is_heating"
+        "is_heating",
+        "log_iws",
+        "month_sin",
+        "pm25_accel",
+        "vent_index"
       ]
     },
     "split": {
@@ -91,8 +97,8 @@
         6
       ]
     },
-    "description": "Exp97 CatBoost Plain add is_heating on Exp96 dewp_delta (CatBoost cycle 23/50)",
+    "description": "Exp167 MLP residual skips on Exp164 recipe (MLP cycle 43/50)",
     "seed": 0
   },
-  "timestamp": "2026-08-18T23:05:33"
+  "timestamp": "2026-08-20T11:14:34"
 }

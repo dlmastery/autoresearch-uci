@@ -1,31 +1,31 @@
-# Autoresearch checkpoint — after Exp166 (1h still Exp97; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp167 KEEP (1h now Exp167 residual MLP; t+6 recipe Exp76)
 
 **Updated:** 2026-08-20
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
 **test_hash:** `efb0012c1873e5bf2fe56d0cbb3d429c1d879da92273a15cc7bb6532e0ba79fc`
 
 ## 1h champion
-- **Exp 97** CatBoost Plain · composite **−22.167** · 2014 test RMSE **20.735** · 2013 val **22.167**
-- skill vs persist-1 **+7.09%** · 1h noise floor val ±0.08
-- Features: inversion+delta + rh_magnus + dewp_delta + is_heating · depth 6 · lr 0.03 · l2=3 · Plain SymmetricTree
+- **Exp 167** MLP residual skips · composite **−21.972** · 2014 test RMSE **20.072** · 2013 val **21.972**
+- skill vs persist-1 **+10.06%** · 1h noise floor val ±0.08
+- Recipe: Exp136 features + hidden 512-256-128 + residual projection shortcuts · batch 16 · dropout 0.2 · wd=1e-4 · lr 3e-4 · clip=1.0 · layer_norm off
+- First 1h KEEP since Exp97. First MLP to beat CatBoost on the frozen 2014 composite.
 
-## Best 2014 test (not champion)
-- **Exp 164** MLP hidden 512-256-128 on Exp136 features · test **20.201** · val **22.180** (new 2014 best; MLP val best; 0.013 shy of Exp97 composite)
-- **Exp 141** MLP batch 16 + log_iws + month_sin + pm25_accel + vent_index + pm25_delta6 · test **20.274** · val **22.356**
-- **Exp 152** MLP dropout=0.1 on Exp136 recipe · test **20.277** · val **22.290**
+## Best 2014 test (now the champion)
+- **Exp 167** residual MLP · test **20.072** · val **21.972**
+- Prior: Exp164 20.201 / 22.180 · Exp141 20.274 / 22.356 · Exp152 20.277 / 22.290
 
-## MLP val recipe (not 1h champion)
-- **Exp 164** MLP hidden 512-256-128 + batch 16 + wd=1e-4 + log_iws + month_sin + pm25_accel + vent_index · val **22.180** · test **20.201** · January **31.90**
+## MLP val recipe
+- **Exp 167** is both 1h champion and MLP val recipe.
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
-- **NEW:** typical |pred_d|>=8 n=669 RMSE **15.37** vs persist **5.90** vs Exp136 **13.25** (4.87% of Exp164 SSE; mean |d| **13.51** on hours that need ~4).
-- **Exp166 DISCARD** LayerNorm. Val **22.442** missed Exp164 22.180. Test **21.338**. Typical |d|>=8 15.37→**18.56**. Typical 7.53→**9.03**. January 31.90→**36.70** loses persist 33.58. Keep LayerNorm off. Recipe stays Exp164.
+- **NEW:** dirty-stable persist>=150 |need|<=10 n=654 RMSE **13.13** vs persist **5.95** vs Exp136 **12.40** (3.47% of Exp164 SSE; pred_d **−3.91** vs need +0.34; 512-wide trunk overwrites lag-1).
+- **Exp167 KEEP** residual skips. Val **21.972** beat Exp97 22.167 and Exp164 22.180. Test **20.072**. Dirty-stable 13.13→**11.99**; pred_d −3.91→**−1.78**. Typical 7.53→**7.14**. January 31.90→**31.22**. Onset 111.26→**110.28** still loses persist 107.80.
 
 ## This fire
-- **Exp166 DISCARD** 1h vs Exp97. LayerNorm taxed typical over-move and January. MLP **42/50**.
+- **Exp167 KEEP** 1h champion. Residual identity path. MLP **43/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -33,7 +33,7 @@
 - MLP dropout=0.1 (do not retry 0.05 or 0.15)
 - MLP hidden 128-64-32 (do not retry 64-32-16 or another nearby shrink)
 - MLP extra hidden 256-128-64-32 (do not retry 5-layer or nearby 4th-layer width 16/64)
-- MLP hidden 512-256-128 (do not retry nearby 384/768 or another 3-layer widen)
+- MLP hidden 512-256-128 widen (do not retry nearby 384/768 or another 3-layer widen)
 - MLP hetero_loss (do not retry another aleatoric-head or nearby heteroscedastic loss)
 - MLP grad_clip=0 (do not retry nearby clip 0.1/5/10)
 - MLP Adam lr=1e-4 (do not retry 5e-5 or another nearby shrink)
@@ -71,7 +71,7 @@
 - Collinear-derived drops (is_weekend, inversion_spread, is_heating) exhausted — rethink, not another derived copy
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **42/50**. Isolation holds. 1h champion unchanged (Exp97). t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **43/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Stay isolated on **MLP Exp164 recipe** (batch 16, hidden 512-256-128, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, layer_norm off). Next unused axis: diagnose Exp164 typical over-move without LayerNorm/BatchNorm. Do not retry LayerNorm, BatchNorm, RMSNorm, drop pm25_accel, drop pm25_delta1, nearby 384/768, extra 4th layer, dropout 0.1, drop cbwd_cv, drop is_heating, drop month_sin, drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop Is, drop Ir, drop Iws, rh_iws, heating_build, extra hidden 32, 5-layer, nearby 4th-layer width, aleatoric heads, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167.
+Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index, layer_norm off). Next unused axis: diagnose Exp167 onset (110.28 vs persist 107.80) — **not** pre-activation residual or extra skip-to-head. Do not retry LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop accel, drop cbwd_cv, extra features 137–147, nearby clip 0.1/5/10, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8/48/64/128, dropout 0.4/0.05/0.15, wd 1e-3/0/1e-6, nearby lr shrink/raise, heating products, drop log_iws, or width shrink. Do not mix CatBoost HPs. 1h champion remains Exp167 until composite beats −21.972.

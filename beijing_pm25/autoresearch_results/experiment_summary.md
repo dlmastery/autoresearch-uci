@@ -2,9 +2,9 @@
 
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
-**Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 166 experiments · 11 KEEP · 155 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 42/50 · FT-Transformer 0/50
+**Champion:** Exp167 mlp residual · test RMSE **20.072** · val RMSE **21.972** · skill vs persistence **+10.1%**
+**Campaign:** 167 experiments · 12 KEEP · 155 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 43/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -21,6 +21,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 30 | lightgbm | LightGBM num_leaves 31 to 63 on Exp29 champion | 20.945 | 22.397 | -22.397 |
 | 96 | catboost | CatBoost Plain add dewp_delta on Exp91 rh_magnus (CatBoost cycle 22/50) | 20.881 | 22.357 | -22.357 |
 | 97 | catboost | CatBoost Plain add is_heating on Exp96 dewp_delta (CatBoost cycle 23/50) | 20.735 | 22.167 | -22.167 |
+| 167 | mlp | MLP residual skips on Exp164 512-wide recipe (MLP cycle 43/50) | 20.072 | 21.972 | -21.972 |
 
 ## All experiments
 
@@ -192,11 +193,14 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 164 | DISCARD | mlp | 20.201 | 22.180 | -22.180 | 11.300 | 0.9529 |
 | 165 | DISCARD | mlp | 20.467 | 22.448 | -22.448 | 11.389 | 0.9516 |
 | 166 | DISCARD | mlp | 21.338 | 22.442 | -22.442 | 11.703 | 0.9474 |
+| 167 | KEEP | mlp | 20.072 | 21.972 | -21.972 | 11.061 | 0.9535 |
 
 ## Champion residual slices (2014 test)
 
-- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.4 (pred 169 vs actual 248)
-- Worst month: 01 RMSE=34.84
+- Onset hours (actual−lag1>50): n=83 RMSE=110.28 (still loses persist 107.80)
+- Worst month: 01 RMSE=31.22 (beats persist 33.58 and Exp97 34.84)
+- JJA RMSE=13.87 · hour 20 RMSE=32.68
+- Skill vs persist-1 **+10.06%** (Exp97 +7.09%). Dirty-stable persist>=150 |need|<=10: 13.13→11.99.
 - Best month: 07 RMSE=13.13
 - Worst hour: 20:00 RMSE=32.48
 - Spike F1@75: 0.940 (P=0.930 R=0.951)
@@ -278,3 +282,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp164 MLP hidden 512-256-128 DISCARD vs Exp97 (val **22.180** near-miss, test **20.201** new 2014 best). Builds 65.12→65.98; |need|>=80 135.18→128.15. MLP 40/50. MLP recipe → Exp164.
 - Exp165 MLP drop pm25_accel DISCARD (val **22.448**, test 20.467). Contra-accel 81.91→79.90; pred_d −1.98→+0.68. Keep accel. MLP 41/50.
 - Exp166 MLP LayerNorm DISCARD (val **22.442**, test **21.338**). Typical |d|>=8 15.37→18.56; January 31.90→36.70. Keep LN off. MLP 42/50.
+- **Exp167 KEEP** residual skips (val **21.972**, test **20.072**). Dirty-stable 13.13→11.99; pred_d −3.91→−1.78. First 1h KEEP since Exp97. MLP 43/50.
