@@ -434,8 +434,16 @@ New diagnosis: February n=597 RMSE **25.74 vs CatBoost 24.09** vs persist 26.01,
 
 1h champion unchanged: Exp97. MLP **20/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp145)
+
+New diagnosis: Iws 5-20 persist>=150 n=373 RMSE **40.49 vs CatBoost 38.50** vs persist 47.43 (18.3% of Exp136 SSE). Test Iws median **4.92** std **41.64** p99 **232** so Iws=10 is +0.12 sigma after z-score.
+
+**Exp145 DISCARD** iws_clip100. Val **22.473** missed Exp136 22.259. Test **20.494**. Iws 5-20 persist>=150 40.49→**40.33** inert. log_iws already compressed the tail.
+
+1h champion unchanged: Exp97. MLP **21/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change a different unused **column class** next (e.g. iws_clip100). Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change a different unused **column class** next (e.g. dow_sin). Do not retry rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
