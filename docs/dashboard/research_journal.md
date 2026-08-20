@@ -386,8 +386,16 @@ New diagnosis: collapse hours with dPRES>=1 n=51 RMSE **86.12 vs CatBoost 80.04*
 
 1h champion unchanged: Exp97. MLP **14/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp139)
+
+New diagnosis: weekday hours 18-21 n=939 RMSE **29.66 vs CatBoost 28.77** vs persist 31.31, need +5.43 pred_d **+2.67** (24.7% of Exp136 SSE). Hour 18-21 overall 28.1% SSE, pred_d **+2.53** vs need **+4.87**.
+
+**Exp139 DISCARD** evening_peak. Val **22.425** missed Exp136 22.259. Test **20.501**. Weekday 18-21 29.66→**29.68** flat; pred_d +2.67→**+4.42**. Hour 20 32.19 stayed. 2013 val inverted.
+
+1h champion unchanged: Exp97. MLP **15/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. Change another unused **feature** next (e.g. evening_peak). Do not retry rolling PM stats, nearby weather derivatives, nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Change another unused **feature** next (e.g. se_iws). Do not retry rolling PM stats, nearby weather derivatives, nearby hour bins, nearby products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
