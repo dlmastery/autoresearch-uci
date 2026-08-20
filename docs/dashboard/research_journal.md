@@ -458,8 +458,16 @@ New diagnosis: cv inversion>=q75 n=486 RMSE **19.55 vs CatBoost 19.03** vs persi
 
 1h champion unchanged: Exp97. MLP **23/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp148)
+
+New diagnosis: evening 18-21 persist>=150 n=246 RMSE **39.89 vs CatBoost 38.09** vs persist 44.60, need +3.80 pred_d **+1.92** (11.7% of Exp136 SSE; 3-layer under-ramps nested evening haze). January 30.96 vs JJA 13.96. Onset 110.39 vs persist 107.80. Hour 20 32.19. Val 22.259 vs test 20.509 is the bottleneck.
+
+**Exp148 DISCARD** extra hidden 256-128-64-32. Val **23.289** missed Exp136 22.259 hard (above 22.90 miss line). Test **21.330**. Evening persist>=150 39.89→**43.24**; pred_d +1.92→**+7.38** versus need +3.80 (over-ramped). Typical 7.21→**7.80**. Collapse 76.83→**86.28**. Onset 110.39→**106.91** now beats persist 107.80. Extra depth inverted like Exp128 width shrink.
+
+1h champion unchanged: Exp97. MLP **24/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp136 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel, vent_index)
-2. **Rethink architecture** next (e.g. unused extra hidden layer). Do not retry extra features, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. **Rethink architecture** next (e.g. unused hetero_loss). Do not retry extra hidden 32, 5-layer, nearby 4th-layer width, extra features, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167

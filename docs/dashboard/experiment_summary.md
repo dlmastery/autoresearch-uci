@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 147 experiments · 11 KEEP · 136 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 23/50 · FT-Transformer 0/50
+**Campaign:** 148 experiments · 11 KEEP · 137 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 24/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -173,6 +173,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 145 | DISCARD | mlp | 20.494 | 22.473 | -22.473 | 11.293 | 0.9515 |
 | 146 | DISCARD | mlp | 20.826 | 22.716 | -22.716 | 11.335 | 0.9499 |
 | 147 | DISCARD | mlp | 20.573 | 22.327 | -22.327 | 11.273 | 0.9511 |
+| 148 | DISCARD | mlp | 21.330 | 23.289 | -23.289 | 11.747 | 0.9474 |
 
 ## Champion residual slices (2014 test)
 
@@ -240,3 +241,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp145 MLP iws_clip100 DISCARD (val **22.473**, test 20.494). Iws 5-20 persist>=150 40.49→40.33 inert. MLP 21/50.
 - Exp146 MLP dow_sin DISCARD (val **22.716**, test 20.826). Wednesday 25.99→25.90; Thursday 19.00→19.89. MLP 22/50.
 - Exp147 MLP cv_inv DISCARD (val **22.327**, test 20.573). cv inv>=q75 19.55→19.74. Extra-feature ladder exhausted. MLP 23/50.
+- Exp148 MLP extra hidden 256-128-64-32 DISCARD (val **23.289**, test 21.330). Evening persist>=150 39.89→43.24 over-ramp. MLP 24/50.
