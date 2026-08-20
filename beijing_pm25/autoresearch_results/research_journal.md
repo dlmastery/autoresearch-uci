@@ -594,10 +594,18 @@ New diagnosis: need>=30 build n=309 RMSE **65.12 vs persist 64.39** vs CB 64.51 
 
 1h champion unchanged: Exp97. MLP **40/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp165)
+
+New diagnosis: need>=30 and accel<=0 n=121 RMSE **81.91 vs persist 78.35** vs CB 81.09 (25.0% of Exp164 SSE; need +55.19 pred_d **−1.98** second-diff sign-flip at inflection onsets). January 31.90 vs JJA 13.98. Onset 111.26 vs persist 107.80. Hour 20 32.40. Val 22.180 vs test 20.201; 0.013 shy of Exp97.
+
+**Exp165 DISCARD** drop pm25_accel. Val **22.448** missed Exp164 22.180. Test **20.467**. Contra-accel 81.91→**79.90**; pred_d −1.98→**+0.68**. Builds 65.98→**63.55** beat persist. Onset 111.26→**107.97**. |need|>=80 128.15→**134.07**. Typical 7.53→**7.36**. January 31.90→**31.03**. Keep accel. Recipe remains Exp164.
+
+1h champion unchanged: Exp97. MLP **41/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
 1. Stay isolated on **MLP Exp164 recipe** (batch 16, hidden 512-256-128, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, log_iws, month_sin, pm25_accel, vent_index)
-2. Next unused axis: diagnose Exp164 builds (still persist-locked). Do not retry nearby 384/768, extra 4th layer, dropout 0.1, drop cbwd_cv, drop is_heating, drop month_sin, drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop DEWP, drop Is, drop Ir, drop Iws, drop log_iws, rh_iws, heating_build, heating_night, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features from 137-147, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+2. Next unused axis: diagnose Exp164 without dropping accel/delta1. Do not retry drop pm25_accel, drop pm25_delta1, nearby 384/768, extra 4th layer, dropout 0.1, drop cbwd_cv, drop is_heating, drop month_sin, drop inversion_spread, drop rh_magnus, drop vent_index, drop is_weekend, drop dow, drop PRES, drop TEMP, drop DEWP, drop Is, drop Ir, drop Iws, drop log_iws, rh_iws, heating_build, heating_night, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, extra features from 137-147, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
 
 

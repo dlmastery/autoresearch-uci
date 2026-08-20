@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 164 experiments · 11 KEEP · 153 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 40/50 · FT-Transformer 0/50
+**Campaign:** 165 experiments · 11 KEEP · 154 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 41/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -190,6 +190,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 162 | DISCARD | mlp | 20.333 | 22.426 | -22.426 | 11.264 | 0.9522 |
 | 163 | DISCARD | mlp | 20.556 | 22.350 | -22.350 | 11.315 | 0.9512 |
 | 164 | DISCARD | mlp | 20.201 | 22.180 | -22.180 | 11.300 | 0.9529 |
+| 165 | DISCARD | mlp | 20.467 | 22.448 | -22.448 | 11.389 | 0.9516 |
 
 ## Champion residual slices (2014 test)
 
@@ -274,3 +275,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp162 MLP drop is_heating keep month_sin DISCARD (val **22.426**, test **20.333**). Feb dirty 34.20→33.66; pred_d −7.89→−5.75. MLP 38/50.
 - Exp163 MLP drop cbwd_cv keep directed winds DISCARD (val **22.350**, test 20.556). cv dirty pred_d −0.76→−0.09; cv overall +0.62→+1.36. MLP 39/50.
 - Exp164 MLP hidden 512-256-128 DISCARD vs Exp97 (val **22.180** near-miss, test **20.201** new 2014 best). Builds 65.12→65.98; |need|>=80 135.18→128.15. MLP 40/50. MLP recipe → Exp164.
+- Exp165 MLP drop pm25_accel DISCARD (val **22.448**, test 20.467). Contra-accel 81.91→79.90; pred_d −1.98→+0.68. Keep accel. MLP 41/50.
