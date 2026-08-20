@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 139 experiments · 11 KEEP · 128 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 15/50 · FT-Transformer 0/50
+**Campaign:** 140 experiments · 11 KEEP · 129 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 16/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -165,6 +165,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 137 | DISCARD | mlp | 20.478 | 22.451 | -22.451 | 11.287 | 0.9516 |
 | 138 | DISCARD | mlp | 20.440 | 22.438 | -22.438 | 11.275 | 0.9517 |
 | 139 | DISCARD | mlp | 20.501 | 22.425 | -22.425 | 11.267 | 0.9514 |
+| 140 | DISCARD | mlp | 20.519 | 22.439 | -22.439 | 11.265 | 0.9514 |
 
 ## Champion residual slices (2014 test)
 
@@ -224,3 +225,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp137 MLP pm25_roll6max DISCARD (val **22.451**, test 20.478). Onset 110.39→107.28 but val inverted. MLP 13/50.
 - Exp138 MLP pres_delta DISCARD (val **22.438**, test 20.440). Collapse dPRES>=1 86.12→83.33 but val inverted. MLP 14/50.
 - Exp139 MLP evening_peak DISCARD (val **22.425**, test 20.501). Weekday 18-21 29.66→29.68 flat. MLP 15/50.
+- Exp140 MLP se_iws DISCARD (val **22.439**, test 20.519). SE Iws>=10 24.43→24.53. MLP 16/50.
