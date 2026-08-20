@@ -346,8 +346,16 @@ New diagnosis: rain Ir>0 n=260 RMSE **24.80 vs CatBoost 21.51** vs persist 27.27
 
 1h champion unchanged: Exp97. MLP **9/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp134)
+
+New diagnosis: February n=597 RMSE **25.67 vs CatBoost 24.09** vs persist 26.01, 11.7% of Exp133 SSE vs 10.1% of Exp97, need −0.12 pred_d **−3.96**. Residual corr with month_sin **−0.078**. is_heating aliases February with November.
+
+**Exp134 DISCARD** 1h (val **22.432** vs Exp97 22.167). Val beat Exp133 22.502 (new MLP val). Test **20.450** new 2014 best. February 25.67→**25.52**, pred_d −3.96→**−3.26**. November 21.22→**20.74**. Hypothesis held.
+
+1h champion unchanged: Exp97. MLP **10/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp133 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws)
-2. Change another unused **feature** next. Do not retry log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp134 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin)
+2. Change another unused **feature** next (e.g. pm25_accel). Do not retry month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167
