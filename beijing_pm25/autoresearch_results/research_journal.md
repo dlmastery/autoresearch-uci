@@ -354,8 +354,16 @@ New diagnosis: February n=597 RMSE **25.67 vs CatBoost 24.09** vs persist 26.01,
 
 1h champion unchanged: Exp97. MLP **10/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-19, Exp135)
+
+New diagnosis: accel-q4 n=1941 (mean second-diff +26.4) is **31.5% of Exp134 SSE**, RMSE **23.22 vs CatBoost 24.38** vs persist 25.11, need +1.11 pred_d **−0.02** (under-builds accelerating persist). Surprise onset accel<=0 n=35 **138.71 vs persist 133.37**.
+
+**Exp135 DISCARD** 1h (val **22.350** vs Exp97 22.167). Val beat Exp134 22.432 (new MLP val). Test **20.417** new 2014 best. Accel-q4 23.22→**23.13**, pred_d −0.02→**+0.32**. Hypothesis held.
+
+1h champion unchanged: Exp97. MLP **11/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp134 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin)
-2. Change another unused **feature** next (e.g. pm25_accel). Do not retry month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp135 recipe** (batch 16, hidden 256-128-64, dropout 0.2, weight_decay 1e-4, lr 3e-4, log_iws, month_sin, pm25_accel)
+2. Change another unused **feature** next (e.g. vent_index). Do not retry nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp97 until MLP composite beats −22.167

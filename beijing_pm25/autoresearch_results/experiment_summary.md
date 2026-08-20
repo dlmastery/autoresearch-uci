@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp97 catboost · test RMSE **20.735** · val RMSE **22.167** · skill vs persistence **+7.1%**
-**Campaign:** 134 experiments · 11 KEEP · 123 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 10/50 · FT-Transformer 0/50
+**Campaign:** 135 experiments · 11 KEEP · 124 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 11/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -160,6 +160,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 132 | DISCARD | mlp | 20.764 | 22.757 | -22.757 | 11.388 | 0.9502 |
 | 133 | DISCARD | mlp | 20.587 | 22.502 | -22.502 | 11.391 | 0.9510 |
 | 134 | DISCARD | mlp | 20.450 | 22.432 | -22.432 | 11.280 | 0.9517 |
+| 135 | DISCARD | mlp | 20.417 | 22.350 | -22.350 | 11.276 | 0.9518 |
 
 ## Champion residual slices (2014 test)
 
@@ -214,3 +215,4 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp132 MLP patience=5 DISCARD (val **22.757**, test 20.764). Hour 13 17.98→18.09. Earlier stop underfit. MLP 8/50.
 - Exp133 MLP log_iws DISCARD 1h (val **22.502** new MLP val, test 20.587). Rainy high-Iws 30.77→29.04. MLP 9/50.
 - Exp134 MLP month_sin DISCARD 1h (val **22.432** new MLP val, test **20.450** new 2014 best). February 25.67→25.52. November 21.22→20.74. MLP 10/50.
+- Exp135 MLP pm25_accel DISCARD 1h (val **22.350** new MLP val, test **20.417** new 2014 best). Accel-q4 23.22→23.13. MLP 11/50.
