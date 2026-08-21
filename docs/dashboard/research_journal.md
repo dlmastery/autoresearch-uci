@@ -694,9 +694,17 @@ New diagnosis: dirty-stable NW persist>=150 |need|<=10 n=156 RMSE **17.54 vs per
 
 1h champion unchanged: Exp167. FT **4/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-21, Exp179)
+
+New diagnosis: JJA typical |need|<=10 n=1327 RMSE **5.78 vs persist 5.22** (1.38% of Exp167 SSE; need **+0.53** pred_d **+1.44**). Residual MLP already over-moves easy summer hours; Exp178 Pre-LN JJA 13.87→14.15 and typical 7.14→7.96 with encoder dropout 0.1. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp179 DISCARD** FT Pre-LN dropout=0. Val **22.200** missed Exp167 21.972 and Exp178 22.140 (inside 21.70–22.80). Test **20.509** beat Exp178 20.674 (inside 20.20–21.40). JJA typical 5.78→**5.89** vs Exp178 6.18; pred_d +1.44→**+1.40** vs Exp178 +2.28 (slice moved). Typical 7.14→**7.61** vs Exp178 7.96. Hour 20 32.68→**33.22** vs Exp178 32.56. Dropout-off helped 2014 and JJA typical but taxed 2013 val, the composite bottleneck.
+
+1h champion unchanged: Exp167. FT **5/50**. FT val recipe remains Exp178. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (4/50) from Exp178 Pre-LN recipe. Next try **dropout=0**. Do not revert Post-LN. Do not mix MLP HPs into FT.
+1. Isolate **FT-Transformer** (5/50) from Exp178 Pre-LN recipe. Next try **dropout=0.2**. Do not retry dropout=0/0.05. Do not revert Post-LN. Do not mix MLP HPs into FT.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
