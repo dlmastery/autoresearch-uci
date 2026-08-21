@@ -660,12 +660,20 @@ New diagnosis: onset NW RH<30 n=5 RMSE **120.73 vs persist 103.16** (2.28% of Ex
 
 **Exp174 DISCARD** onset_underpred_weight=2 (concurrent). Val **22.057**. Test **20.068**. Onset 110.28→**109.34**; pred_d −0.60→**+0.79**. January onset pred_d −9.78→**−6.78**. Typical 7.14→**7.24**. Localized onset weight was nearly inert versus Exp171 global weight. **MLP 50/50 complete.**
 
-1h champion unchanged: Exp167. MLP **50/50**. t+6 recipe remains Exp76.
+A concurrent mixup_alpha=0.2 also logged as Exp174 DISCARD (val **22.014**, test **20.113**). 1h champion unchanged: Exp167. MLP **50/50**. t+6 recipe remains Exp76.
+
+## This fire (2026-08-21, Exp175)
+
+New diagnosis: hour-20 SE persist>=80 n=74 RMSE **60.62 vs persist 61.42** (8.49% of Exp167 SSE; need **+14.47** pred_d **+5.69**). The 16 hour-20 SE persist>=80 need>20 hours hold 8.26% of SSE at 128.62 vs persist 129.94 with pred_d only **+10.29** versus need **+64.31**. Residual GELU cannot route hour×SE×dirty-lag. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp175 DISCARD** FT-Transformer Gorishniy 2021 paper default (d_model 64, n_heads 4, n_layers 3, batch 32, lr 1e-4). Val **22.698** missed Exp167 21.972 (inside 21.70–24.50). Test **23.130** missed 20.072 and persist **22.316** (inside 19.8–23.6; skill negative). Hour-20 SE persist>=80 60.62→**61.66**; pred_d 5.69→**3.72** versus need +14.47 (attention under-jumped). Typical 7.14→**10.22**. Dirty-stable 11.99→**24.29**; pred_d −1.78→**−4.20**. January 31.22→**42.85** loses persist 33.58. Onset 110.28→**119.59**; pred_d −0.60→**−6.95**. CLS readout without lag-1 identity overwrote persistence.
+
+1h champion unchanged: Exp167. FT **1/50**. t+6 recipe remains Exp76.
 
 ## Next (original process)
 
-1. MLP **50/50 complete**. Isolate **FT-Transformer** (0/50) on the Exp167 feature recipe. Do not mix MLP HPs into FT.
-2. Do not retry nw_rh, nw_dry, stagn_onset, underpred_weight 1.5/3/5, onset_underpred_weight, persist_residual, se_pm25, huber_beta 10/40/50 or MSE.
+1. Isolate **FT-Transformer** (1/50) on the Exp167 feature recipe. Next try **n_layers=1**. Do not mix MLP HPs into FT.
+2. Do not retry paper-default d_model 32/96 or n_heads 2/8 as a persist fix. Do not retry nw_rh, stagn_onset, underpred_weight, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
 

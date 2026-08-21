@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp167 mlp residual · test RMSE **20.072** · val RMSE **21.972** · skill vs persistence **+10.1%**
-**Campaign:** 174 experiments · 12 KEEP · 162 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 0/50
+**Campaign:** 175 experiments · 12 KEEP · 163 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 1/50
 
 ## KEEP lineage
 
@@ -21,7 +21,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 30 | lightgbm | LightGBM num_leaves 31 to 63 on Exp29 champion | 20.945 | 22.397 | -22.397 |
 | 96 | catboost | CatBoost Plain add dewp_delta on Exp91 rh_magnus (CatBoost cycle 22/50) | 20.881 | 22.357 | -22.357 |
 | 97 | catboost | CatBoost Plain add is_heating on Exp96 dewp_delta (CatBoost cycle 23/50) | 20.735 | 22.167 | -22.167 |
-| 167 | mlp | MLP residual skips on Exp164 512-wide recipe (MLP cycle 43/50) | 20.072 | 21.972 | -21.972 |
+| 167 | mlp | MLP residual skips on Exp164 recipe (MLP cycle 43/50) | 20.072 | 21.972 | -21.972 |
 
 ## All experiments
 
@@ -201,99 +201,14 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 172 | DISCARD | mlp | 20.018 | 22.000 | -22.000 | 11.062 | 0.9537 |
 | 173 | DISCARD | mlp | 20.093 | 22.074 | -22.074 | 11.075 | 0.9534 |
 | 174 | DISCARD | mlp | 20.068 | 22.057 | -22.057 | 11.056 | 0.9535 |
+| 174 | DISCARD | mlp | 20.113 | 22.014 | -22.014 | 11.015 | 0.9533 |
+| 175 | DISCARD | ft_transformer | 23.130 | 22.698 | -23.130 | 11.779 | 0.9382 |
 
 ## Champion residual slices (2014 test)
 
-- Onset hours (actual−lag1>50): n=83 RMSE=110.28 (still loses persist 107.80)
-- Worst month: 01 RMSE=31.22 (beats persist 33.58 and Exp97 34.84)
-- JJA RMSE=13.87 · hour 20 RMSE=32.68
-- Skill vs persist-1 **+10.06%** (Exp97 +7.09%). Dirty-stable persist>=150 |need|<=10: 13.13→11.99.
-- Best month: 07 RMSE=13.13
-- Worst hour: 20:00 RMSE=32.48
-- Spike F1@75: 0.940 (P=0.930 R=0.951)
-- p99 |error|=75.3 · max |error|=499.1
-- Skill vs persist-1 **+7.09%** (Exp96 +6.43%, Exp30 +6.15%). JJA 13.84 (no summer tax).
-- January still 34.84 vs persist 33.58. January RH>=70 **36.68** vs persist **23.94**. January hour-1 74.63 vs persist 69.40.
-- t+6 side ladder unchanged: **Exp76** 54.31/57.16. Do not mix composites.
-
-## Recent notes
-
-- **Exp96 KEEP** dewp_delta. First 1h KEEP since Exp30.
-- **Exp97 KEEP** is_heating on Exp96. Val 22.167 test 20.735. January RH bomb only 38.25→36.68. CatBoost 23/50.
-- Exp98 heating_night DISCARD (val 22.343). Jan RH>=70 Iws<2 42.65→44.31.
-- Exp99 bagging_temperature=2 DISCARD (bit-identical to Exp97). CatBoost 25/50.
-- Exp100 rh_iws DISCARD (val 22.178, test 20.726). Jan rh_iws q3 39.39→40.03. CatBoost 26/50.
-- Exp101 heating_build DISCARD (val 22.322, test 20.990). Jan persist>=150 delta1>0 53.00→53.86. CatBoost 27/50.
-- Exp102 Depthwise DISCARD (val 22.322, test 21.040). High-PRES building-dirty 68.80→77.22. CatBoost 28/50.
-- Exp103 pres_delta DISCARD (val 22.352, test 20.820). Onset dPRES>=1 158.68→157.78. CatBoost 29/50.
-- Exp104 min_data_in_leaf=20 DISCARD (bit-identical to Exp97). CatBoost 30/50.
-- Exp105 early_stopping_rounds=50 DISCARD (bit-identical to Exp97). CatBoost 31/50.
-- Exp106 pm25_delta6 DISCARD (val 22.345, test 20.671). Building leftover 61.11→60.16. Thursday 70.42→72.21. CatBoost 32/50.
-- Exp107 log_iws DISCARD (val 22.310, test 20.783). Thursday persist 70.42→72.35. Iws<5 56.88→58.75. CatBoost 33/50.
-- Exp108 is_severe DISCARD (val 22.313, test 20.899). 2014-01-16 93.08→100.50. persist>=300 80.36→84.72. CatBoost 34/50.
-- Exp109 evening_peak DISCARD (val 22.349, test 20.756). persist 18-21 58.70→59.78. CatBoost 35/50.
-- Exp110 rh_delta DISCARD (val 22.236 near-miss, test 20.661). Jan16 hours 0-8 123.22→122.74. CatBoost 36/50.
-- Exp111 temp_delta DISCARD (val 22.357, test 20.715). Hour 20 32.48→32.50. Jan16 0-8 123.22→128.48. CatBoost 37/50.
-- Exp112 se_iws DISCARD (val 22.316, test 20.804). January onset 139.91→143.53. 01-31 h1 inert. CatBoost 38/50.
-- Exp113 pm25_roll3mean DISCARD (val 22.360, test 20.743). Hour-2 abs 155→139. CatBoost 39/50.
-- Exp114 is_janfeb DISCARD (val 22.342, test 20.792). 2013 val persist 24.50 is harder year. CatBoost 40/50.
-- Exp115 drop lag13-24 DISCARD (val 22.260 near-miss, test 20.688). Long lags help 2013 val. CatBoost 41/50.
-- Exp116 iws_clip100 DISCARD (val 22.323, test 20.767). Iws tail is useful. CatBoost 42/50.
-- Exp117 drop dow DISCARD (val 22.212 near-miss, test 20.795). Thursday 20.85→21.82. CatBoost 43/50.
-- Exp118 model_size_reg=1.0 DISCARD (bit-identical to Exp97). Hour-20 Wednesday and Friday evenings unchanged. CatBoost 44/50.
-- Exp119 Bernoulli subsample=0.8 DISCARD (val 22.231, test 20.818). January hour-1 74.63→74.97. CatBoost 45/50.
-- Exp120 border_count=128 DISCARD (val 22.264, test 21.139). January PRES>=1025 36.25→38.85. CatBoost 46/50.
-- Exp121 nw_iws DISCARD (val 22.240, test 20.804). Hour-20 NW 18.55→17.49 but val rose. CatBoost 47/50.
-- Exp122 is_morning DISCARD (val 22.346, test 20.763). Hour 8-9 18.16→18.00 but val rose. CatBoost 48/50.
-- Exp123 dow_sin DISCARD (val 22.360, test 20.829). Thursday 20.85→21.31. CatBoost 49/50.
-- Exp124 cv_inv DISCARD (val 22.250, test 20.754). cv persist>=150 28.95→29.44. **CatBoost 50/50 complete.**
-- Exp125 MLP default DISCARD (val 22.623, test 20.648). January 34.84→31.02. Typical 8.35→7.28. MLP 1/50.
-- Exp126 MLP dropout=0.3 DISCARD (val 22.729, test **20.483** best 2014). April 28.86→26.61. MLP 2/50.
-- Exp127 MLP wd=1e-4 DISCARD 1h (val **22.528** beat Exp125 22.623, test 20.773). Collapse 78.82→81.47. MLP 3/50.
-- Exp128 MLP hidden 128-64-32 DISCARD (val **23.080**, test 21.344). Hour-21 persist>=150 58.72→64.79. Typical 7.03→7.81. MLP 4/50.
-- Exp129 MLP Adam lr=1e-4 DISCARD (val **23.069**, test 21.349). Iws q3 26.41→27.03. persist>=300 40.54→43.57. MLP 5/50.
-- Exp130 MLP batch_size=16 DISCARD 1h (val **22.527** tied Exp127, test **20.457** new 2014 best). SE 22.56→21.92. SE persist>=150 32.65→30.37. MLP 6/50.
-- Exp131 MLP epochs=80 DISCARD (val **22.545**, test 20.607). Hour-18 persist>=100 32.58→32.23. MLP 7/50.
-- Exp132 MLP patience=5 DISCARD (val **22.757**, test 20.764). Hour 13 17.98→18.09. Earlier stop underfit. MLP 8/50.
-- Exp133 MLP log_iws DISCARD 1h (val **22.502** new MLP val, test 20.587). Rainy high-Iws 30.77→29.04. MLP 9/50.
-- Exp134 MLP month_sin DISCARD 1h (val **22.432** new MLP val, test **20.450** new 2014 best). February 25.67→25.52. November 21.22→20.74. MLP 10/50.
-- Exp135 MLP pm25_accel DISCARD 1h (val **22.350** new MLP val, test **20.417** new 2014 best). Accel-q4 23.22→23.13. MLP 11/50.
-- Exp136 MLP vent_index DISCARD 1h (val **22.259** new MLP val, gap 0.092, test 20.509). Vent-q3 19.71→19.86. MLP 12/50.
-- Exp137 MLP pm25_roll6max DISCARD (val **22.451**, test 20.478). Onset 110.39→107.28 but val inverted. MLP 13/50.
-- Exp138 MLP pres_delta DISCARD (val **22.438**, test 20.440). Collapse dPRES>=1 86.12→83.33 but val inverted. MLP 14/50.
-- Exp139 MLP evening_peak DISCARD (val **22.425**, test 20.501). Weekday 18-21 29.66→29.68 flat. MLP 15/50.
-- Exp140 MLP se_iws DISCARD (val **22.439**, test 20.519). SE Iws>=10 24.43→24.53. MLP 16/50.
-- Exp141 MLP pm25_delta6 DISCARD (val **22.356**, test **20.274** new 2014 best). delta6>20 25.92→25.60. MLP 17/50.
-- Exp142 MLP is_severe DISCARD (val **22.438**, test 20.469). Rising lag1>=250 33.74→35.23 inverted. MLP 18/50.
-- Exp143 MLP cbwd_prev_NW DISCARD (val **22.381**, test 20.383). Just-left-NW 20.07→19.52. MLP 19/50.
-- Exp144 MLP is_janfeb DISCARD (val **22.528**, test 20.671). February 25.74→25.99 inverted. MLP 20/50.
-- Exp145 MLP iws_clip100 DISCARD (val **22.473**, test 20.494). Iws 5-20 persist>=150 40.49→40.33 inert. MLP 21/50.
-- Exp146 MLP dow_sin DISCARD (val **22.716**, test 20.826). Wednesday 25.99→25.90; Thursday 19.00→19.89. MLP 22/50.
-- Exp147 MLP cv_inv DISCARD (val **22.327**, test 20.573). cv inv>=q75 19.55→19.74. Extra-feature ladder exhausted. MLP 23/50.
-- Exp148 MLP extra hidden 256-128-64-32 DISCARD (val **23.289**, test 21.330). Evening persist>=150 39.89→43.24 over-ramp. MLP 24/50.
-- Exp149 MLP hetero_loss DISCARD (val **22.771**, test 21.104). Crash persist>=150 need<-50 86.06→92.61 under-captured. MLP 25/50.
-- Exp150 MLP grad_clip=0 DISCARD (val **22.402**, test **20.400**). Rain persist>=100 38.52→39.15; crash 86.06→80.40. MLP 26/50.
-- Exp151 MLP Adam lr=1e-3 DISCARD (val **22.449**, test 20.516). Build persist>=80 need>20 51.59→51.63 flat. MLP 27/50.
-- Exp152 MLP dropout=0.1 DISCARD (val **22.290** close miss, test **20.277**). Saturday pred_d −0.91→−0.08. MLP 28/50.
-- Exp153 MLP batch_size=64 DISCARD (val **22.638**, test 20.744). Persist 80-150 22.91→22.81; pred_d −1.31→−0.89. MLP 29/50.
-- Exp154 MLP weight_decay=0 DISCARD (val **22.436**, test 20.493). Stuck need>20 |pred_d|<5 50.33→50.08. MLP 30/50.
-- Exp155 MLP heating_build DISCARD (val **22.518**, test 20.963). Heating need>20 55.12→54.36; val inverted. MLP 31/50.
-- Exp156 MLP rh_iws DISCARD (val **22.430**, test **20.399**). Humid collapse 71.72→73.39 inverted. MLP 32/50.
-- Exp157 MLP drop Iws keep log_iws DISCARD (val **22.336**, test **20.425**). Iws>=50 10.46→10.51; moderate band 40.49→39.59. MLP 33/50.
-- Exp158 MLP drop Is keep Iws DISCARD (val **22.394**, test **20.395**). Is>0 15.32→14.56; pred_d −6.66→−3.67. MLP 34/50.
-- Exp159 MLP drop PRES keep TEMP DISCARD (val **22.437**, test **20.354**). PRES>=1025 persist>=150 38.33→37.60; pred_d −8.47→−7.66. MLP 35/50.
-- Exp160 MLP drop is_weekend keep dow DISCARD (val **22.492**, test **20.428**). Sat dirty 34.51→34.38; Sun dirty 31.83→32.44 inverted. MLP 36/50.
-- Exp161 MLP drop inversion_spread keep TEMP/DEWP DISCARD (val **22.487**, test **20.455**). inv q4 22.17→21.64; pred_d −2.42→−2.40. MLP 37/50.
-- Exp162 MLP drop is_heating keep month_sin DISCARD (val **22.426**, test **20.333**). Feb dirty 34.20→33.66; pred_d −7.89→−5.75. MLP 38/50.
-- Exp163 MLP drop cbwd_cv keep directed winds DISCARD (val **22.350**, test 20.556). cv dirty pred_d −0.76→−0.09; cv overall +0.62→+1.36. MLP 39/50.
-- Exp164 MLP hidden 512-256-128 DISCARD vs Exp97 (val **22.180** near-miss, test **20.201** new 2014 best). Builds 65.12→65.98; |need|>=80 135.18→128.15. MLP 40/50. MLP recipe → Exp164.
-- Exp165 MLP drop pm25_accel DISCARD (val **22.448**, test 20.467). Contra-accel 81.91→79.90; pred_d −1.98→+0.68. Keep accel. MLP 41/50.
-- Exp166 MLP LayerNorm DISCARD (val **22.442**, test **21.338**). Typical |d|>=8 15.37→18.56; January 31.90→36.70. Keep LN off. MLP 42/50.
-- **Exp167 KEEP** residual skips (val **21.972**, test **20.072**). Dirty-stable 13.13→11.99; pred_d −3.91→−1.78. First 1h KEEP since Exp97. MLP 43/50.
-- Exp168 MLP huber_beta=20 DISCARD (val **22.581**, test 20.752). Onset 110.28→110.64; pred_d −0.60→−1.06. Typical 7.14→8.38. Dirty-stable 11.99→12.71. MLP 44/50.
-- Exp169 MLP se_pm25 DISCARD (val **22.117**, test 20.133). Onset 110.28→108.75; pred_d −0.60→+1.30. Onset SE persist 50-150 157.60→156.58. Typical 7.14→7.27. MLP 45/50.
-- Exp170 MLP persist_residual DISCARD (val **22.072**, test 20.144). Typical 7.14→6.80. Dirty-stable 11.99→10.85; pred_d −1.78→−0.03. January onset pred_d −9.78→−9.10. Collapse 73.22→74.72. MLP 46/50.
-- Exp171 MLP underpred_weight=2 DISCARD (val **22.643**, test 20.677). January onset 139.25→128.85; pred_d −9.78→+3.29. Onset 110.28→103.77 beats persist. Typical 7.14→7.97. Collapse 73.22→82.71. JJA 13.87→14.92. MLP 47/50.
-- Exp172 MLP stagn_onset DISCARD (val **21.9995** near-miss, test **20.018** new 2014 best). Collapse 73.22→71.71. Onset NW RH<30 inert. MLP 48/50.
-- Exp173 MLP nw_rh DISCARD (val **22.074**, test 20.093). Onset NW RH<30 120.73→116.75; pred_d −21.11→−16.92. Typical 7.14→7.36. MLP 49/50.
-- Exp174 MLP onset_underpred_weight=2 DISCARD (val **22.057**, test 20.068). Onset 110.28→109.34; pred_d −0.60→+0.79. Typical 7.14→7.24. **MLP 50/50 complete.**
+- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.6 (pred 168 vs actual 248)
+- Worst month: 01 RMSE=31.22
+- Best month: 07 RMSE=13.01
+- Worst hour: 20:00 RMSE=32.68
+- Spike F1@75: 0.940 (P=0.937 R=0.943)
+- p99 |error|=75.1 · max |error|=503.6
