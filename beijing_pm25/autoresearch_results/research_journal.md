@@ -642,10 +642,18 @@ New diagnosis: January onset n=18 RMSE **139.25 vs persist 127.93** (10.90% of E
 
 1h champion unchanged: Exp167. MLP **46/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp171)
+
+New diagnosis: January onset pred_d<0 n=9 RMSE **168.63 vs persist 141.36** (7.99% of Exp167 SSE; need **+113.78** pred_d **−32.46**). Collapse NW n=71 RMSE 74.80 beats persist 102.50, but January onset NW n=6 RMSE **116.14 vs persist 100.07** with pred_d **−19.26** versus need +89.50 (71-to-6 NW vote teaches cleanout). January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp171 DISCARD** underpred_weight=2. Val **22.643** missed Exp167 21.972. Test **20.677**. January onset 139.25→**128.85**; pred_d −9.78→**+3.29** (anti-jump flipped). Onset 110.28→**103.77** now beats persist 107.80. Typical 7.14→**7.97**; pred_d 0.94→**4.77**. Collapse 73.22→**82.71**. JJA 13.87→**14.92** loses persist 14.83. Global **+4.34** µg bias taxed val. Slice moved; global under-pred tax is the wrong tool.
+
+1h champion unchanged: Exp167. MLP **47/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, huber_beta=1, persist_residual off, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
-2. Next unused axis: diagnose Exp167 January onset anti-jump that survived persist residual (n=18 RMSE 139.25 vs persist 127.93, 10.90% of SSE, need +107.72 pred_d −9.78). Do not retry persist_residual / DLinear output identity, se_pm25 or another SE×PM payload, huber_beta 10/40/50 or MSE, pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, huber_beta=1, persist_residual off, underpred_weight off, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
+2. Next unused axis: diagnose Exp167 January onset NW (n=6 RMSE 116.14 vs persist 100.07, pred_d −19.26 vs need +89.50) without a global high bias. Do not retry underpred_weight 1.5/3/5, persist_residual / DLinear output identity, se_pm25 or another SE×PM payload, huber_beta 10/40/50 or MSE, pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp167 until composite beats −21.972
 
 
