@@ -686,10 +686,18 @@ New diagnosis: typical |need|<=10 and |pred_d|>=5 n=1514 RMSE **10.54 vs persist
 
 1h champion unchanged: Exp167. FT **3/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-21, Exp178)
+
+New diagnosis: dirty-stable NW persist>=150 |need|<=10 n=156 RMSE **17.54 vs persist 6.18** (1.50% of Exp167 SSE; need **−0.08** pred_d **−9.17**). Residual MLP subtracts 9 µg on already-dirty NW hours; Post-LN FT buried lag-1 further (dirty-stable 11.99→24.29). January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck. FT depth {1,2,3} closed — rethink architecture.
+
+**Exp178 DISCARD** FT Pre-LN (norm_first=true) on paper-default 3-layer. Val **22.140** missed Exp167 21.972 (Δ0.168; inside 21.80–24.40) but beat Exp175 Post-LN 22.698. Test **20.674** beat persist **22.316** and Exp175 23.130 (inside 20.4–24.2). Dirty-stable NW 17.54→**20.63** vs Post-LN 33.82; pred_d −9.17→**−9.41** vs Post-LN −14.17. Typical 7.14→**7.96** vs Post-LN 10.22. January 31.22→**34.77** vs Post-LN 42.85. Onset pred_d −0.60→**−0.94** vs Post-LN −6.95. Pre-LN restored lag-1 versus Post-LN; did not beat residual MLP. **Best isolated FT.**
+
+1h champion unchanged: Exp167. FT **4/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (3/50). Depth {1,2,3} closed — rethink architecture: **Pre-LN (norm_first=True)** on paper-default 3-layer FT. Do not mix MLP HPs into FT.
-2. Do not retry n_layers=4/6 or d_model 32/96 / n_heads 2/8. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
+1. Isolate **FT-Transformer** (4/50) from Exp178 Pre-LN recipe. Next try **dropout=0**. Do not revert Post-LN. Do not mix MLP HPs into FT.
+2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
 
