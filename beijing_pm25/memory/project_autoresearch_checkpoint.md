@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp176 DISCARD (1h remains Exp167 residual MLP; FT 2/50; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp177 DISCARD (1h remains Exp167 residual MLP; FT 3/50; t+6 recipe Exp76)
 
 **Updated:** 2026-08-21
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -23,20 +23,21 @@
 
 ## Residual (this fire)
 - Champion slices (Exp167, computed): January 31.22 vs persist 33.58 · JJA 13.87 vs persist 14.83 · hour 20 32.68 vs persist 33.24 (11.10% of SSE) · onset n=83 RMSE 110.28 vs persist 107.80 (31.51% of SSE; need +87.40 pred_d −0.60). Val 21.972 vs test 20.072 is the bottleneck.
-- **NEW:** heating dirty-stable persist>=150 |need|<=10 n=269 RMSE **15.66** vs persist **6.19** (2.06% of SSE; need **−0.09** pred_d **−4.08**). Residual MLP already over-cleans stagnant heating hours.
-- **Exp176 DISCARD** FT n_layers=1. Val **25.443** missed 21.972 (outside 21.80–24.20). Test **25.954** missed persist 22.316 and Exp175 23.130. Heating dirty-stable 15.66→**44.22** vs Exp175 35.80; pred_d −4.08→**−14.08**. Typical 7.14→**12.12**. Dirty-stable 11.99→**30.31**. January 31.22→**48.70**. Onset pred_d −0.60→**−14.70**. One layer underfit and buried lag-1 more.
+- **NEW:** typical |need|<=10 and |pred_d|>=5 n=1514 RMSE **10.54** vs persist **5.48** (5.26% of SSE; need **+0.89** pred_d **+0.93**). Residual MLP already over-moves 1514 calm hours.
+- **Exp177 DISCARD** FT n_layers=2. Val **23.222** missed 21.972 (inside 22.10–25.20) and missed Exp175 22.698. Test **23.513**. Typical |pred_d|>=5 10.54→**16.72** vs Exp175 16.48 (no lift). Typical 7.14→**10.41**. Dirty-stable 11.99→**25.05**. January 31.22→**42.05**. Onset pred_d −0.60→**−7.61**. Middle depth interpolated 1 and 3; persist stayed buried. **FT depth axis closed (3 DISCARDs).**
 
 ## This fire
-- **Exp176 DISCARD** FT n_layers=1 (isolated cycle 2/50). 1h champion remains Exp167. FT **2/50**.
+- **Exp177 DISCARD** FT n_layers=2 (isolated cycle 3/50). 1h champion remains Exp167. FT **3/50**. Depth {1,2,3} exhausted — rethink architecture, not n_layers=4.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
 - MLP 50/50 complete as prior (do not retry mixup, onset_underpred, nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50)
 - FT-Transformer Gorishniy 2021 paper default d_model=64 n_layers=3 batch=32 lr=1e-4 (do not retry nearby d_model 32/96 or n_heads 2/8 as a persist fix)
 - FT n_layers=1 (do not retry n_layers=0 or another nearby shrink to a token-linear CLS)
+- FT n_layers=2 (do not retry n_layers=4/6; depth axis closed after 3 DISCARDs)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **2/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **3/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Isolate **FT-Transformer** (2/50) on the Exp167 feature recipe. Next try **n_layers=2** (unused middle depth; 1 underfit worse than 3). Do not mix MLP HPs into FT. Do not retry n_layers=1/0 or paper-default d_model 32/96. 1h champion remains Exp167 until composite beats −21.972.
+Isolate **FT-Transformer** (3/50) on the Exp167 feature recipe. Depth {1,2,3} closed — rethink architecture: **Pre-LN (norm_first=True)** on the paper-default 3-layer FT, not n_layers=4. Do not mix MLP HPs into FT. Do not retry d_model 32/96. 1h champion remains Exp167 until composite beats −21.972.
