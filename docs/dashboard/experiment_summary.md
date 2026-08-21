@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp167 mlp residual · test RMSE **20.072** · val RMSE **21.972** · skill vs persistence **+10.1%**
-**Campaign:** 179 experiments · 12 KEEP · 167 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 5/50
+**Campaign:** 180 experiments · 12 KEEP · 168 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 6/50
 
 ## KEEP lineage
 
@@ -207,6 +207,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 177 | DISCARD | ft_transformer | 23.513 | 23.222 | -23.513 | 11.921 | 0.9361 |
 | 178 | DISCARD | ft_transformer | 20.674 | 22.140 | -22.140 | 11.280 | 0.9506 |
 | 179 | DISCARD | ft_transformer | 20.509 | 22.200 | -22.200 | 11.215 | 0.9514 |
+| 180 | DISCARD | ft_transformer | 21.486 | 22.568 | -22.568 | 11.647 | 0.9467 |
 
 ## Champion residual slices (2014 test)
 
