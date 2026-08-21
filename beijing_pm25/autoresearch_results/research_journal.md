@@ -626,10 +626,26 @@ New diagnosis: onset need>50 n=83 RMSE **110.28 vs persist 107.80** (31.51% of E
 
 1h champion unchanged: Exp167. MLP **44/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-20, Exp169)
+
+New diagnosis: onset plus SE persist 50-150 n=21 RMSE **157.60 vs persist 156.55** (16.29% of Exp167 SSE; need **+115.48** pred_d **+2.09**; pred 96.8 vs actual 210.1). se_iws already failed as a speed product. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp169 DISCARD** se_pm25. Val **22.117** missed Exp167 21.972. Test **20.133**. Onset 110.28→**108.75**; pred_d −0.60→**+1.30**. Onset SE persist 50-150 157.60→**156.58**; pred_d +2.09→**+3.88** versus need +115.48 (still persist-locked). Typical 7.14→**7.27**. January 31.22→**30.87**. Local lag1×SE is not the upwind plume payload.
+
+1h champion unchanged: Exp167. MLP **45/50**. t+6 recipe remains Exp76.
+
+## This fire (2026-08-20, Exp170)
+
+New diagnosis: January onset n=18 RMSE **139.25 vs persist 127.93** (10.90% of Exp167 SSE; need **+107.72** pred_d **−9.78** so the 128-d head subtracts ~10 µg on hours that jump +108). Typical |need|<=10 n=5117 RMSE **7.14 vs persist 5.08**. Hidden residual did not pin the OUTPUT to lag-1. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24 (11.10% of SSE). Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp170 DISCARD** persist_residual ŷ=lag1+Δ. Val **22.072** missed Exp167 21.972. Test **20.144**. Typical 7.14→**6.80** (closer to persist 5.08). Dirty-stable 11.99→**10.85**; pred_d −1.78→**−0.03**. January onset 139.25→**139.34**; pred_d −9.78→**−9.10** versus need +107.72 (anti-jump survived). Collapse 73.22→**74.72**. JJA 13.87→**14.11**. Output identity helped calm hours; the delta head still subtracts ~9 µg on January jumps and collapse/JJA paid the val tax.
+
+1h champion unchanged: Exp167. MLP **46/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, huber_beta=1, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
-2. Next unused axis: diagnose Exp167 onset+SE (n=38 RMSE 130.64 vs persist 128.51, 20.25% of SSE, need +98 pred_d +1.33). Do not retry huber_beta 10/40/50 or MSE, pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
+1. Stay isolated on **MLP Exp167 recipe** (batch 16, hidden 512-256-128, residual true, dropout 0.2, weight_decay 1e-4, lr 3e-4, clip=1.0, huber_beta=1, persist_residual off, log_iws, month_sin, pm25_accel, vent_index, layer_norm off)
+2. Next unused axis: diagnose Exp167 January onset anti-jump that survived persist residual (n=18 RMSE 139.25 vs persist 127.93, 10.90% of SSE, need +107.72 pred_d −9.78). Do not retry persist_residual / DLinear output identity, se_pm25 or another SE×PM payload, huber_beta 10/40/50 or MSE, pre-activation residual, extra skip-to-head, LayerNorm, BatchNorm, nearby 384/768, extra 4th layer, dropout 0.1, drop pm25_accel, drop pm25_delta1, drop cbwd_cv, extra features 137-147, nearby wd 1e-6, nearby batch 48/128, nearby dropout 0.05/0.15, nearby lr 5e-4/2e-3, grad_clip 0.1/5/10, hetero_loss, extra hidden 32, 5-layer, nearby 4th-layer width, rolling PM stats, 6h PM slopes, lag1 thresholds, previous-direction memory, calendar splits of is_heating, Iws transforms, cyclic weekday encodings, nearby weather derivatives, nearby hour bins, nearby wind products, nearby second-diff, month Fourier, log-Iws, nearby patience, nearby epochs, batch 8, dropout 0.4, wd 1e-3, nearby lr shrink, or width shrink
 3. Do not mix CatBoost HPs. 1h champion remains Exp167 until composite beats −21.972
 
 
