@@ -670,10 +670,18 @@ New diagnosis: hour-20 SE persist>=80 n=74 RMSE **60.62 vs persist 61.42** (8.49
 
 1h champion unchanged: Exp167. FT **1/50**. t+6 recipe remains Exp76.
 
+## This fire (2026-08-21, Exp176)
+
+New diagnosis: heating dirty-stable persist>=150 |need|<=10 n=269 RMSE **15.66 vs persist 6.19** (2.06% of Exp167 SSE; need **−0.09** pred_d **−4.08**). Residual MLP already over-cleans stagnant heating hours; Exp175 three-layer FT made dirty-stable 11.99→24.29 and typical 7.14→10.22. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp176 DISCARD** FT n_layers=1. Val **25.443** missed Exp167 21.972 and fell outside 21.80–24.20. Test **25.954** missed persist **22.316** and Exp175 23.130 (outside 20.2–23.4). Heating dirty-stable 15.66→**44.22** vs Exp175 35.80; pred_d −4.08→**−14.08**. Typical 7.14→**12.12**. Dirty-stable 11.99→**30.31**. January 31.22→**48.70**. Onset pred_d −0.60→**−14.70**. One layer underfit and buried lag-1 more, not less.
+
+1h champion unchanged: Exp167. FT **2/50**. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (1/50) on the Exp167 feature recipe. Next try **n_layers=1**. Do not mix MLP HPs into FT.
-2. Do not retry paper-default d_model 32/96 or n_heads 2/8 as a persist fix. Do not retry nw_rh, stagn_onset, underpred_weight, persist_residual, se_pm25, huber_beta 10/40/50.
+1. Isolate **FT-Transformer** (2/50) on the Exp167 feature recipe. Next try **n_layers=2**. Do not mix MLP HPs into FT.
+2. Do not retry n_layers=1/0 or paper-default d_model 32/96 / n_heads 2/8 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
 

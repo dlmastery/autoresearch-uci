@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp175 DISCARD (1h remains Exp167 residual MLP; FT 1/50; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp176 DISCARD (1h remains Exp167 residual MLP; FT 2/50; t+6 recipe Exp76)
 
 **Updated:** 2026-08-21
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -23,19 +23,20 @@
 
 ## Residual (this fire)
 - Champion slices (Exp167, computed): January 31.22 vs persist 33.58 · JJA 13.87 vs persist 14.83 · hour 20 32.68 vs persist 33.24 (11.10% of SSE) · onset n=83 RMSE 110.28 vs persist 107.80 (31.51% of SSE; need +87.40 pred_d −0.60). Val 21.972 vs test 20.072 is the bottleneck.
-- **NEW:** hour-20 SE persist>=80 n=74 RMSE **60.62** vs persist **61.42** (8.49% of SSE; need **+14.47** pred_d **+5.69**). The 16 hour-20 SE persist>=80 need>20 hours hold 8.26% of SSE at 128.62 vs persist 129.94 with pred_d only **+10.29** vs need **+64.31**.
-- **Exp175 DISCARD** FT-Transformer Gorishniy 2021 paper default. Val **22.698** missed 21.972. Test **23.130** lost persist 22.316. Hour-20 SE persist>=80 60.62→**61.66**; pred_d 5.69→**3.72** (under-jumped). Typical 7.14→**10.22**. Dirty-stable 11.99→**24.29**. January 31.22→**42.85**. Onset 110.28→**119.59**; pred_d −0.60→**−6.95**. CLS buried lag-1.
+- **NEW:** heating dirty-stable persist>=150 |need|<=10 n=269 RMSE **15.66** vs persist **6.19** (2.06% of SSE; need **−0.09** pred_d **−4.08**). Residual MLP already over-cleans stagnant heating hours.
+- **Exp176 DISCARD** FT n_layers=1. Val **25.443** missed 21.972 (outside 21.80–24.20). Test **25.954** missed persist 22.316 and Exp175 23.130. Heating dirty-stable 15.66→**44.22** vs Exp175 35.80; pred_d −4.08→**−14.08**. Typical 7.14→**12.12**. Dirty-stable 11.99→**30.31**. January 31.22→**48.70**. Onset pred_d −0.60→**−14.70**. One layer underfit and buried lag-1 more.
 
 ## This fire
-- **Exp175 DISCARD** FT-Transformer paper default (isolated cycle 1/50). 1h champion remains Exp167. FT **1/50**.
+- **Exp176 DISCARD** FT n_layers=1 (isolated cycle 2/50). 1h champion remains Exp167. FT **2/50**.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
 - MLP 50/50 complete as prior (do not retry mixup, onset_underpred, nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50)
 - FT-Transformer Gorishniy 2021 paper default d_model=64 n_layers=3 batch=32 lr=1e-4 (do not retry nearby d_model 32/96 or n_heads 2/8 as a persist fix)
+- FT n_layers=1 (do not retry n_layers=0 or another nearby shrink to a token-linear CLS)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **1/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **2/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Isolate **FT-Transformer** (1/50) on the Exp167 feature recipe. Next try **n_layers=1** (shallower so CLS cannot bury lag-1). Do not mix MLP HPs into FT. Do not retry paper-default d_model 32/96 or n_heads 2/8. 1h champion remains Exp167 until composite beats −21.972.
+Isolate **FT-Transformer** (2/50) on the Exp167 feature recipe. Next try **n_layers=2** (unused middle depth; 1 underfit worse than 3). Do not mix MLP HPs into FT. Do not retry n_layers=1/0 or paper-default d_model 32/96. 1h champion remains Exp167 until composite beats −21.972.
