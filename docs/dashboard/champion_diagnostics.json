@@ -328,15 +328,15 @@
     97,
     167
   ],
-  "n_experiments": 181,
+  "n_experiments": 182,
   "n_keep": 12,
-  "n_discard": 169,
+  "n_discard": 170,
   "backbone_counts": {
     "xgboost": 24,
     "lightgbm": 50,
     "catboost": 50,
     "mlp": 51,
-    "ft_transformer": 6
+    "ft_transformer": 7
   },
   "test_hash": "efb0012c1873e5bf2fe56d0cbb3d429c1d879da92273a15cc7bb6532e0ba79fc",
   "composite_fingerprint": "a12fd381fe9bbefb"

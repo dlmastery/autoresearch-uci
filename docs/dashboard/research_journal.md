@@ -710,9 +710,17 @@ New diagnosis: weekend typical |need|<=10 n=1435 RMSE **8.10 vs persist 5.19** (
 
 1h champion unchanged: Exp167. FT **6/50**. FT val recipe remains Exp178. t+6 recipe remains Exp76.
 
+## This fire (2026-08-21, Exp181)
+
+New diagnosis: hour-9 persist>=80 n=166 RMSE **19.48 vs persist 18.55** (1.97% of Exp167 SSE; need **−1.52** pred_d **−2.89**). Morning dirty hours over-clean; batch-32 SGD noise can shove lag-1. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp181 DISCARD** FT Pre-LN batch_size=64. Val **23.039** missed Exp167 21.972 and Exp178 22.140 (outside 21.70–22.80). Test **21.597**. Hour-9 persist>=80 19.48→**20.19**; pred_d −2.89→**+0.96** (over-clean flipped to over-dirty). Typical 7.14→**8.15**; pred_d +0.94→**+2.60**. Dirty-stable pred_d −1.81→**+3.53**. Global bias **+1.98**. Larger batch biased predictions up, not quieter identity.
+
+1h champion unchanged: Exp167. FT **7/50**. FT val recipe remains Exp178. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (6/50) from Exp178 Pre-LN recipe. Next try **batch_size=64**. Do not retry dropout 0/0.15/0.2/0.3. Do not revert Post-LN. Do not mix MLP HPs into FT.
+1. Isolate **FT-Transformer** (7/50) from Exp178 Pre-LN recipe. Next try **weight_decay=1e-4**. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
