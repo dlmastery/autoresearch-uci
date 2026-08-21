@@ -61,6 +61,10 @@ def main() -> None:
     extra["dow_sin"] = np.sin(2.0 * np.pi * extra["dow"] / 7.0)
     extra["cv_inv"] = extra["cbwd_cv"] * extra["inversion_spread"]
     extra["se_pm25"] = extra["cbwd_SE"] * extra["pm25_lag1"]
+    extra["stagn_onset"] = extra["is_heating"] * (1.0 - extra["cbwd_NW"]) * (
+        extra["Iws"] < 5.0
+    ).astype(float) * (extra["pm25_lag1"] >= 150.0).astype(float)
+    extra["nw_rh"] = extra["cbwd_NW"] * extra["rh_magnus"]
     extra.to_csv(DATA / "features_full.csv", index=False)
     print("wrote", DATA / "features_full.csv", extra.shape)
 

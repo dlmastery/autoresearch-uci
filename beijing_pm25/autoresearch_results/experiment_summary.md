@@ -3,8 +3,8 @@
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
 **Champion:** Exp167 mlp residual · test RMSE **20.072** · val RMSE **21.972** · skill vs persistence **+10.1%**
-**Campaign:** 171 experiments · 12 KEEP · 159 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 47/50 · FT-Transformer 0/50
+**Campaign:** 174 experiments · 12 KEEP · 162 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 0/50
 
 ## KEEP lineage
 
@@ -198,6 +198,9 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 169 | DISCARD | mlp | 20.133 | 22.117 | -22.117 | 11.080 | 0.9532 |
 | 170 | DISCARD | mlp | 20.144 | 22.072 | -22.072 | 11.021 | 0.9531 |
 | 171 | DISCARD | mlp | 20.677 | 22.643 | -22.643 | 11.741 | 0.9506 |
+| 172 | DISCARD | mlp | 20.018 | 22.000 | -22.000 | 11.062 | 0.9537 |
+| 173 | DISCARD | mlp | 20.093 | 22.074 | -22.074 | 11.075 | 0.9534 |
+| 174 | DISCARD | mlp | 20.068 | 22.057 | -22.057 | 11.056 | 0.9535 |
 
 ## Champion residual slices (2014 test)
 
@@ -291,3 +294,6 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 - Exp169 MLP se_pm25 DISCARD (val **22.117**, test 20.133). Onset 110.28→108.75; pred_d −0.60→+1.30. Onset SE persist 50-150 157.60→156.58. Typical 7.14→7.27. MLP 45/50.
 - Exp170 MLP persist_residual DISCARD (val **22.072**, test 20.144). Typical 7.14→6.80. Dirty-stable 11.99→10.85; pred_d −1.78→−0.03. January onset pred_d −9.78→−9.10. Collapse 73.22→74.72. MLP 46/50.
 - Exp171 MLP underpred_weight=2 DISCARD (val **22.643**, test 20.677). January onset 139.25→128.85; pred_d −9.78→+3.29. Onset 110.28→103.77 beats persist. Typical 7.14→7.97. Collapse 73.22→82.71. JJA 13.87→14.92. MLP 47/50.
+- Exp172 MLP stagn_onset DISCARD (val **21.9995** near-miss, test **20.018** new 2014 best). Collapse 73.22→71.71. Onset NW RH<30 inert. MLP 48/50.
+- Exp173 MLP nw_rh DISCARD (val **22.074**, test 20.093). Onset NW RH<30 120.73→116.75; pred_d −21.11→−16.92. Typical 7.14→7.36. MLP 49/50.
+- Exp174 MLP onset_underpred_weight=2 DISCARD (val **22.057**, test 20.068). Onset 110.28→109.34; pred_d −0.60→+0.79. Typical 7.14→7.24. **MLP 50/50 complete.**
