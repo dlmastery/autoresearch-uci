@@ -718,9 +718,17 @@ New diagnosis: hour-9 persist>=80 n=166 RMSE **19.48 vs persist 18.55** (1.97% o
 
 1h champion unchanged: Exp167. FT **7/50**. FT val recipe remains Exp178. t+6 recipe remains Exp76.
 
+## This fire (2026-08-21, Exp182)
+
+New diagnosis: DJF persist>=150 |need|<=10 n=207 RMSE **16.68 vs persist 6.07** (1.80% of Exp167 SSE; need **−0.07** pred_d **−5.60**). Winter dirty-stable over-cleans lag-1; Exp178 is worse at 23.55 with pred_d −4.92. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp182 DISCARD** FT Pre-LN weight_decay=1e-4. Val **22.400** missed Exp167 21.972 and Exp178 22.140 (inside 21.70–22.80). Test **20.746** missed Exp167 20.072 and Exp178 20.674 (inside 20.30–21.40). Prediction HIT. DJF persist>=150 |need|<=10 16.68→**24.75** vs Exp178 23.55; pred_d −5.60→**−7.47** versus need −0.07 (over-clean worsened). Typical 7.14→**7.90** vs Exp178 7.96. January 31.22→**34.27** loses persist 33.58. Onset pred_d −0.60→**−3.44**. Global bias **−1.72**. 10x AdamW decay pulled predictions down, not toward identity. **FT Pre-LN wd=1e-4 closed.**
+
+1h champion unchanged: Exp167. FT **8/50**. FT val recipe remains Exp178. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (7/50) from Exp178 Pre-LN recipe. Next try **weight_decay=1e-4**. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
+1. Isolate **FT-Transformer** (8/50) from Exp178 Pre-LN recipe. Next try **lr=3e-4**. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
