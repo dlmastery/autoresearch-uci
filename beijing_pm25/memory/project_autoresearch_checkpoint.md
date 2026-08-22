@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp183 DISCARD (1h remains Exp167 residual MLP; FT 9/50 Pre-LN val recipe Exp178; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp184 DISCARD (1h remains Exp167 residual MLP; FT 10/50 Pre-LN val recipe Exp178; t+6 recipe Exp76)
 
 **Updated:** 2026-08-21
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -22,18 +22,18 @@
 
 ## FT val recipe (isolated, not champion)
 - **Exp 178** Pre-LN (norm_first=true) · dropout 0.1 · n_layers 3 · d_model 64 · batch 32 · lr 1e-4 · weight_decay 1e-5 · val **22.140** · test **20.674**
-- Exp182 wd=1e-4: val 22.400 / test 20.746 worse. Exp183 lr=3e-4: val 22.477 / test 20.952 worse. Recipe stays Exp178.
+- Exp182 wd=1e-4: val 22.400 / test 20.746 worse. Exp183 lr=3e-4: val 22.477 / test 20.952 worse. Exp184 warmup=0: val 22.892 / test 21.312 worse. Recipe stays Exp178.
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
 - Champion slices (Exp167, computed): January 31.22 vs persist 33.58 · JJA 13.87 vs persist 14.83 · hour 20 32.68 vs persist 33.24 (11.10% of SSE) · onset n=83 RMSE 110.28 vs persist 107.80 (31.51% of SSE; need +87.40 pred_d −0.60). Val 21.972 vs test 20.072 is the bottleneck.
-- **NEW:** Ir>0 persist>=50 n=179 RMSE **28.75** vs persist **32.21** (4.62% of SSE; need **−9.08** pred_d **−3.36**). Rain washout under-moves; Exp178 pred_d −1.48 worse.
-- **Exp183 DISCARD** FT Pre-LN lr=3e-4. Val **22.477** missed 21.972 and Exp178 22.140 (inside 21.70–22.90). Test **20.952**. Ir>0 persist>=50 pred_d −3.36→**−3.67** vs Exp178 −1.48 (mean toward need) but RMSE 28.75→**29.74**. Typical 7.14→**7.79**. January 31.22→**34.34** loses persist 33.58. Global bias **−2.54**. 3x lr pulled predictions down.
+- **NEW:** hour2-4 persist>=80 n=521 RMSE **26.68** vs persist **30.40** (11.58% of SSE; need **−5.20** pred_d **−6.13**). Nocturnal dirty hours; Exp178 28.83 pred_d −4.66.
+- **Exp184 DISCARD** FT Pre-LN warmup=0. Val **22.892** missed 21.972 and Exp178 22.140 (outside 21.70–22.80). Test **21.312**. Hour2-4 persist>=80 26.68→**29.01** vs Exp178 28.83; pred_d −6.13→**−7.81** (over-clean worsened). Typical 7.14→**8.42**. January 31.22→**34.90** loses persist 33.58. Global bias **−3.78**. No-warmup pulled predictions down.
 
 ## This fire
-- **Exp183 DISCARD** FT Pre-LN lr=3e-4 (isolated cycle 9/50). 1h champion remains Exp167. FT **9/50**. FT val recipe remains Exp178.
+- **Exp184 DISCARD** FT Pre-LN warmup=0 (isolated cycle 10/50). 1h champion remains Exp167. FT **10/50**. FT val recipe remains Exp178.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -44,9 +44,10 @@
 - FT Pre-LN batch_size=64 (do not retry nearby 48/128)
 - FT Pre-LN weight_decay=1e-4 (do not retry nearby 5e-5/2e-4/0)
 - FT Pre-LN lr=3e-4 (do not retry nearby 2e-4/5e-4)
+- FT Pre-LN warmup=0 (do not retry nearby 2/5)
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **9/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. FT val recipe is Exp178 Pre-LN dropout 0.1 batch 32 wd 1e-5 lr 1e-4. t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **10/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. FT val recipe is Exp178 Pre-LN dropout 0.1 batch 32 wd 1e-5 lr 1e-4 warmup 10. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Isolate **FT-Transformer** (9/50) from the Exp178 Pre-LN recipe (norm_first=true, dropout 0.1, n_layers=3, batch 32, weight_decay=1e-5, lr=1e-4). Next try **warmup=0**. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. 1h champion remains Exp167 until composite beats −21.972.
+Isolate **FT-Transformer** (10/50) from the Exp178 Pre-LN recipe (norm_first=true, dropout 0.1, n_layers=3, batch 32, weight_decay=1e-5, lr=1e-4, warmup=10). Next try **warmup=20**. Do not retry warmup 2/5. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. 1h champion remains Exp167 until composite beats −21.972.
