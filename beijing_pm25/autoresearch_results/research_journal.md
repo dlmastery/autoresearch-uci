@@ -774,9 +774,17 @@ New diagnosis: rising P persist>=80 need<-20 n=128 RMSE **54.57 vs persist 72.02
 
 1h champion unchanged: Exp167. FT **14/50**. FT val recipe remains Exp186. t+6 recipe remains Exp76.
 
+## This fire (2026-08-22, Exp189)
+
+New diagnosis: hour7 persist>=80 n=173 RMSE **21.55 vs persist 28.55** (2.51% of Exp167 SSE; need **−6.84** pred_d **−3.53**). Rush-hour dirty hours under-clean; Exp186 pred_d −5.63. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp189 DISCARD** FT Pre-LN add is_morning on Exp186. Val **22.258** missed Exp167 21.972 and Exp186 22.066 (inside 21.70–22.40). Test **20.724** missed Exp167 20.072 and Exp186 20.483 (inside 20.20–21.20). Prediction HIT. hour7 persist>=80 21.55→**23.38**; pred_d −3.53→**−1.42** vs Exp186 −5.63 versus need −6.84 (under-clean worsened). Typical 7.14→**7.74**. January 31.22→**33.45**. Global bias **+1.31**. Token blocked morning washout. **FT is_morning closed.** Third extra-token DISCARD — rethink feature class. Recipe stays Exp186.
+
+1h champion unchanged: Exp167. FT **15/50**. FT val recipe remains Exp186. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (14/50) from Exp186 Pre-LN + cbwd_prev_NW. Feature axis open. Next try **add is_morning**. Do not drop cbwd_prev_NW. Do not retry heating_night/pres_delta. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
+1. Isolate **FT-Transformer** (15/50) from Exp186 Pre-LN + cbwd_prev_NW. Extra-dummy axis closed (3 DISCARDs). Rethink: next try **add pm25_roll3mean**. Do not drop cbwd_prev_NW. Do not retry heating_night/pres_delta/is_morning/evening_peak. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 
