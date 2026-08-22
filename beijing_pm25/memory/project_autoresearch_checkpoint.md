@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp194 DISCARD (1h remains Exp192; FT 20/50; t+6 Exp76)
+# Autoresearch checkpoint — after Exp195 DISCARD (1h remains Exp192; FT 21/50; t+6 Exp76)
 
 **Updated:** 2026-08-22
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -28,11 +28,11 @@
 
 ## Residual (this fire)
 - Champion slices (Exp192, computed): January 33.22 vs persist 33.58 · JJA 14.12 vs persist 14.83 · hour 20 32.69 vs persist 33.24 · onset n=83 RMSE 110.79 vs persist 107.80 (need +87.40 pred_d −1.54). Val 21.948 vs test 20.453 is still the bottleneck.
-- **NEW:** lag1>=250 |need|<=10 n=201 RMSE **21.39** vs persist **5.94** (2.76% of SSE; need **+0.03** pred_d **−7.46**). Stable mega-haze over-cleaned 3.6× persist.
-- **Exp194 DISCARD** FT Pre-LN +is_severe on Exp192. Val **22.159** missed 21.948 (inside 21.70–22.40). Test **20.638** missed 20.453. lag1>=250 |need|<=10 pred_d −7.46→**−4.84** RMSE 21.39→**23.18**. Typical 7.54→**7.81**. January 33.22→**33.65**. Global bias −0.07→**+0.92**.
+- **NEW:** January delta6>20 n=255 RMSE **44.94** vs persist **43.23** (15.49% of SSE; need **+2.95** pred_d **−5.67**). Winter still-building 6h episodes wrong-sign over-clean.
+- **Exp195 DISCARD** FT Pre-LN +pm25_delta6 on Exp192. Val **22.313** missed 21.948 (inside 21.70–22.40). Test **20.699** missed 20.453. January delta6>20 pred_d −5.67→**−5.96** RMSE 44.94→**45.31**. Typical 7.54→**7.95**. January 33.22→**33.70**. Global bias −0.07→**−0.45**.
 
 ## This fire
-- **Exp194 DISCARD** FT Pre-LN add is_severe (isolated cycle 20/50). 1h champion remains Exp192. FT **20/50**. FT val recipe remains Exp192.
+- **Exp195 DISCARD** FT Pre-LN add pm25_delta6 (isolated cycle 21/50). 1h champion remains Exp192. FT **21/50**. FT val recipe remains Exp192. Three extra-token DISCARDs after KEEP — rethink.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -52,10 +52,12 @@
 - FT iws_clip100 (do not retry other Iws clips)
 - FT se_iws (do not retry nw_iws/se_pm25)
 - FT is_severe (do not retry other lag1 thresholds)
+- FT pm25_delta6 (do not retry another 6h PM statistic)
+- Extra tokens after Exp192 KEEP closed after 3 DISCARDs (se_iws, is_severe, pm25_delta6) — do not add another unused column
 - Do not drop rh_iws or cbwd_prev_NW from Exp192
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **20/50**. Isolation holds. 1h champion is **Exp192 FT Pre-LN +rh_iws**. t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **21/50**. Isolation holds. 1h champion is **Exp192 FT Pre-LN +rh_iws**. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Isolate **FT-Transformer** (20/50) from the Exp192 Pre-LN + cbwd_prev_NW + rh_iws recipe. Next try **add pm25_delta6**. Do not drop rh_iws or cbwd_prev_NW. Do not retry is_severe or other lag1 thresholds. Do not retry se_iws/nw_iws/se_pm25. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. 1h champion remains Exp192 until composite beats −21.948.
+Isolate **FT-Transformer** (21/50) from the Exp192 Pre-LN + cbwd_prev_NW + rh_iws recipe. Next try **drop pm25_accel keep delta1**. Do not add another unused extra column. Do not drop rh_iws or cbwd_prev_NW. Do not retry pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. 1h champion remains Exp192 until composite beats −21.948.
