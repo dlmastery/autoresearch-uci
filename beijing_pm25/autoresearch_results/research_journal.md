@@ -750,9 +750,17 @@ New diagnosis: cbwd_cv persist>=100 |need|<=10 n=392 RMSE **9.26 vs persist 5.88
 
 1h champion unchanged: Exp167. FT **11/50**. FT val recipe remains Exp178. t+6 recipe remains Exp76.
 
+## This fire (2026-08-22, Exp186)
+
+New diagnosis: prevNW then cv persist>=80 n=114 RMSE **29.35 vs persist 31.68** (3.07% of Exp167 SSE; need **−8.12** pred_d **−2.25**). Last-hour NW then calm under-cleans; Exp178 31.35 pred_d −2.43. January 31.22 vs JJA 13.87. Hour 20 32.68 vs persist 33.24. Onset 110.28 vs persist 107.80. Val 21.972 vs test 20.072 is the bottleneck.
+
+**Exp186 DISCARD vs Exp167** FT Pre-LN add cbwd_prev_NW. Val **22.066** missed Exp167 21.972 (Δ0.094 NEAR-MISS) but beat Exp178 22.140 (inside 21.70–22.80). Test **20.483** missed Exp167 20.072 but beat Exp178 20.674 and Exp179 20.509 (inside 20.20–21.40). Prediction HIT. prevNW-then-cv pred_d −2.25→**−8.70** versus need −8.12 (mean matched); RMSE 29.35→**30.40** vs Exp178 31.35. Typical 7.14→**7.51** vs Exp178 7.96. January 31.22→**33.86**. Global bias **−2.04**. Token stepped washout. **New FT val recipe Exp186.** Feature axis open.
+
+1h champion unchanged: Exp167. FT **12/50**. FT val recipe now Exp186. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (11/50) from Exp178 Pre-LN recipe. Schedule closed (lr=3e-4, warmup=0/20). Rethink feature: next try **add cbwd_prev_NW**. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
+1. Isolate **FT-Transformer** (12/50) from Exp186 Pre-LN + cbwd_prev_NW. Feature axis open. Next try **add heating_night**. Do not drop cbwd_prev_NW. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp167 until composite beats −21.972.
 

@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp185 DISCARD (1h remains Exp167 residual MLP; FT 11/50 Pre-LN val recipe Exp178; t+6 recipe Exp76)
+# Autoresearch checkpoint — after Exp186 DISCARD vs Exp167 (FT val recipe now Exp186 +cbwd_prev_NW; 1h remains Exp167; FT 12/50; t+6 Exp76)
 
 **Updated:** 2026-08-21
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -13,27 +13,28 @@
 ## Best 2014 test (now the champion)
 - **Exp 167** residual MLP · test **20.072** · val **21.972**
 - Best non-champion 2014 test: Exp172 stagn_onset **20.018** (val 21.9995 DISCARD near-miss)
-- Best FT test: Exp179 dropout=0 **20.509** (val 22.200 DISCARD)
-- Best FT val: Exp178 Pre-LN dropout 0.1 batch 32 **22.140** / test **20.674**
+- Best FT test: Exp186 +cbwd_prev_NW **20.483** (val 22.066 DISCARD vs Exp167)
+- Best FT val: Exp186 Pre-LN +cbwd_prev_NW **22.066** / test **20.483**
+- Prior FT val: Exp178 **22.140** / **20.674** · prior FT test Exp179 **20.509**
 - Prior: Exp164 20.201 / 22.180 · Exp141 20.274 / 22.356 · Exp152 20.277 / 22.290
 
 ## MLP val recipe
 - **Exp 167** is both 1h champion and MLP val recipe.
 
 ## FT val recipe (isolated, not champion)
-- **Exp 178** Pre-LN (norm_first=true) · dropout 0.1 · n_layers 3 · d_model 64 · batch 32 · lr 1e-4 · weight_decay 1e-5 · val **22.140** · test **20.674**
-- Exp182 wd=1e-4: val 22.400 / test 20.746 worse. Exp183 lr=3e-4: val 22.477 / test 20.952 worse. Exp184 warmup=0: val 22.892 / test 21.312 worse. Exp185 warmup=20: val 23.134 / test 21.536 worse. Recipe stays Exp178.
+- **Exp 186** Pre-LN + cbwd_prev_NW · dropout 0.1 · n_layers 3 · d_model 64 · batch 32 · lr 1e-4 · weight_decay 1e-5 · warmup 10 · val **22.066** · test **20.483**
+- Beat Exp178 val 22.140 / test 20.674. Still DISCARD vs Exp167 val 21.972 (Δ0.094).
 
 ## t+6 side ladder (do not mix composites)
 - **Exp 76** LightGBM extra_trees + linear_tree + ff=1.0 + linear_lambda=1 + month_sin + pres_delta + dewp_delta + cbwd_prev_NW + rh_magnus · test **54.312** · val **57.161**
 
 ## Residual (this fire)
 - Champion slices (Exp167, computed): January 31.22 vs persist 33.58 · JJA 13.87 vs persist 14.83 · hour 20 32.68 vs persist 33.24 (11.10% of SSE) · onset n=83 RMSE 110.28 vs persist 107.80 (31.51% of SSE; need +87.40 pred_d −0.60). Val 21.972 vs test 20.072 is the bottleneck.
-- **NEW:** cbwd_cv persist>=100 |need|<=10 n=392 RMSE **9.26** vs persist **5.88** (1.05% of SSE; need **+0.72** pred_d **+2.30**). Calm-wind dirty-stable over-moves; Exp178 13.52 pred_d +2.74.
-- **Exp185 DISCARD** FT Pre-LN warmup=20. Val **23.134** missed 21.972 and Exp178 22.140 (outside 21.70–22.90). Test **21.536**. cbwd_cv persist>=100 |need|<=10 9.26→**12.96** vs Exp178 13.52; pred_d +2.30→**−3.05** (over-move flipped to over-clean). Typical 7.14→**8.51**. January 31.22→**36.57** loses persist 33.58. Global bias **−4.58**. Longer warmup pulled predictions down.
+- **NEW:** prevNW then cv persist>=80 n=114 RMSE **29.35** vs persist **31.68** (3.07% of SSE; need **−8.12** pred_d **−2.25**). Last-hour NW then calm under-cleans; Exp178 31.35 pred_d −2.43.
+- **Exp186 DISCARD vs Exp167** FT Pre-LN +cbwd_prev_NW. Val **22.066** missed 21.972 (Δ0.094 NEAR-MISS; beat Exp178 22.140). Test **20.483** beat Exp178 20.674 and Exp179 20.509. prevNW-then-cv pred_d −2.25→**−8.70** versus need −8.12 (mean matched). Typical 7.14→**7.51** vs Exp178 7.96. January 31.22→**33.86**. Global bias **−2.04**. Token stepped washout. **New FT val recipe.**
 
 ## This fire
-- **Exp185 DISCARD** FT Pre-LN warmup=20 (isolated cycle 11/50). 1h champion remains Exp167. FT **11/50**. FT val recipe remains Exp178.
+- **Exp186 DISCARD vs Exp167** FT Pre-LN add cbwd_prev_NW (isolated cycle 12/50). 1h champion remains Exp167. FT **12/50**. FT val recipe now Exp186.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
@@ -48,7 +49,7 @@
 - FT Pre-LN warmup=20 (do not retry nearby 15/25). Warmup axis closed {0,20}; recipe 10 stays.
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **11/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. FT val recipe is Exp178 Pre-LN dropout 0.1 batch 32 wd 1e-5 lr 1e-4 warmup 10. t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **12/50**. Isolation holds. 1h champion is **Exp167 residual MLP**. FT val recipe is Exp186 Pre-LN + cbwd_prev_NW. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Isolate **FT-Transformer** (11/50) from the Exp178 Pre-LN recipe. Schedule axis closed (lr=3e-4, warmup=0, warmup=20). Rethink feature: next try **add cbwd_prev_NW**. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. 1h champion remains Exp167 until composite beats −21.972.
+Isolate **FT-Transformer** (12/50) from the Exp186 Pre-LN + cbwd_prev_NW recipe. Feature axis open. Next try **add heating_night**. Do not drop cbwd_prev_NW. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. 1h champion remains Exp167 until composite beats −21.972.
