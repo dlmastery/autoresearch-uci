@@ -2,9 +2,9 @@
 
 Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff composite rises. Test year 2014 is frozen.
 
-**Champion:** Exp167 mlp residual · test RMSE **20.072** · val RMSE **21.972** · skill vs persistence **+10.1%**
-**Campaign:** 191 experiments · 12 KEEP · 179 DISCARD
-**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 17/50
+**Champion:** Exp192 ft_transformer · test RMSE **20.453** · val RMSE **21.948** · skill vs persistence **+8.3%**
+**Campaign:** 192 experiments · 13 KEEP · 179 DISCARD
+**Mandate gap:** LightGBM 50/50 · XGBoost 24/50 · CatBoost 50/50 · MLP 50/50 · FT-Transformer 18/50
 
 ## KEEP lineage
 
@@ -22,6 +22,7 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 96 | catboost | CatBoost Plain add dewp_delta on Exp91 rh_magnus (CatBoost cycle 22/50) | 20.881 | 22.357 | -22.357 |
 | 97 | catboost | CatBoost Plain add is_heating on Exp96 dewp_delta (CatBoost cycle 23/50) | 20.735 | 22.167 | -22.167 |
 | 167 | mlp | MLP residual skips on Exp164 recipe (MLP cycle 43/50) | 20.072 | 21.972 | -21.972 |
+| 192 | ft_transformer | FT-Transformer Pre-LN add rh_iws on Exp186 recipe (FT cycle 18/50) | 20.453 | 21.948 | -21.948 |
 
 ## All experiments
 
@@ -219,12 +220,13 @@ Composite = `min(−val_RMSE, −test_RMSE) − 0.1 × n_RMSE>40`. KEEP iff comp
 | 189 | DISCARD | ft_transformer | 20.724 | 22.258 | -22.258 | 11.374 | 0.9504 |
 | 190 | DISCARD | ft_transformer | 20.702 | 22.354 | -22.354 | 11.191 | 0.9505 |
 | 191 | DISCARD | ft_transformer | 20.946 | 22.354 | -22.354 | 11.348 | 0.9493 |
+| 192 | KEEP | ft_transformer | 20.453 | 21.948 | -21.948 | 11.233 | 0.9517 |
 
 ## Champion residual slices (2014 test)
 
-- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=103.6 (pred 168 vs actual 248)
-- Worst month: 01 RMSE=31.22
-- Best month: 07 RMSE=13.01
-- Worst hour: 20:00 RMSE=32.68
-- Spike F1@75: 0.940 (P=0.937 R=0.943)
-- p99 |error|=75.1 · max |error|=503.6
+- Onset hours (Δ ≥ 50 µg/m³): n=95 RMSE=104.1 (pred 168 vs actual 248)
+- Worst month: 01 RMSE=33.22
+- Best month: 07 RMSE=13.12
+- Worst hour: 20:00 RMSE=32.69
+- Spike F1@75: 0.941 (P=0.933 R=0.948)
+- p99 |error|=76.1 · max |error|=500.1

@@ -1,27 +1,30 @@
 {
-  "experiment_num": 167,
-  "backbone": "mlp",
-  "composite": -21.972015597737606,
-  "test_primary": 20.072104634476492,
-  "val_primary": 21.972015597737606,
+  "experiment_num": 192,
+  "backbone": "ft_transformer",
+  "composite": -21.948362215847666,
+  "test_primary": 20.453385629755623,
+  "val_primary": 21.948362215847666,
   "config": {
     "paths": {
       "results_dir": "C:\\Users\\abhir\\autoresearch-uci\\beijing_pm25\\autoresearch_results"
     },
     "task_type": "regression",
     "primary_metric": "rmse",
-    "backbone": "mlp",
+    "backbone": "ft_transformer",
     "backbone_config": {
       "seed": 0,
       "n_jobs": 4,
-      "weight_decay": 0.0001,
-      "batch_size": 16,
-      "hidden": [
-        512,
-        256,
-        128
-      ],
-      "residual": true
+      "d_model": 64,
+      "n_heads": 4,
+      "n_layers": 3,
+      "dropout": 0.1,
+      "lr": 0.0001,
+      "epochs": 100,
+      "patience": 15,
+      "batch_size": 32,
+      "weight_decay": 1e-05,
+      "warmup": 10,
+      "norm_first": true
     },
     "data": {
       "format": "csv",
@@ -76,7 +79,9 @@
         "log_iws",
         "month_sin",
         "pm25_accel",
-        "vent_index"
+        "vent_index",
+        "cbwd_prev_NW",
+        "rh_iws"
       ]
     },
     "split": {
@@ -97,8 +102,8 @@
         6
       ]
     },
-    "description": "Exp167 MLP residual skips on Exp164 recipe (MLP cycle 43/50)",
+    "description": "Exp192 FT-Transformer Pre-LN add rh_iws on Exp186 recipe (FT cycle 18/50)",
     "seed": 0
   },
-  "timestamp": "2026-08-20T11:14:34"
+  "timestamp": "2026-08-22T07:59:20"
 }
