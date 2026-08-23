@@ -854,9 +854,17 @@ New diagnosis: inv<3 persist>=80 n=628 RMSE **19.78 vs persist 21.46** (7.39% of
 
 1h champion unchanged: Exp192. FT **24/50**. FT val recipe remains Exp192. t+6 recipe remains Exp76.
 
+## This fire (2026-08-22, Exp199)
+
+New diagnosis: typical persist>=80 n=1774 RMSE **10.78 vs persist 5.70** (6.20% of Exp192 SSE; need **+0.53** pred_d **−0.07**). Dirty-but-stable hours almost 2× persist; Exp167 was 9.59. Val 21.948 vs test 20.453 (gap 1.50) is the bottleneck. January 33.22 vs JJA 14.12. Hour 20 32.69 vs persist 33.24. Onset 110.79 vs persist 107.80.
+
+**Exp199 DISCARD** FT Pre-LN patience=8 on Exp192. Val **22.737** missed Exp192 21.948 (outside 21.70–22.40). Test **21.196** missed Exp192 20.453 (inside 20.20–21.20). Prediction MISS. typical persist>=80 10.78→**11.52**. Typical 7.54→**7.97**. January 33.22→**36.02**. Onset 110.79→**112.76**. Earlier stop underfit. **FT patience=8 closed. Keep patience=15.** Recipe stays Exp192.
+
+1h champion unchanged: Exp192. FT **25/50**. FT val recipe remains Exp192. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (24/50) from Exp192 Pre-LN + cbwd_prev_NW + rh_iws. Next try **patience=8**. Keep inversion_spread, is_weekend, pm25_accel. Do not drop another derived column. Do not add another unused extra column. Do not retry drop-inv/drop-weekend/drop-accel/pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
+1. Isolate **FT-Transformer** (25/50) from Exp192 Pre-LN + cbwd_prev_NW + rh_iws. Next try **patience=25**. Keep patience away from 5/10/12. Keep inversion_spread, is_weekend, pm25_accel. Do not drop another derived column. Do not add another unused extra column. Do not retry patience=8/drop-inv/drop-weekend/drop-accel/pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry lr 2e-4/5e-4. Do not retry wd 5e-5/2e-4/0. Do not retry batch 48/64/128. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp192 until composite beats −21.948.
 
