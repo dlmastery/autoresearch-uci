@@ -894,9 +894,17 @@ New diagnosis: heating cv persist>=80 n=390 RMSE **31.15 vs persist 30.14** (11.
 
 1h champion unchanged: Exp192. FT **29/50**. FT val recipe remains Exp192. t+6 recipe remains Exp76.
 
+## This fire (2026-08-23, Exp204)
+
+New diagnosis: PRES>=1025 persist>=150 n=413 RMSE **41.99 vs persist 40.56** (21.90% of Exp192 SSE; need **−3.20** pred_d **−10.12**). High-pressure dirty hours over-clean 3x and lose to persist; Exp167 was 38.29 / −8.97. January 33.22 vs JJA 14.12. Hour 20 32.69 vs persist 33.24. Onset 110.79 vs persist 107.80. Val 21.948 vs test 20.453 is the bottleneck.
+
+**Exp204 DISCARD** FT Pre-LN weight_decay=1e-6 on Exp192. Val **22.290** missed Exp192 21.948 (inside 21.70–22.40). Test **20.528** missed Exp192 20.453 (inside 20.20–21.20). Prediction HIT. PRES>=1025 persist>=150 pred_d −10.12→**−6.62** versus need −3.20 (over-clean damped) RMSE 41.99→**41.35**. Typical 7.54→**7.39**. January 33.22→**33.64**. Global bias −0.07→**−0.72**. Weaker decay helped the slice but taxed val. **FT weight_decay=1e-6 closed. Keep wd 1e-5.** Recipe stays Exp192.
+
+1h champion unchanged: Exp192. FT **30/50**. FT val recipe remains Exp192. t+6 recipe remains Exp76.
+
 ## Next (original process)
 
-1. Isolate **FT-Transformer** (29/50) from Exp192 Pre-LN + cbwd_prev_NW + rh_iws. Do not retry ff_factor 3/4/6/8. Keep 2d FFN. Do not retry lr 5e-5/3e-5/7e-5 or 2e-4/3e-4/5e-4. Keep lr 1e-4. Do not retry batch 16/8/24 or 48/64/128. Do not retry patience {5,8,10,12,20,25,30}. Keep batch 32, patience=15, inversion_spread, is_weekend, pm25_accel. Do not drop another derived column. Do not add another unused extra column. Do not retry drop-inv/drop-weekend/drop-accel/pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry wd 5e-5/2e-4/0. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT. Next fire must diagnose a NEW slice and pick a legal unused axis, not another FFN-widen/lr/batch/patience/drop/extra-token.
+1. Isolate **FT-Transformer** (30/50) from Exp192 Pre-LN + cbwd_prev_NW + rh_iws. Do not retry wd 1e-6/5e-6/2e-6 or 5e-5/2e-4/0/1e-4. Keep wd 1e-5. Do not retry ff_factor 3/4/6/8. Keep 2d FFN. Do not retry lr 5e-5/3e-5/7e-5 or 2e-4/3e-4/5e-4. Keep lr 1e-4. Do not retry batch 16/8/24 or 48/64/128. Do not retry patience {5,8,10,12,20,25,30}. Keep batch 32, patience=15, inversion_spread, is_weekend, pm25_accel. Do not drop another derived column. Do not add another unused extra column. Do not retry drop-inv/drop-weekend/drop-accel/pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs into FT. Next fire must diagnose a NEW slice and pick a legal unused axis, not another wd/FFN-widen/lr/batch/patience/drop/extra-token.
 2. Do not retry n_layers=4/6 or d_model 32/96 as a persist fix. Do not retry nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50.
 3. 1h champion remains Exp192 until composite beats −21.948.
 
