@@ -1,4 +1,4 @@
-# Autoresearch checkpoint — after Exp210 DISCARD (1h remains Exp192; FT 36/50; t+6 Exp76)
+# Autoresearch checkpoint — after Exp211 DISCARD (1h remains Exp192; FT 37/50; t+6 Exp76)
 
 **Updated:** 2026-08-23
 **Split:** `uci381-calendar-2010_2012-train-2013-val-2014-test-purge24h`
@@ -28,17 +28,18 @@
 
 ## Residual (this fire)
 - Champion slices (Exp192, computed): January 33.22 vs persist 33.58 · JJA 14.12 vs persist 14.83 · hour 20 32.69 vs persist 33.24 · onset n=83 RMSE 110.79 vs persist 107.80 (need +87.40 pred_d −1.54). Val 21.948 vs test 20.453 is still the bottleneck.
-- **NEW:** month2 persist>=150 n=262 RMSE **34.48** vs persist **33.74** (9.36% of SSE; need **−2.03** pred_d **−8.61**). February mega-haze over-cleans 4x and loses to persist; Exp167 was 32.79 / −6.70.
-- **Exp210 DISCARD** FT Pre-LN drop_path=0.1 on Exp192. Val **22.628** missed 21.948 (outside 21.70–22.40). Test **21.142** missed 20.453 (inside 20.20–21.20). month2 persist>=150 pred_d −8.61→**−11.24** RMSE 34.48→**35.34**. Typical 7.54→**8.16**. Global bias −0.07→**−0.38**. Keep all 3 Pre-LN blocks.
+- **NEW:** need>20 Iws>=10 n=138 RMSE **70.15** vs persist **68.21** (20.42% of SSE; need **+43.26** pred_d **−0.12**). Windy jumps capture 0% of the rise and lose to persist; Exp167 was 70.38 / +0.67.
+- **Exp211 DISCARD** FT Pre-LN n_heads=1 on Exp192. Val **22.490** missed 21.948 (outside 21.70–22.40). Test **20.961** missed 20.453 (inside 20.20–21.20). need>20 Iws>=10 pred_d −0.12→**+1.48** RMSE 70.15→**69.63**. Typical 7.54→**7.50**. January 33.22→**34.11**. Onset pred_d −1.54→**+0.94**. Slice sign improved but val paid January. Keep 4 heads.
 
 ## This fire
-- **Exp210 DISCARD** FT Pre-LN drop_path=0.1 (isolated cycle 36/50). 1h champion remains Exp192. FT **36/50**. FT val recipe remains Exp192.
+- **Exp211 DISCARD** FT Pre-LN n_heads=1 (isolated cycle 37/50). 1h champion remains Exp192. FT **37/50**. FT val recipe remains Exp192.
 
 ## Exhausted / closed
 - CatBoost 50/50 as prior
 - MLP 50/50 complete as prior (do not retry mixup, onset_underpred, nw_rh, stagn_onset, persist_residual, se_pm25, huber_beta 10/40/50)
 - FT Post-LN depth {1,2,3} closed (do not retry n_layers=4/6 or revert Post-LN)
 - FT paper-default d_model 32/96 / n_heads 2/8 as a persist fix closed
+- FT n_heads=1 (do not retry 3/16). Keep 4 heads
 - FT Pre-LN dropout={0, 0.2} (do not retry nearby 0.05/0.15/0.3)
 - FT Pre-LN batch_size=64 (do not retry nearby 48/128)
 - FT Pre-LN weight_decay=1e-4 (do not retry nearby 5e-5/2e-4/0)
@@ -73,7 +74,7 @@
 - Do not drop rh_iws or cbwd_prev_NW from Exp192
 
 ## Process
-LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **36/50**. Isolation holds. 1h champion is **Exp192 FT Pre-LN +rh_iws**. t+6 recipe remains Exp76.
+LightGBM **50/50 complete**. CatBoost **50/50 complete**. MLP **50/50 complete**. FT-Transformer **37/50**. Isolation holds. 1h champion is **Exp192 FT Pre-LN +rh_iws**. t+6 recipe remains Exp76.
 
 ## Next pasteable
-Isolate **FT-Transformer** (36/50) from the Exp192 Pre-LN + cbwd_prev_NW + rh_iws recipe. Do not retry drop_path 0.1/0.05/0.2/0.3. Keep all 3 Pre-LN blocks. Do not retry layer_scale 0.1/0.01/0.05/1e-4. Keep unscaled Pre-LN residuals. Do not retry activation=relu/silu/relu6. Keep GELU. Do not retry feature_tokenizer=per_feature or per-column Linear variants. Keep shared Linear(1,d). Do not retry pooling=mean/max/sum. Keep CLS pooling. Do not retry num_embedding=periodic or n_frequencies 8/32. Keep linear tokenizer. Do not retry wd 1e-6/5e-6/2e-6 or 5e-5/2e-4/0/1e-4. Keep wd 1e-5. Do not retry ff_factor 3/4/6/8. Keep 2d FFN. Do not retry lr 5e-5/3e-5/7e-5 or 2e-4/3e-4/5e-4. Keep lr 1e-4. Do not retry batch 16/8/24 or 48/64/128. Do not retry patience {5,8,10,12,20,25,30}. Keep batch 32, patience=15, inversion_spread, is_weekend, pm25_accel. Do not drop another derived column. Do not add another unused extra column. Do not retry drop-inv/drop-weekend/drop-accel/pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. Next fire must diagnose a NEW slice and pick a legal unused axis, not another drop_path/LayerScale/activation/tokenizer/pooling/periodic/wd/FFN-widen/lr/batch/patience/drop/extra-token. 1h champion remains Exp192 until composite beats −21.948.
+Isolate **FT-Transformer** (37/50) from the Exp192 Pre-LN + cbwd_prev_NW + rh_iws recipe. Do not retry n_heads=1/3/16 (2/8 already closed as persist fix). Keep 4 heads. Do not retry drop_path 0.1/0.05/0.2/0.3. Keep all 3 Pre-LN blocks. Do not retry layer_scale 0.1/0.01/0.05/1e-4. Keep unscaled Pre-LN residuals. Do not retry activation=relu/silu/relu6. Keep GELU. Do not retry feature_tokenizer=per_feature or per-column Linear variants. Keep shared Linear(1,d). Do not retry pooling=mean/max/sum. Keep CLS pooling. Do not retry num_embedding=periodic or n_frequencies 8/32. Keep linear tokenizer. Do not retry wd 1e-6/5e-6/2e-6 or 5e-5/2e-4/0/1e-4. Keep wd 1e-5. Do not retry ff_factor 3/4/6/8. Keep 2d FFN. Do not retry lr 5e-5/3e-5/7e-5 or 2e-4/3e-4/5e-4. Keep lr 1e-4. Do not retry batch 16/8/24 or 48/64/128. Do not retry patience {5,8,10,12,20,25,30}. Keep batch 32, patience=15, inversion_spread, is_weekend, pm25_accel. Do not drop another derived column. Do not add another unused extra column. Do not retry drop-inv/drop-weekend/drop-accel/pm25_delta6/is_severe/se_iws. Do not retry heating_night/pres_delta/is_morning/evening_peak/pm25_roll3mean/iws_clip100. Do not retry warmup 15/25. Do not retry dropout 0/0.2. Do not revert Post-LN. Do not mix MLP HPs. Next fire must diagnose a NEW slice and pick a legal unused axis, not another n_heads/drop_path/LayerScale/activation/tokenizer/pooling/periodic/wd/FFN-widen/lr/batch/patience/drop/extra-token. 1h champion remains Exp192 until composite beats −21.948.
